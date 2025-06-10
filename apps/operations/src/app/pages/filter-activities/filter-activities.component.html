@@ -1,0 +1,36 @@
+<div class="filter-activities-panel">
+  <div class="dropdown-row">
+    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" [(ngModel)]="selectedViewAs" [defaultItem]="'View As'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" [(ngModel)]="selectedFunction" [defaultItem]="'Functions'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="documentTypeOptions" [(ngModel)]="selectedDocumentType" [defaultItem]="'Document Type'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="activityStatusOptions" [(ngModel)]="selectedActivityStatus" [defaultItem]="'Activity Status'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="activityTypeOptions" [(ngModel)]="selectedActivityType" [defaultItem]="'Activity Type'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="finishByOptions" [(ngModel)]="selectedFinishBy" [defaultItem]="'Finish By'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="dateTypeOptions" [(ngModel)]="selectedDateType" [defaultItem]="'Date Type'" ></kendo-dropdownlist>
+  </div>
+  <div class="result-row">
+    <button class="result-btn primary">Total Documents ({{ totalDocuments }})</button>
+    <button class="result-btn">Backlogs ({{ backlogs }})</button>
+    <button class="result-btn">Forecast ({{ forecast }})</button>
+    <button class="result-btn">Not Acknowledged ({{ notAcknowledged }})</button>
+    <button class="result-btn">Step ({{ step }})</button>
+    <button class="result-btn">Rulestream ({{ rulestream }})</button>
+  </div>
+  <div class="card-scroll-wrapper">
+    <button class="scroll-arrow left" (click)="scrollLeft()">
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+    <div class="card-scroll-view">
+      <div class="card-tile" *ngFor="let card of visibleCards; let i = index"
+        [ngStyle]="{
+          'background-color': i === 0 ? '#ffe6ec' : (i === 1 ? '#fffbe6' : '')
+        }">
+        <div class="card-title">{{ card.title }}</div>
+        <div class="card-desc">{{ card.description }}</div>
+      </div>
+    </div>
+    <button class="scroll-arrow right" (click)="scrollRight()">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+  </div>
+</div>

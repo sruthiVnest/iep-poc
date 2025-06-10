@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+$primary: #209474;
+$kendo-color-primary: $primary;
+$kendo-color-primary-dark: darken($primary, 10%);
+$kendo-color-primary-light: lighten($primary, 15%);
+$kendo-link-text: $primary;
+$kendo-checkbox-checked-bg: $primary;
+$kendo-checkbox-checked-border: $primary;
+$kendo-checkbox-focus-border: $primary;
+:root {
+  --kendo-color-primary: #209474;
+}
+
+@import '~@progress/kendo-theme-default/dist/all.css';
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+I !important}

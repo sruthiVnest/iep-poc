@@ -1,0 +1,23 @@
+$primary: #209474;
+$kendo-color-primary: $primary;
+$kendo-color-primary-dark: darken($primary, 10%);
+$kendo-color-primary-light: lighten($primary, 15%);
+$kendo-link-text: $primary;
+$kendo-checkbox-checked-bg: $primary;
+$kendo-checkbox-checked-border: $primary;
+$kendo-checkbox-focus-border: $primary;
+
+@import '~@progress/kendo-theme-default/dist/all.css';
+
+/* You can add global styles to this file, and also import other style files */
+body{
+    margin: 0px!important;
+}
+:root {
+  --kendo-color-primary: #209474!important;
+}
+.iep-operation-panel {
+ .k-tabstrip-content {
+  overflow-x: hidden !important;
+}
+}

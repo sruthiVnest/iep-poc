@@ -1,0 +1,27 @@
+<iep-header (logout)="onLogout()" [drawerOpened]="drawerOpened" (drawerToggle)="onDrawerToggle()"></iep-header>
+<kendo-drawer-container>
+    <kendo-drawer
+      [items]="items"
+      [mode]="'push'"
+      [mini]="!drawerOpened"
+      [position]="'start'"
+      (select)="onSelect($event)"
+      [expanded]="drawerOpened"
+      class="app-drawer"
+      [autoCollapse]="false"
+    >
+      <ng-template kendoDrawerItemTemplate let-item>
+        <span *ngIf="!drawerOpened">
+          <span class="material-symbols-outlined">
+            {{ item.icon }}
+          </span>
+        </span>
+        <span *ngIf="drawerOpened">{{ item.text }}</span>
+      </ng-template>
+    </kendo-drawer>
+    <kendo-drawer-content>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </kendo-drawer-content>
+</kendo-drawer-container>

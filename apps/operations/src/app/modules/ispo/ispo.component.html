@@ -1,0 +1,84 @@
+<div *ngIf="selectedProjects().length > 0" class="selected-projects-section">
+  <span class="selected-label">Project(s) Selected:</span>
+  <span class="selected-list">{{ selectedProjects().join(', ') }}</span>
+</div>
+<div *ngIf="showWarning" class="warning-message">
+  <span class="material-symbols-outlined notification-icon" style="vertical-align: middle; color: #e65100; font-size: 22px;">notification_important</span>
+  <span class="warning-text">You have received 3 primary resources re assigned requests <a href="" style="color: #e65100;">View Requests</a></span>
+  <button class="close-btn" (click)="showWarning = false">&times;</button>
+</div>
+
+<ng-template #template let-anchor>
+  <div class="tooltip">{{ anchor.nativeElement.innerText }}</div>
+</ng-template>
+
+<div kendoTooltip
+     [tooltipTemplate]="template"
+     showOn="none"
+     #tooltipDir="kendoTooltip"
+     filter=".k-grid td"
+     (mouseover)="showTooltip($event)">
+
+    <div class="iep-grid-wrapper" [class.grid-expanded]="isGridExpanded" style="border: 1px solid #ddd; border-radius: 4px;">
+      <div class="filter-expansion-panel" [class.expanded]="isExpanded">
+        <div class="filter-expansion-header">
+          <h3 class="filter-title">Filter Activities</h3>
+          <div class="filter-header-actions">
+            <button class="clear-filter-btn primary" type="button" (click)="clearFilters(); filterActivitiesRef.clearAll()">
+              Clear Filter
+            </button>
+            <button class="expansion-toggle-btn primary" type="button" (click)="isExpanded = !isExpanded" [attr.aria-expanded]="isExpanded" [title]="isExpanded ? 'Collapse' : 'Expand'">
+              <span class="material-symbols-outlined primary">{{ isExpanded ? 'expand_less' : 'expand_more' }}</span>
+            </button>
+          </div>
+        </div>
+        <div class="filter-expansion-content" *ngIf="isExpanded">
+          <copilot-iep-nx-filter-activities #filterActivitiesRef></copilot-iep-nx-filter-activities>
+        </div>
+      </div>
+      <div class="iep-grid-header">
+        <div class="header-left">
+          <h3>Activities</h3>
+          <span class="result-count">Result: {{ gridView.length }}</span>
+        </div>
+        <div class="header-right">
+          <kendo-textbox
+            [style.width.px]="180"
+            placeholder="Search in all columns..."
+            [ngClass]="'search-textbox'"
+            [(ngModel)]="searchValue"
+            (ngModelChange)="onFilter($event)"
+          >
+            <ng-template kendoTextBoxSuffixTemplate>
+              <button class="search-btn" type="button" (click)="onFilter(searchValue)">
+                <span class="material-symbols-outlined">search</span>
+              </button>
+            </ng-template>
+          </kendo-textbox>
+        <button class="icon-btn" *ngIf="!isGridExpanded" (click)="isGridExpanded = true" title="Expand Grid">
+            <span class="material-symbols-outlined">fullscreen</span>
+          </button>
+          <button class="icon-btn" *ngIf="isGridExpanded" (click)="isGridExpanded = false" title="Hide Grid">
+            <span class="material-symbols-outlined">fullscreen_exit</span> 
+          </button>
+          <button class="icon-btn" (click)="open('dialog')" title="Settings">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+          
+        </div>
+      </div>
+      <iep-grid [data]="gridView" [columns]="mapView"></iep-grid>
+    </div>
+    @if(dialogOpened){
+    <kendo-dialog title="Grid Settings" (close)="close('dialog')" [minWidth]="250" [width]="450">
+        <p style="margin: 30px; text-align: center;">
+            Show/hide Columns
+        </p>
+        <kendo-dialog-actions>
+
+
+        </kendo-dialog-actions>
+    </kendo-dialog>
+    }
+</div>
+

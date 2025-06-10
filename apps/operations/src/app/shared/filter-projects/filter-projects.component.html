@@ -1,0 +1,61 @@
+<div class="filter-projects" [class.collapsed]="collapsed">
+  <div class="filter-header">
+    <span class="material-symbols-outlined" *ngIf="collapsed" (click)="toggleCollapse()">chevron_right</span>
+    <h3>Filter Projects</h3>
+    <span class="filter-dots">...</span>
+    <button class="collapse-btn" (click)="toggleCollapse()">
+      <span class="material-symbols-outlined" *ngIf="!collapsed">chevron_left</span>
+      <span class="material-symbols-outlined" *ngIf="collapsed">chevron_right</span>
+    </button>
+  </div>
+  <div class="filter-content" *ngIf="!collapsed">
+    <kendo-textbox #customInput (valueChange)="filterTerm = $event" [clearButton]="true"
+      placeholder="Search job number or contract name">
+      <ng-template kendoTextBoxPrefixTemplate>
+        <span class="material-symbols-outlined search-icon">search</span>
+      </ng-template>
+    </kendo-textbox>
+    <div class="panelbar-wrapper">
+      <kendo-expansionpanel title="Advance Search" [expanded]="false" id="filter">
+        <ng-template>
+          test
+        </ng-template>
+      </kendo-expansionpanel>
+    </div>
+    <kendo-tabstrip (tabSelect)="onTabSelect($event)" class="searchTabs">
+      <kendo-tabstrip-tab title="My Contracts" [selected]="true">
+        <ng-template kendoTabContent>
+          <div class="content">
+            <kendo-checkbox [checkedState]="allChecked" (change)="onSelectAllChange($event)" ></kendo-checkbox>&nbsp;&nbsp;Current Projects 
+            <kendo-treeview kendoTreeViewExpandable [nodes]="data" [children]="children" [hasChildren]="hasChildren"
+              [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
+              [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
+              <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                {{dataItem.contractName ? dataItem.contractName : dataItem.groupName}}
+                <span class="material-symbols-outlined filled-star" style="font-variation-settings: 'FILL' 1; color: #209474;" (click)="addToFavourites(dataItem.contractName ? dataItem.contractName : dataItem.groupName)">star</span>
+              </ng-template>
+            </kendo-treeview>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab title="All Contracts">
+        <ng-template kendoTabContent>
+          <div class="content">
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab title="Favourites">
+        <ng-template kendoTabContent>
+          <div class="content">
+            <kendo-treeview kendoTreeViewExpandable [nodes]="favourites" [children]="children" [hasChildren]="hasChildren"
+              textField="text">
+              <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                {{dataItem.contractName ? dataItem.contractName : dataItem.groupName || dataItem.text}}
+              </ng-template>
+            </kendo-treeview>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+  </div>
+</div>
