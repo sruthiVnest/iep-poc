@@ -1,5 +1,8 @@
-.dropdown-row{
-    display: flex;
+.dropdown-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .result-row {
@@ -14,8 +17,8 @@
   border: none;
   padding: 8px 18px;
   margin-right: 8px;
-  font-weight: 500;
-  font-size: 15px;
+  font-weight: 200;
+  font-size: 12px;
   transition: background 0.2s;
 }
 .result-btn:last-child {
@@ -43,34 +46,35 @@
   padding: 8px 0;
 }
 .card-tile {
-  min-width: 210px;
-  max-width: 210px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  padding: 18px 16px;
+  min-width: 220px;
+  max-width: 240px;
+  height: 80px;
+  margin: 0 10px;
+  padding: 6px 5px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  transition: box-shadow 0.2s;
+  font-size: 15px; /* Increased font size for better fit */
 }
 .card-tile:hover {
   box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
 }
 .card-title {
+  font-size: 15px;
   font-weight: 600;
-  font-size: 1.1rem;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 .card-desc {
-  font-size: 0.97rem;
-  color: #555;
+  font-size: 12px;
+  color: #666;
 }
 .scroll-arrow {
   border: none;
-  background: #e3f2fd;
-  color: #1976d2;
+//  background: #e3f2fd;
+  color: #209474;
   border-radius: 50%;
   width: 36px;
   height: 36px;

@@ -61,7 +61,7 @@ export class IspoComponent {
     columnField: 'Activity'
   }];
   public data:any=[];
-  public isExpanded = false;
+  public isExpanded = true;
   public isGridExpanded = false;
   public mySelection: string[] = [];
   public pdfSVG: SVGIcon = filePdfIcon;

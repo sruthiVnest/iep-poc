@@ -76,7 +76,6 @@ h2 {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
   gap: 1rem;
 }
 
@@ -202,4 +201,38 @@ h2 {
     width: 100%;
     margin: 0.5rem 0 0 0;
   }
+}
+
+::ng-deep .iep-operation-panel .k-tabstrip-items {
+  border: none !important;
+}
+
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-item {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-state-active {
+  border: none !important;
+  box-shadow: none !important;
+  position: relative;
+  z-index: 2;
+  background: #fff;
+}
+
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-state-active .k-link {
+  position: relative;
+  z-index: 2;
+}
+
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-state-active .k-link::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  background: var(--primary-color, #209474);
+  border-radius: 2px 2px 0 0;
 }
