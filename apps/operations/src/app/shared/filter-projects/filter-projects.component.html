@@ -23,7 +23,7 @@
       </kendo-expansionpanel>
     </div>
     <kendo-tabstrip (tabSelect)="onTabSelect($event)" class="searchTabs">
-      <kendo-tabstrip-tab title="My Contracts" [selected]="true">
+      <kendo-tabstrip-tab title="My Contracts" [selected]="activeTabIndex === 0">
         <ng-template kendoTabContent>
           <div class="content">
             <kendo-checkbox [checkedState]="allChecked" (change)="onSelectAllChange($event)" ></kendo-checkbox>&nbsp;&nbsp;Current Projects 
@@ -38,17 +38,17 @@
           </div>
         </ng-template>
       </kendo-tabstrip-tab>
-      <kendo-tabstrip-tab title="All Contracts">
+      <kendo-tabstrip-tab title="All Contracts" [selected]="activeTabIndex === 1">
         <ng-template kendoTabContent>
           <div class="content">
           </div>
         </ng-template>
       </kendo-tabstrip-tab>
-      <kendo-tabstrip-tab title="Favourites">
+      <kendo-tabstrip-tab title="Favourites" [selected]="activeTabIndex === 2">
         <ng-template kendoTabContent>
           <div class="content">
             <kendo-treeview kendoTreeViewExpandable [nodes]="favourites" [children]="children" [hasChildren]="hasChildren"
-              textField="text">
+              textField="text" [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem>
                 {{dataItem.contractName ? dataItem.contractName : dataItem.groupName || dataItem.text}}
               </ng-template>

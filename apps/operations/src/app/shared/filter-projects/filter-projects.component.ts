@@ -39,6 +39,7 @@ constructor() {
   public collapsed = false;
   public selectedProjects: WritableSignal<string[]> = signal([]);
   public favourites: any[] = [];
+  public activeTabIndex = 0;
   public get checkableSettings(): CheckableSettings {
     return {
       checkChildren: this.checkChildren,
@@ -62,14 +63,33 @@ constructor() {
     };
 
   onNodeSelect(keys: any) {
-    this.checkedKeys = keys;
-    const fullNodes = this.getCheckedNodesByPaths(this.data, keys);
+    // Recursively collect all descendant keys for checked parents
+    const collectDescendantKeys = (tree: any[], keyPrefix = ''): string[] => {
+      let result: string[] = [];
+      tree.forEach((node, idx) => {
+        const currentKey = keyPrefix ? `${keyPrefix}_${idx}` : `${idx}`;
+        if (keys.includes(currentKey)) {
+          result.push(currentKey);
+          if (node.favourites && node.favourites.length > 0) {
+            result = result.concat(collectDescendantKeys(node.favourites, currentKey));
+          }
+        } else if (node.favourites && node.favourites.length > 0) {
+          // Still need to check children in case they are checked individually
+          result = result.concat(collectDescendantKeys(node.favourites, currentKey));
+        }
+      });
+      return result;
+    };
+    // Use the correct tree for the current tab
+    const tree = this.activeTabIndex === 1 ? this.favourites : this.data;
+    this.checkedKeys = collectDescendantKeys(tree);
+    const fullNodes = this.getCheckedNodesByPaths(tree, this.checkedKeys);
     const selectedTexts = fullNodes.map((n: any) => n.groupName ? n.groupName : n.contractName);
-  
     this.projectSelectionService.selectedProjects.set(selectedTexts);
     this.dataService.setTreeData(selectedTexts.map(text => ({ text })));
-
-
+    // Update allChecked for current tab
+    const allKeys = this.getAllNodeKeys(tree);
+    this.allChecked = allKeys.length > 0 && allKeys.every(k => this.checkedKeys.includes(k));
   }
   
   // Called when "Select All" checkbox is toggled
@@ -77,21 +97,27 @@ constructor() {
     this.allChecked = event.target.checked;
     if (this.allChecked) {
       this.checkedKeys = this.getAllNodeKeys(this.data);
-        const fullNodes = this.getCheckedNodesByPaths(this.data, this.checkedKeys);
-    const selectedTexts = fullNodes.map((n: any) => n.groupName ? n.groupName : n.contractName);
-  
-    this.projectSelectionService.selectedProjects.set(selectedTexts);
+      // Also check all nodes in favourites if in Favourites tab
+      if (this.activeTabIndex === 2) {
+        this.checkedKeys = this.getAllNodeKeys(this.favourites);
+      }
+      const fullNodes = this.getCheckedNodesByPaths(
+        this.activeTabIndex === 2 ? this.favourites : this.data,
+        this.checkedKeys
+      );
+      const selectedTexts = fullNodes.map((n: any) => n.groupName ? n.groupName : n.contractName);
+      this.projectSelectionService.selectedProjects.set(selectedTexts);
     } else {
       this.checkedKeys = [];
-        this.projectSelectionService.selectedProjects.set([]);
+      this.projectSelectionService.selectedProjects.set([]);
     }
   }
   addToFavourites(itemText: string) {
-    // Find the node and its parent chain in the tree
+    // Recursively search for a node by groupName or contractName (including children)
     const findNodeAndParents = (nodes: any[], targetText: string, path: any[] = []): any[] | null => {
       for (const node of nodes) {
         const newPath = [...path, node];
-        if (node.text === targetText) {
+        if (node.groupName === targetText || node.contractName === targetText) {
           return newPath;
         }
         if (node.favourites && node.favourites.length > 0) {
@@ -101,25 +127,78 @@ constructor() {
       }
       return null;
     };
-    const chain = findNodeAndParents(this.data, itemText);
-    if (!chain) return;
-    // Add to favourites tree, preserving parent structure
-    const addToFavouritesTree = (tree: any[], chain: any[]): any[] => {
+
+    // Deep clone a node and all its children
+    const deepCloneNode = (node: any): any => {
+      const { favourites, ...rest } = node;
+      return {
+        ...rest,
+        ...(favourites && favourites.length > 0 ? { favourites: favourites.map(deepCloneNode) } : {})
+      };
+    };
+
+    // Helper to merge a chain into the favourites tree without duplicating nodes
+    const addChainToFavourites = (tree: any[], chain: any[]): any[] => {
       if (chain.length === 0) return tree;
       const [current, ...rest] = chain;
-      let existing = tree.find((n: any) => n.text === current.text);
+      let existing = tree.find((n: any) =>
+        (n.groupName && n.groupName === current.groupName) ||
+        (n.contractName && n.contractName === current.contractName)
+      );
       if (!existing) {
-        existing = { ...current, favourites: [] };
+        existing = deepCloneNode(current);
         tree.push(existing);
       }
-      existing.favourites = addToFavouritesTree(existing.favourites, rest);
+      if (rest.length > 0) {
+        existing.favourites = addChainToFavourites(existing.favourites || [], rest);
+      }
       return tree;
     };
-    this.favourites = addToFavouritesTree([...this.favourites], chain);
+
+    const chain = findNodeAndParents(this.data, itemText);
+    if (!chain) return;
+
+    // Only add the last node in the chain (the selected node and its children), but preserve parent structure
+    const addSelectedNodeToFavourites = (tree: any[], chain: any[]): any[] => {
+      if (chain.length === 1) {
+        // Only the selected node, add if not present
+        const selected = chain[0];
+        let existing = tree.find((n: any) =>
+          (n.groupName && n.groupName === selected.groupName) ||
+          (n.contractName && n.contractName === selected.contractName)
+        );
+        if (!existing) {
+          tree.push(deepCloneNode(selected));
+        }
+        return tree;
+      } else {
+        // Recursively build the parent structure
+        const [parent, ...rest] = chain;
+        let existing = tree.find((n: any) =>
+          (n.groupName && n.groupName === parent.groupName) ||
+          (n.contractName && n.contractName === parent.contractName)
+        );
+        if (!existing) {
+          existing = { ...parent, favourites: [] };
+          tree.push(existing);
+        }
+        existing.favourites = addSelectedNodeToFavourites(existing.favourites || [], rest);
+        return tree;
+      }
+    };
+
+    this.favourites = addSelectedNodeToFavourites([...this.favourites], chain);
   }
   public onTabSelect(e: SelectEvent): void {
-    console.log(e);
-
+    this.activeTabIndex = e.index;
+    // Recalculate allChecked when switching tabs
+    if (this.activeTabIndex === 0) {
+      const allKeys = this.getAllNodeKeys(this.data);
+      this.allChecked = allKeys.length > 0 && allKeys.every(k => this.checkedKeys.includes(k));
+    } else if (this.activeTabIndex === 1) {
+      const allKeys = this.getAllNodeKeys(this.favourites);
+      this.allChecked = allKeys.length > 0 && allKeys.every(k => this.checkedKeys.includes(k));
+    }
   }
 
   findCheckedNodeTexts(treeData: any[], checkedKeys: any[], checkKey = 'key'): string[] {
@@ -161,6 +240,9 @@ constructor() {
 
   toggleCollapse() {
     this.collapsed = !this.collapsed;
+    // Emit an event or use a shared service to notify the parent (ISPO) to expand/collapse
+    const event = new CustomEvent('filterProjectsCollapse', { detail: { collapsed: this.collapsed } });
+    window.dispatchEvent(event);
   }
 
   getAllNodeKeys(treeData: any[]): string[] {

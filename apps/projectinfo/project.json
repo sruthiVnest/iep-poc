@@ -18,8 +18,7 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/projectinfo/src/favicon.ico",
-          "apps/projectinfo/src/assets",
-          "assets/images"
+          "apps/projectinfo/src/assets"
         ],
         "styles": ["apps/projectinfo/src/styles.scss"],
         "scripts": []

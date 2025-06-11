@@ -107,6 +107,9 @@ export class IspoComponent {
     }); 
   }
   public ngOnInit(): void {
+    window.addEventListener('filterProjectsCollapse', (event: any) => {
+      this.isGridExpanded = event.detail.collapsed;
+    });
     this.dataService.getGridData().subscribe((data)=>{
       this.data=data[0]?.data?.activities || [];
          this.gridView = this.data.map((el:any) =>
