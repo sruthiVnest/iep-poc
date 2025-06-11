@@ -20,20 +20,32 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      rememberMe: [false]
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
+      rememberMe: [false] // No validators, so it's optional
     });
   }
 
   login() {
-    const { username, password } = this.loginForm.value;
+    const { username, password, rememberMe } = this.loginForm.value;
     // Mock authentication logic
     if (username === 'admin' && password === 'admin') {
       localStorage.setItem('auth_token', 'mock-token');
+      if (rememberMe) {
+        localStorage.setItem('remembered_username', username);
+      } else {
+        localStorage.removeItem('remembered_username');
+      }
       this.router.navigate(['/dashboard']);
     } else {
       this.error = 'Invalid credentials';
+    }
+  }
+
+  ngOnInit() {
+    const remembered = localStorage.getItem('remembered_username');
+    if (remembered) {
+      this.loginForm.patchValue({ username: remembered, rememberMe: true });
     }
   }
 }

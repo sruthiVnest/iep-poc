@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LayoutComponent } from './layout/layout.component';
+import { LoginComponent } from './features/myID/login/login.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LayoutComponent } from './core/layout/layout.component';
 import { authGuard } from './auth.guard';
 
 export const appRoutes: Route[] = [

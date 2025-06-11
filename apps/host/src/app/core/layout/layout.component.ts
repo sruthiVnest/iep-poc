@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DrawerModule, DrawerSelectEvent } from '@progress/kendo-angular-layout';
 import { Router, RouterModule } from '@angular/router';
-import { IepHeaderComponent } from '../common/iep-header/iep-header.component';
+import { IepHeaderComponent } from '../iep-header/iep-header.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
