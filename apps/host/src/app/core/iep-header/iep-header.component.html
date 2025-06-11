@@ -31,9 +31,20 @@
       notifications
     </span>
   </button>
-  <button kendoButton look="clear" class="user-icon" (click)="onLogout()">
+  <button kendoButton look="clear" class="user-icon" (click)="toggleUserMenu()">
     <span class="material-symbols-outlined">
       account_circle
     </span>
   </button>
+  <div class="user-menu" *ngIf="userMenuOpen">
+    <div class="user-info">
+      <img class="user-photo" src="assets/images/user.png" alt="User Photo" />
+      <div class="user-details">
+        <div class="user-name">{{ userName || 'Joe Doe' }}</div>
+        <div class="user-email">{{ userEmail || 'joe.doe@email.com' }}</div>
+      </div>
+    </div>
+    <button kendoButton look="flat" class="user-menu-btn">Change Password</button>
+    <button kendoButton look="flat" class="user-menu-btn logout" (click)="onLogout()">Logout</button>
+  </div>
 </header>

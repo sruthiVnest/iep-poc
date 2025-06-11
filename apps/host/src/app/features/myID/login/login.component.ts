@@ -28,9 +28,19 @@ export class LoginComponent {
 
   login() {
     const { username, password, rememberMe } = this.loginForm.value;
-    // Mock authentication logic
+    // Mock authentication logic with role
     if (username === 'admin' && password === 'admin') {
       localStorage.setItem('auth_token', 'mock-token');
+      localStorage.setItem('user_role', 'admin');
+      if (rememberMe) {
+        localStorage.setItem('remembered_username', username);
+      } else {
+        localStorage.removeItem('remembered_username');
+      }
+      this.router.navigate(['/dashboard']);
+    } else if (username === 'user' && password === 'user') {
+      localStorage.setItem('auth_token', 'mock-token');
+      localStorage.setItem('user_role', 'user');
       if (rememberMe) {
         localStorage.setItem('remembered_username', username);
       } else {

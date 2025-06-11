@@ -71,3 +71,63 @@
 .drawer-toggle.active-highlight .material-symbols-outlined {
   color: #209474;
 }
+
+.user-menu {
+  position: absolute;
+  top: 56px;
+  right: 16px;
+  min-width: 220px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.12);
+  z-index: 1000;
+  padding: 16px 0 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 0 16px 12px 16px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+.user-photo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  background: #f5f5f5;
+}
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+.user-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+.user-email {
+  font-size: 0.95rem;
+  color: #666;
+}
+.user-menu-btn {
+  text-align: left;
+  padding: 8px 16px;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #209474;
+  border-radius: 4px;
+  margin: 0 8px 4px 8px;
+  transition: background 0.2s;
+}
+.user-menu-btn.logout {
+  color: #e53935;
+}
+.user-menu-btn:hover {
+  background: #f5f7fa;
+}
