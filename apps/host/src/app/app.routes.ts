@@ -6,6 +6,10 @@ import { authGuard } from './auth.guard';
 
 export const appRoutes: Route[] = [
   {
+    path: 'quality',
+    loadChildren: () => import('quality/Routes').then((m) => m.remoteRoutes),
+  },
+  {
     path: 'operations',
     loadChildren: () => import('operations/Routes').then((m) => m.remoteRoutes),
   },
@@ -17,7 +21,11 @@ export const appRoutes: Route[] = [
     component: LayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'dashboard',  loadChildren: () => import('operations/Routes').then((m) => m.remoteRoutes) },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('operations/Routes').then((m) => m.remoteRoutes),
+      },
       // Add more protected routes here
     ],
   },

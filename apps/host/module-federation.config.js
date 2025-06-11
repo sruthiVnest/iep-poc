@@ -2,7 +2,7 @@ const { withModuleFederation } = require('@nx/angular/module-federation');
 
 module.exports = withModuleFederation({
   name: 'host',
-  remotes: ['operations', 'projectinfo'],
+  remotes: ['operations', 'projectinfo', 'quality'],
   exposes: {},
   shared: {
     '@angular/core': {

@@ -15,13 +15,14 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@shared-ui/iep-grid": ["lib/shared-ui/iep-grid/iep-grid.component.ts"],
       "operations/Routes": [
         "apps/operations/src/app/remote-entry/entry.routes.ts"
       ],
-      "projectinfo/Routes": ["projectinfo/src/app/remote-entry/entry.routes.ts"],
-      "@shared-ui/iep-grid": [
-        "lib/shared-ui/iep-grid/iep-grid.component.ts"
-      ]
+      "projectinfo/Routes": [
+        "projectinfo/src/app/remote-entry/entry.routes.ts"
+      ],
+      "quality/Routes": ["apps/quality/src/app/remote-entry/entry.routes.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

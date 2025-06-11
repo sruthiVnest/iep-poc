@@ -36,15 +36,41 @@
       account_circle
     </span>
   </button>
-  <div class="user-menu" *ngIf="userMenuOpen">
+  <div class="user-menu" *ngIf="userMenuOpen" (click)="$event.stopPropagation()">
     <div class="user-info">
-      <img class="user-photo" src="assets/images/user.png" alt="User Photo" />
-      <div class="user-details">
+      <img class="user-photo" *ngIf="!dashboardMenuOpen" src="assets/images/user.png" alt="User Photo" />
+      <div class="user-details" *ngIf="!dashboardMenuOpen">
         <div class="user-name">{{ userName || 'Joe Doe' }}</div>
         <div class="user-email">{{ userEmail || 'joe.doe@email.com' }}</div>
       </div>
     </div>
-    <button kendoButton look="flat" class="user-menu-btn">Change Password</button>
-    <button kendoButton look="flat" class="user-menu-btn logout" (click)="onLogout()">Logout</button>
+    <button kendoButton look="flat" class="user-menu-btn" style="display: flex; align-items: center; justify-content: space-between;">
+      <span (click)="toggleDashboardMenu()"  style="flex:1; text-align:left;">Change Dashboard</span>
+      <span class="material-symbols-outlined" *ngIf="!dashboardMenuOpen" style="font-size: 18px; vertical-align: middle; margin-left: 8px; cursor: pointer; color: #209474;" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_right</span>
+    <span class="material-symbols-outlined" *ngIf="dashboardMenuOpen" style="font-size: 18px; vertical-align: middle; margin-left: 8px; cursor: pointer; color: #209474;" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_left</span>
+   
+    </button>
+    <ng-container *ngIf="dashboardMenuOpen">
+      <div class="dashboard-submenu">
+        <label class="dashboard-checkbox">
+          <input type="checkbox" [checked]="myDashboardSelected" (change)="toggleMyDashboard()" />
+          <span>My Dashboard</span>
+        </label>
+        <div style="margin: 8px 4px 4px 4px; font-weight: 500; color: #05322B;">Extended Users</div>
+       
+          <input kendoTextBox placeholder="Extended Users" [(ngModel)]="userSearch" (ngModelChange)="onUserSearch($event)" style="width: 180px; margin: 8px 0;" />
+          <ul *ngIf="filteredUsers.length > 0" class="autocomplete-list">
+            <li *ngFor="let user of filteredUsers">
+              <label class="user-checkbox">
+                <!-- <input type="checkbox" [checked]="isUserSelected(user)" (change)="toggleUserSelection(user)" /> -->
+                <span>{{ user }}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+     
+    </ng-container>
+    <button *ngIf="!dashboardMenuOpen" kendoButton look="flat" class="user-menu-btn logout" (click)="onLogout()">Logout</button>
   </div>
+  
 </header>
