@@ -22,11 +22,13 @@ private projectSelectionService = inject(ProjectSelectionService);
 constructor() {
   this.dataService.getCurrentProjects().subscribe((data) => {
     this.data = data[0]?.data?.favourites;
+    this.filteredData = this.data;
   });
 }
 
   public checkedKeys: string[] = [];
   public filterTerm = "";
+  public filteredData: any[] = [];
   public starIcon = starIcon;
   public enableCheck = true;
   public checkChildren = true;
@@ -63,26 +65,8 @@ constructor() {
     };
 
   onNodeSelect(keys: any) {
-    // Recursively collect all descendant keys for checked parents
-    const collectDescendantKeys = (tree: any[], keyPrefix = ''): string[] => {
-      let result: string[] = [];
-      tree.forEach((node, idx) => {
-        const currentKey = keyPrefix ? `${keyPrefix}_${idx}` : `${idx}`;
-        if (keys.includes(currentKey)) {
-          result.push(currentKey);
-          if (node.favourites && node.favourites.length > 0) {
-            result = result.concat(collectDescendantKeys(node.favourites, currentKey));
-          }
-        } else if (node.favourites && node.favourites.length > 0) {
-          // Still need to check children in case they are checked individually
-          result = result.concat(collectDescendantKeys(node.favourites, currentKey));
-        }
-      });
-      return result;
-    };
-    // Use the correct tree for the current tab
+    this.checkedKeys = keys;
     const tree = this.activeTabIndex === 1 ? this.favourites : this.data;
-    this.checkedKeys = collectDescendantKeys(tree);
     const fullNodes = this.getCheckedNodesByPaths(tree, this.checkedKeys);
     const selectedTexts = fullNodes.map((n: any) => n.groupName ? n.groupName : n.contractName);
     this.projectSelectionService.selectedProjects.set(selectedTexts);
@@ -258,5 +242,30 @@ constructor() {
     };
     traverse(treeData);
     return keys;
+  }
+
+  // Filter tree recursively by contractName or groupName, including children
+  filterTree(tree: any[], term: string): any[] {
+    if (!term) return tree;
+    const lowerTerm = term.toLowerCase();
+    return tree
+      .map(node => {
+        let children = node.favourites ? this.filterTree(node.favourites, term) : [];
+        const match = (node.contractName && node.contractName.toLowerCase().includes(lowerTerm)) ||
+                      (node.groupName && node.groupName.toLowerCase().includes(lowerTerm));
+        if (match || children.length > 0) {
+          return {
+            ...node,
+            favourites: children
+          };
+        }
+        return null;
+      })
+      .filter(Boolean);
+  }
+
+  onFilterTermChange(term: string) {
+    this.filterTerm = term;
+    this.filteredData = this.filterTree(this.data, term);
   }
 }

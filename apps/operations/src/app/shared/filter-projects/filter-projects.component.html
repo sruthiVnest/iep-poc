@@ -9,7 +9,7 @@
     </button>
   </div>
   <div class="filter-content" *ngIf="!collapsed">
-    <kendo-textbox #customInput (valueChange)="filterTerm = $event" [clearButton]="true"
+    <kendo-textbox #customInput (valueChange)="onFilterTermChange($event)" [clearButton]="true"
       placeholder="Search job number or contract name">
       <ng-template kendoTextBoxPrefixTemplate>
         <span class="material-symbols-outlined search-icon">search</span>
@@ -27,7 +27,7 @@
         <ng-template kendoTabContent>
           <div class="content">
             <kendo-checkbox [checkedState]="allChecked" (change)="onSelectAllChange($event)" ></kendo-checkbox>&nbsp;&nbsp;Current Projects 
-            <kendo-treeview kendoTreeViewExpandable [nodes]="data" [children]="children" [hasChildren]="hasChildren"
+            <kendo-treeview kendoTreeViewExpandable [nodes]="filteredData" [children]="children" [hasChildren]="hasChildren"
               [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
               [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem>
