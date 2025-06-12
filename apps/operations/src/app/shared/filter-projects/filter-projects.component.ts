@@ -8,12 +8,14 @@ import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 import { ProjectSelectionService } from '../../services/project-selection.service';
+import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-filter-projects',
   standalone: true,
   templateUrl: './filter-projects.component.html',
   styleUrls: ['./filter-projects.component.scss'],
-  imports:[KENDO_TABSTRIP, KENDO_TREEVIEW, KENDO_SVGICON, KENDO_INPUTS, KENDO_LAYOUT,CommonModule]
+  imports:[KENDO_TABSTRIP, KENDO_TREEVIEW, KENDO_SVGICON, KENDO_INPUTS, KENDO_LAYOUT, KENDO_DROPDOWNS, CommonModule, FormsModule]
 })
 export class FilterProjectsComponent {
 public data: any = [];
@@ -42,6 +44,20 @@ constructor() {
   public selectedProjects: WritableSignal<string[]> = signal([]);
   public favourites: any[] = [];
   public activeTabIndex = 0;
+  public deliveryYears: string[] = ['2022', '2023', '2024', '2025'];
+  public racYears: string[] = ['2022', '2023', '2024', '2025'];
+  public projectStatuses: string[] = ['Active', 'Completed', 'Pending'];
+  public drivers: string[] = ['Driver A', 'Driver B', 'Driver C'];
+  public connectors: string[] = ['Connector X', 'Connector Y', 'Connector Z'];
+  public installationCountries: string[] = ['USA', 'Germany', 'India', 'UAE'];
+
+  selectedDeliveryYears: string[] = [];
+  selectedRacYears: string[] = [];
+  selectedProjectStatuses: string[] = [];
+  selectedDrivers: string[] = [];
+  selectedConnectors: string[] = [];
+  selectedInstallationCountries: string[] = [];
+
   public get checkableSettings(): CheckableSettings {
     return {
       checkChildren: this.checkChildren,
@@ -267,5 +283,62 @@ constructor() {
   onFilterTermChange(term: string) {
     this.filterTerm = term;
     this.filteredData = this.filterTree(this.data, term);
+  }
+
+  public clearAdvanceFilters() {
+    this.selectedDeliveryYears = [];
+    this.selectedRacYears = [];
+    this.selectedProjectStatuses = [];
+    this.selectedDrivers = [];
+    this.selectedConnectors = [];
+    this.selectedInstallationCountries = [];
+  }
+  showFilterOptions(){
+    
+  }
+  filterMenuOpen = false;
+  activeSubMenu: string | null = null;
+  lastUploadedDate = '2025-06-10';
+  lastUploadedBy = 'Jane Doe';
+
+  toggleFilterMenu(event: MouseEvent) {
+    event.stopPropagation();
+    this.filterMenuOpen = !this.filterMenuOpen;
+    if (this.filterMenuOpen) {
+      document.addEventListener('click', this.closeFilterMenuOnOutsideClick);
+    } else {
+      document.removeEventListener('click', this.closeFilterMenuOnOutsideClick);
+    }
+  }
+
+  closeFilterMenuOnOutsideClick = () => {
+    this.filterMenuOpen = false;
+    this.activeSubMenu = null;
+    document.removeEventListener('click', this.closeFilterMenuOnOutsideClick);
+  };
+
+  openSubMenu(menu: string) {
+    this.activeSubMenu = menu;
+  }
+  closeSubMenu(menu: string) {
+    if (this.activeSubMenu === menu) {
+      this.activeSubMenu = null;
+    }
+  }
+
+  exportContract(type: string) {
+    // Implement export logic here
+    this.filterMenuOpen = false;
+    this.activeSubMenu = null;
+  }
+  saveFilter(type: string) {
+    // Implement save filter logic here
+    this.filterMenuOpen = false;
+    this.activeSubMenu = null;
+  }
+  loadFilter(type: string) {
+    // Implement load filter logic here
+    this.filterMenuOpen = false;
+    this.activeSubMenu = null;
   }
 }

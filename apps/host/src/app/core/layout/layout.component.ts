@@ -15,7 +15,10 @@ export class LayoutComponent {
 public items: Array<{ text: string; route: string; icon: string }>
     = [
       { text: 'Dashboard', icon:'widget_small' , route: '/dashboard' },
-      { text: 'Settings', icon: 'folder', route: '/dashboard' },
+      { text: 'Dashboard', icon:'folder_managed' , route: '/dashboard' },
+      { text: 'Dashboard', icon:'folder' , route: '/dashboard' },
+      { text: 'Settings', icon: 'verified', route: '/dashboard' },
+       { text: 'Dashboard', icon:'engineering' , route: '/dashboard' },
       { text: 'Scheduler', icon: 'Settings', route: '/dashboard' }
     ];
   public selected = '/dashboard';

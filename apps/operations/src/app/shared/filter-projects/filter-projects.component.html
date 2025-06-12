@@ -2,7 +2,35 @@
   <div class="filter-header">
     <span class="material-symbols-outlined" *ngIf="collapsed" (click)="toggleCollapse()">chevron_right</span>
     <h3>Filter Contracts</h3>
-    <span class="filter-dots">...</span>
+    <button class="filter-dots" (click)="toggleFilterMenu($event)">...</button>
+    <div class="filter-dots-menu" *ngIf="filterMenuOpen" (click)="$event.stopPropagation()">
+      <ul>
+        <li (mouseenter)="openSubMenu('export')" (mouseleave)="closeSubMenu('export')">
+          Export Contract
+          <ul class="submenu" *ngIf="activeSubMenu === 'export'">
+            <li (click)="exportContract('csv')">Export as CSV</li>
+            <li (click)="exportContract('xlsx')">Export as Excel</li>
+          </ul>
+        </li>
+        <li (mouseenter)="openSubMenu('save')" (mouseleave)="closeSubMenu('save')">
+          Save Filter
+          <ul class="submenu" *ngIf="activeSubMenu === 'save'">
+            <li (click)="saveFilter('current')">Save Current Filter</li>
+            <li (click)="saveFilter('asNew')">Save as New Filter</li>
+          </ul>
+        </li>
+        <li (mouseenter)="openSubMenu('load')" (mouseleave)="closeSubMenu('load')">
+          Load Filter
+          <ul class="submenu" *ngIf="activeSubMenu === 'load'">
+            <li (click)="loadFilter('recent')">Load Recent Filter</li>
+            <li (click)="loadFilter('saved')">Load Saved Filters</li>
+          </ul>
+        </li>
+        <li class="menu-divider"></li>
+        <li class="menu-instruction">Instruction to use</li>
+        <li class="menu-last-uploaded">Last uploaded: {{ lastUploadedDate }} by {{ lastUploadedBy }}</li>
+      </ul>
+    </div>
     <button class="collapse-btn" (click)="toggleCollapse()">
       <span class="material-symbols-outlined" *ngIf="!collapsed">chevron_left</span>
       <span class="material-symbols-outlined" *ngIf="collapsed">chevron_right</span>
@@ -17,9 +45,61 @@
     </kendo-textbox>
     <div class="panelbar-wrapper">
       <kendo-expansionpanel title="Advance Search" [expanded]="false" id="filter">
-        <ng-template>
-          test
-        </ng-template>
+     
+          <div class="advance-search-row">
+            <button class="clear-filter-link" (click)="clearAdvanceFilters()">Clear Filter</button>
+          </div>
+          <div class="advance-search-row">
+            <kendo-multiselect
+              [data]="deliveryYears"
+              [(ngModel)]="selectedDeliveryYears"
+              [placeholder]="'Delivery Year'"
+              [checkboxes]="true"
+              [autoClose]="false"
+              class="advance-multiselect"
+            ></kendo-multiselect>
+            <kendo-multiselect
+              [data]="racYears"
+              [(ngModel)]="selectedRacYears"
+              [placeholder]="'RAC Year'"
+              [checkboxes]="true"
+              [autoClose]="false"
+              class="advance-multiselect"
+            ></kendo-multiselect>
+            <kendo-multiselect
+              [data]="projectStatuses"
+              [(ngModel)]="selectedProjectStatuses"
+              [placeholder]="'Project Status'"
+              [checkboxes]="true"
+              [autoClose]="false"
+              class="advance-multiselect"
+            ></kendo-multiselect>
+            <kendo-multiselect
+              [data]="drivers"
+              [(ngModel)]="selectedDrivers"
+              [placeholder]="'Driver'"
+              [checkboxes]="true"
+              [autoClose]="false"
+              class="advance-multiselect"
+            ></kendo-multiselect>
+            <kendo-multiselect
+              [data]="connectors"
+              [(ngModel)]="selectedConnectors"
+              [placeholder]="'Connector'"
+              [checkboxes]="true"
+              [autoClose]="false"
+              class="advance-multiselect"
+            ></kendo-multiselect>
+            <kendo-multiselect
+              [data]="installationCountries"
+              [(ngModel)]="selectedInstallationCountries"
+              [placeholder]="'Installation Country'"
+              [checkboxes]="true"
+              [autoClose]="false"
+              class="advance-multiselect"
+            ></kendo-multiselect>
+          </div>
+       
       </kendo-expansionpanel>
     </div>
     <kendo-tabstrip (tabSelect)="onTabSelect($event)" class="searchTabs">

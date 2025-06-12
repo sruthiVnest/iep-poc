@@ -22,5 +22,18 @@
     [sortable]="true"
     [width]="150"
   >
+    <ng-template kendoGridFilterMenuTemplate
+        let-column="column"
+        let-filter="filter"
+        let-filterService="filterService"
+        >
+      <input
+        kendoTextBox
+        [placeholder]="'Search ' + column.title"
+        [(ngModel)]="col.filterValue"
+        (ngModelChange)="onColumnFilterChange(col, $event, filterService)"
+        type="text"
+      />
+    </ng-template>
   </kendo-grid-column>
 </kendo-grid>
