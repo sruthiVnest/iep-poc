@@ -12,9 +12,10 @@
     >
       <ng-template kendoDrawerItemTemplate let-item>
         <span *ngIf="!drawerOpened">
-          <span class="material-symbols-outlined">
+          <span class="circle_selected"> <span class="material-symbols-outlined">
             {{ item.icon }}
-          </span>
+          </span> </span>
+         
         </span>
         <span *ngIf="drawerOpened">{{ item.text }}</span>
       </ng-template>

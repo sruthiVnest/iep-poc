@@ -15,7 +15,20 @@ body{
 }
 :root {
   --kendo-color-primary: #209474!important;
-
+  --kendo-color-hover: #145c4c!important;
+--kendo-color-primary-hover:#209474!important;
+  --kendo-color-on-primary: #ffffff!important;
+  --kendo-color-primary-dark: #1a6f5f!important;
+  --kendo-color-primary-light: #2ab88c!important;
+  --kendo-color-secondary: #1976d2!important;
+  --kendo-color-secondary-hover: #145c4c!important;
+  --kendo-color-on-secondary: #ffffff!important;
+  --kendo-color-secondary-dark: #145c4c!important;
+  --kendo-color-secondary-light: #2ab88c!important;
+  --kendo-link-text: #209474!important;
+  --kendo-checkbox-checked-bg: #209474!important;
+  --kendo-checkbox-checked-border: #209474!important;
+  --kendo-checkbox-focus-border: #209474!important;
 }
 // *{
 //  font-family: Google Sans Code, sans-serif!important;

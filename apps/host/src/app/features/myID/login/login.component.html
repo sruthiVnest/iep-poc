@@ -4,6 +4,7 @@
       <img src="/assets/images/BH-login.png" alt="Logo"  />
     </div>
     <div class="login-right">
+      <div class="login-content">
       <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="loginForm">
          <img src="/assets/images/Logo.png" alt="Logo" class="login-logo" />
         <h3 class="login-title">Sign in</h3>
@@ -30,7 +31,8 @@
         <button kendoButton type="submit" [disabled]="loginForm.invalid" class="login-btn">Login</button>
       </form>
       <p class="bottom-login">Can't access your account? &nbsp;&nbsp;<a href="#" class="support-link">Contact Support</a></p>
-   <footer class="remember-me">Privacy policy . Terms of use</footer>
+   <footer class="footer-login">Privacy policy . Terms of use</footer>
+   </div>
     </div>
   </div>
 </div>
