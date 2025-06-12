@@ -317,14 +317,7 @@ constructor() {
     document.removeEventListener('click', this.closeFilterMenuOnOutsideClick);
   };
 
-  openSubMenu(menu: string) {
-    this.activeSubMenu = menu;
-  }
-  closeSubMenu(menu: string) {
-    if (this.activeSubMenu === menu) {
-      this.activeSubMenu = null;
-    }
-  }
+ 
 
   exportContract(type: string) {
     // Implement export logic here

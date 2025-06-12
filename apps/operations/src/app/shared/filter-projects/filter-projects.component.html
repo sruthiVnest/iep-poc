@@ -5,29 +5,32 @@
     <button class="filter-dots" (click)="toggleFilterMenu($event)">...</button>
     <div class="filter-dots-menu" *ngIf="filterMenuOpen" (click)="$event.stopPropagation()">
       <ul>
-        <li (mouseenter)="openSubMenu('export')" (mouseleave)="closeSubMenu('export')">
-          Export Contract
-          <ul class="submenu" *ngIf="activeSubMenu === 'export'">
-            <li (click)="exportContract('csv')">Export as CSV</li>
-            <li (click)="exportContract('xlsx')">Export as Excel</li>
-          </ul>
+        <li >
+           <span class="material-symbols-outlined">
+save_as
+</span>   Export Contract
+       
         </li>
-        <li (mouseenter)="openSubMenu('save')" (mouseleave)="closeSubMenu('save')">
-          Save Filter
-          <ul class="submenu" *ngIf="activeSubMenu === 'save'">
-            <li (click)="saveFilter('current')">Save Current Filter</li>
-            <li (click)="saveFilter('asNew')">Save as New Filter</li>
-          </ul>
+        <li>
+      <span class="material-symbols-outlined">
+save
+      </span>  Save Filter
+       
         </li>
-        <li (mouseenter)="openSubMenu('load')" (mouseleave)="closeSubMenu('load')">
-          Load Filter
-          <ul class="submenu" *ngIf="activeSubMenu === 'load'">
-            <li (click)="loadFilter('recent')">Load Recent Filter</li>
-            <li (click)="loadFilter('saved')">Load Saved Filters</li>
+        <li style="position: relative;">
+          <span class="material-symbols-outlined">filter_list</span>    Load Filter
+          <span class="material-symbols-outlined submenu-arrow" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #209474;">chevron_right</span>
+          <ul class="submenu" >
+            <li (click)="loadFilter('recent')">Saved Filter 1</li>
+            <li (click)="loadFilter('recent')">Saved Filter 2</li>
+            <li (click)="loadFilter('recent')">Saved Filter 3</li>
+            <li (click)="loadFilter('recent')">Saved Filter 4</li>
           </ul>
         </li>
         <li class="menu-divider"></li>
-        <li class="menu-instruction">Instruction to use</li>
+        <li class="menu-instruction"><span class="material-symbols-outlined">
+info
+</span>Instruction to use</li>
         <li class="menu-last-uploaded">Last uploaded: {{ lastUploadedDate }} by {{ lastUploadedBy }}</li>
       </ul>
     </div>
