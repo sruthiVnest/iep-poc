@@ -27,7 +27,7 @@ export class IepHeaderComponent {
   @Output() logout = new EventEmitter<void>();
   @Input() drawerOpened = true;
   @Output() drawerToggle = new EventEmitter<void>();
-  
+  @Output() dashboardExpandChange = new EventEmitter<boolean>();
  
   onLogout() {
     this.logout.emit();
@@ -35,7 +35,7 @@ export class IepHeaderComponent {
   }
   toggleDrawer() {
     this.drawerToggle.emit();
- 
+    this.dashboardExpandChange.emit(false); // Collapse dashboard on drawer menu click
   
   }
   toggleUserMenu() {

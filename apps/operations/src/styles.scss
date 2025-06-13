@@ -12,6 +12,11 @@ $kendo-checkbox-focus-border: $primary;
 }
 
 @import '~@progress/kendo-theme-default/dist/all.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body, *:not(.material-symbols-outlined) {
+  font-family: 'Roboto', Arial, sans-serif !important;
+}
 
 .material-symbols-outlined {
   font-variation-settings:

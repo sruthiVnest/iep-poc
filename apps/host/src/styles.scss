@@ -8,7 +8,8 @@ $kendo-checkbox-checked-border: $primary;
 $kendo-checkbox-focus-border: $primary;
 
 @import '~@progress/kendo-theme-default/dist/all.css';
-
+@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 /* You can add global styles to this file, and also import other style files */
 body{
     margin: 0px!important;
@@ -20,7 +21,6 @@ body{
   --kendo-color-on-primary: #ffffff!important;
   --kendo-color-primary-dark: #1a6f5f!important;
   --kendo-color-primary-light: #2ab88c!important;
-  --kendo-color-secondary: #1976d2!important;
   --kendo-color-secondary-hover: #145c4c!important;
   --kendo-color-on-secondary: #ffffff!important;
   --kendo-color-secondary-dark: #145c4c!important;
@@ -37,4 +37,9 @@ body{
  .k-tabstrip-content {
   overflow-x: hidden !important;
 }
+}
+
+body, *:not(.material-symbols-outlined) {
+  font-family: 'Roboto', Arial, sans-serif !important;
+  font-size: 12px !important;
 }

@@ -22,11 +22,13 @@
           <span *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 3 characters.</span>
         </div>
         <div class="login-options">
+           <kendo-checkbox formControlName="rememberMe" class="remember-checkbox"></kendo-checkbox>
+        
           <label class="remember-me">
-            <input type="checkbox" formControlName="rememberMe" />
+          
             Remember me
           </label>
-        
+         
         </div>
         <button kendoButton type="submit" [disabled]="loginForm.invalid" class="login-btn">Login</button>
       </form>

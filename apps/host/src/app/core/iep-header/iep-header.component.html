@@ -62,7 +62,7 @@
           <ul *ngIf="filteredUsers.length > 0" class="autocomplete-list">
             <li *ngFor="let user of filteredUsers">
               <label class="user-checkbox">
-                <!-- <input type="checkbox" [checked]="isUserSelected(user)" (change)="toggleUserSelection(user)" /> -->
+                <input type="checkbox" [checked]="isUserSelected(user)" (change)="toggleUserSelection(user)" />
                 <span>{{ user }}</span>
               </label>
             </li>

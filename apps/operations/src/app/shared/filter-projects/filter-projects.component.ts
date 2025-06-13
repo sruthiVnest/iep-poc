@@ -58,6 +58,8 @@ constructor() {
   selectedConnectors: string[] = [];
   selectedInstallationCountries: string[] = [];
 
+  public isAdvancedSearchExpanded = false;
+
   public get checkableSettings(): CheckableSettings {
     return {
       checkChildren: this.checkChildren,
