@@ -19,7 +19,7 @@
             <text x="18" y="20.35" class="percentage" text-anchor="middle">{{ completion }}%</text>
           </svg>
         </div>
-        <button class="dashboard-action">Do vs Buy</button>
+        <button class="dashboard-action" (click)="openDoVsBuyDialog()">Do vs Buy</button>
       </div>
     </div>
     <div class="dashboard-tabs">
@@ -48,7 +48,10 @@
           <ng-template kendoTabContent>Technical Alignment Content</ng-template>
         </kendo-tabstrip-tab>
       </kendo-tabstrip>
+      <kendo-dialog *ngIf="doVsBuyDialogOpen" title="Do Vs Buy Deliverable Data Sheet" (close)="closeDoVsBuyDialog()" [width]="600">
+        <copilot-iep-nx-dovsbuy></copilot-iep-nx-dovsbuy>
+        
+      </kendo-dialog>
     </div>
- 
   </div>
 </div>

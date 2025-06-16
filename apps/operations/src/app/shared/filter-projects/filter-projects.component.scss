@@ -204,24 +204,30 @@ text-align: center;
 
 :host ::ng-deep .searchTabs .k-tabstrip-items {
   display: flex;
- // border-bottom: none;
-  background: rgb(254, 249, 249)!important;
-  border: 1px solid rgb(246, 234, 234)  !important;
-  border-radius: 8px 8px 0 0;
+  background: rgb(239, 236, 236)!important;
+ 
   margin-bottom: 0.5rem;
 }
 :host ::ng-deep .searchTabs .k-tabstrip-items .k-tabstrip-item {
   //margin: 2px 4px;
   padding: 2px;
   background: transparent;
-  border: 1px solid gray;
+ 
 }
-:host ::ng-deep .searchTabs .k-tabstrip-items .k-tabstrip-item .k-active {
-  //margin: 2px 4px;
+:host ::ng-deep .searchTabs .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item:active, .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-active  {
+ border: 1px solid white;
   padding: 2px;
-  background: white;
+  background: white!important;
   color: black!important;
   border: none;
+}
+:host ::ng-deep .searchTabs .k-tabstrip-items-wrapper .k-item.k-active {
+ border: 1px solid white;
+  padding: 2px;
+  background: white!important;
+  color: black!important;
+  border: 1px solid white!important;
+  margin: 6px;
 }
 .advanced-search-toggle {
   display: flex;
@@ -268,6 +274,11 @@ text-align: center;
   font-weight: 500;
   font-size: 1.05rem;
   color: #05322B;
+}
+.searchkendo{
+  padding: 2px;
+    margin-bottom: 8px;
+    border-radius: 25px;
 }
 
 

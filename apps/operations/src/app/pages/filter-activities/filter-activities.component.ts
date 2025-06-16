@@ -2,15 +2,17 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
+import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 
 @Component({
   selector: 'copilot-iep-nx-filter-activities',
   standalone: true,
-  imports: [CommonModule, FormsModule, KENDO_DROPDOWNLIST],
+  imports: [CommonModule, FormsModule, KENDO_DROPDOWNLIST,KENDO_TOOLTIP],
   templateUrl: './filter-activities.component.html',
   styleUrl: './filter-activities.component.scss',
 })
 export class FilterActivitiesComponent {
+
   viewAsOptions = ['User', 'Group', 'All'];
   functionsOptions = ['Function 1', 'Function 2', 'Function 3'];
   documentTypeOptions = ['Type A', 'Type B', 'Type C'];
@@ -65,4 +67,5 @@ export class FilterActivitiesComponent {
     this.selectedFinishBy = null;
     this.selectedDateType = null;
   }
+  
 }

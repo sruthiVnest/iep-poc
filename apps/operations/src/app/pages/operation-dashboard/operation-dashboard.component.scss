@@ -115,15 +115,16 @@ h2 {
 .circle-bg {
   fill: none;
   stroke: #eee;
-  stroke-width: 3.8;
+  stroke-width: 2.8;
 }
 
 .circle {
   fill: none;
   stroke: #209474;
-  stroke-width: 3.8;
+  stroke-width: 2.8;
   stroke-linecap: round;
   transition: stroke-dasharray 0.3s;
+  text-align: center;
 }
 
 .percentage {
@@ -204,35 +205,27 @@ h2 {
 }
 
 ::ng-deep .iep-operation-panel .k-tabstrip-items {
-  border: none !important;
+  display: flex !important;
+  border-bottom: none !important;
+  background: transparent !important;
 }
-
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-tabstrip-item,
 ::ng-deep .iep-operation-panel .k-tabstrip-items .k-item {
-  border: none !important;
+  background: transparent !important;
+  border-top: none !important;
+   border-left: none !important;
+    border-right: none !important;
+  margin: 0 16px 0 0 !important;
+  padding: 0 !important;
   box-shadow: none !important;
 }
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-active{
 
-::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-state-active {
-  border: none !important;
-  box-shadow: none !important;
-  position: relative;
-  z-index: 2;
-  background: #fff;
+  padding: 2px;
+  color: black!important;
+  border-bottom-color: #209474!important;
+  font-weight: 600!important;
 }
-
-::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-state-active .k-link {
-  position: relative;
-  z-index: 2;
-}
-
-::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-state-active .k-link::after {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -2px;
-  height: 3px;
-  background: var(--primary-color, #209474);
-  border-radius: 2px 2px 0 0;
+::ng-deep .iep-operation-panel .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-active{
+  border-bottom-color: #209474!important;
 }

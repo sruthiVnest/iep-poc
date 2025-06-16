@@ -20,14 +20,18 @@
     <button class="scroll-arrow left" (click)="scrollLeft()">
       <span class="material-symbols-outlined">chevron_left</span>
     </button>
+    
     <div class="card-scroll-view">
       <div class="card-tile" *ngFor="let card of visibleCards; let i = index"
         [ngStyle]="{
           'background-color': i === 0 ? '#ffe6ec' : (i === 1 ? '#fffbe6' : '')
         }">
-        <div class="card-title">{{ card.title }}</div>
+        <div kendoTooltip class="bottom" position="bottom">
+        <div class="card-title" [title]="card.title">{{ card.title }}</div>
         <div class="card-desc">{{ card.description }}</div>
-      </div>
+        </div>
+   
+    </div>
     </div>
     <button class="scroll-arrow right" (click)="scrollRight()">
       <span class="material-symbols-outlined">chevron_right</span>
