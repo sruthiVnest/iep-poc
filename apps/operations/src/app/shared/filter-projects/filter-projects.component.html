@@ -121,16 +121,20 @@ info
         <ng-template kendoTabContent>
           <div class="content" style="text-align: left; padding: 0 10px;">
             <ng-container *ngTemplateOutlet="searchAndPanel"></ng-container>
+             <div class="treeview-results-label">
+              Results {{ filteredData.length || 0 }}
+            </div>
             <div class="tree-parent-checkbox-row">
               <kendo-checkbox [checkedState]="allChecked" (change)="onSelectAllChange($event)"></kendo-checkbox>
               <span class="tree-parent-label">Current Projects</span>
             </div>
+           
             <kendo-treeview kendoTreeViewExpandable [nodes]="filteredData" [children]="children" [hasChildren]="hasChildren"
               [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
               [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem>
-                {{dataItem.contractName ? dataItem.contractName : dataItem.groupName}}
-                <span class="material-symbols-outlined filled-star" *ngIf="dataItem.groupName" style="font-variation-settings: 'FILL' 1; color: #209474;" (click)="addToFavourites(dataItem.contractName ? dataItem.contractName : dataItem.groupName)">star</span>
+                {{dataItem.contractName ? dataItem.contractName : dataItem.trainName}}
+                <span class="material-symbols-outlined filled-star" *ngIf="dataItem.isFavourite=='True'" style="font-variation-settings: 'FILL' 1; color: #209474;" (click)="addToFavourites(dataItem.contractName ? dataItem.contractName : dataItem.trainName)">star</span>
               </ng-template>
             </kendo-treeview>
           </div>
@@ -144,6 +148,14 @@ info
           <div class="content">
             <ng-container *ngTemplateOutlet="searchAndPanel"></ng-container>
             <!-- Treeview for All Contracts goes here -->
+              <kendo-treeview kendoTreeViewExpandable [nodes]="myContracts" [children]="children" [hasChildren]="hasChildren"
+              [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
+              [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
+              <ng-template kendoTreeViewNodeTemplate let-dataItem >
+              <span *ngIf="dataItem.isMyContracts=='True'">   {{dataItem.contractName ? dataItem.contractName : dataItem.trainName}}</span>
+                <span class="material-symbols-outlined filled-star" *ngIf="(dataItem.isMyContracts=='True') && (dataItem.isFavourite=='False')" style="font-variation-settings: 'FILL' 1; color: #209474;" (click)="addToFavourites(dataItem.contractName ? dataItem.contractName : dataItem.trainName)">star</span>
+              </ng-template>
+            </kendo-treeview>
           </div>
         </ng-template>
       </kendo-tabstrip-tab>
@@ -154,10 +166,10 @@ info
         <ng-template kendoTabContent>
           <div class="content">
             <ng-container *ngTemplateOutlet="searchAndPanel"></ng-container>
-            <kendo-treeview kendoTreeViewExpandable [nodes]="favourites" [children]="children" [hasChildren]="hasChildren"
+            <kendo-treeview kendoTreeViewExpandable [nodes]="favouriteProject" [children]="children" [hasChildren]="hasChildren"
               textField="text" [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem>
-                {{dataItem.contractName ? dataItem.contractName : dataItem.groupName || dataItem.text}}
+                {{dataItem.contractName ? dataItem.contractName : dataItem.trainName || dataItem.text}}
               </ng-template>
             </kendo-treeview>
           </div>

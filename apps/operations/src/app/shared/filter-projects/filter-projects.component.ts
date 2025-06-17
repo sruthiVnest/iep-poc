@@ -19,12 +19,16 @@ import { FormsModule } from '@angular/forms';
 })
 export class FilterProjectsComponent {
 public data: any = [];
+public myContracts : any = [];
+public favouriteProject: any = [];
 private dataService = inject(DataService);
 private projectSelectionService = inject(ProjectSelectionService);
 constructor() {
   this.dataService.getCurrentProjects().subscribe((data) => {
-    this.data = data[0]?.data?.favourites;
+    this.data = data;
     this.filteredData = this.data;
+    this.myContracts = this.data.filter((item: any) => item.isMyContracts === 'True');
+    this.favouriteProject = this.data.filter((item: any) => item.isFavourite === 'True');
   });
 }
 
@@ -72,8 +76,8 @@ constructor() {
     };
   }
 
-    public children = (dataItem: any): Observable<any[]> => of(dataItem.favourites);
-    public hasChildren = (dataItem: any): boolean => !!dataItem.favourites;
+    public children = (dataItem: any): Observable<any[]> => of(dataItem.trains);
+    public hasChildren = (dataItem: any): boolean => !!dataItem.trains;
     onFilter(e: any) {
       return this.data.filter((o: any) =>
         Object.keys(o).some((k) =>
@@ -86,7 +90,7 @@ constructor() {
     this.checkedKeys = keys;
     const tree = this.activeTabIndex === 1 ? this.favourites : this.data;
     const fullNodes = this.getCheckedNodesByPaths(tree, this.checkedKeys);
-    const selectedTexts = fullNodes.map((n: any) => n.groupName ? n.groupName : n.contractName);
+    const selectedTexts = fullNodes.map((n: any) => n.contractName);
     this.projectSelectionService.selectedProjects.set(selectedTexts);
     this.dataService.setTreeData(selectedTexts.map(text => ({ text })));
     // Update allChecked for current tab
@@ -107,7 +111,7 @@ constructor() {
         this.activeTabIndex === 2 ? this.favourites : this.data,
         this.checkedKeys
       );
-      const selectedTexts = fullNodes.map((n: any) => n.groupName ? n.groupName : n.contractName);
+      const selectedTexts = fullNodes.map((n: any) => n.contractName);
       this.projectSelectionService.selectedProjects.set(selectedTexts);
     } else {
       this.checkedKeys = [];
@@ -115,11 +119,11 @@ constructor() {
     }
   }
   addToFavourites(itemText: string) {
-    // Recursively search for a node by groupName or contractName (including children)
+    // Recursively search for a node by trainName or contractName (including children)
     const findNodeAndParents = (nodes: any[], targetText: string, path: any[] = []): any[] | null => {
       for (const node of nodes) {
         const newPath = [...path, node];
-        if (node.groupName === targetText || node.contractName === targetText) {
+        if (node.trainName === targetText || node.contractName === targetText) {
           return newPath;
         }
         if (node.favourites && node.favourites.length > 0) {
@@ -144,7 +148,7 @@ constructor() {
       if (chain.length === 0) return tree;
       const [current, ...rest] = chain;
       let existing = tree.find((n: any) =>
-        (n.groupName && n.groupName === current.groupName) ||
+        (n.trainName && n.trainName === current.trainName) ||
         (n.contractName && n.contractName === current.contractName)
       );
       if (!existing) {
@@ -166,7 +170,7 @@ constructor() {
         // Only the selected node, add if not present
         const selected = chain[0];
         let existing = tree.find((n: any) =>
-          (n.groupName && n.groupName === selected.groupName) ||
+          (n.trainName && n.trainName === selected.trainName) ||
           (n.contractName && n.contractName === selected.contractName)
         );
         if (!existing) {
@@ -177,7 +181,7 @@ constructor() {
         // Recursively build the parent structure
         const [parent, ...rest] = chain;
         let existing = tree.find((n: any) =>
-          (n.groupName && n.groupName === parent.groupName) ||
+          (n.trainName && n.trainName === parent.trainName) ||
           (n.contractName && n.contractName === parent.contractName)
         );
         if (!existing) {
@@ -262,7 +266,7 @@ constructor() {
     return keys;
   }
 
-  // Filter tree recursively by contractName or groupName, including children
+  // Filter tree recursively by contractName or trainName, including children
   filterTree(tree: any[], term: string): any[] {
     if (!term) return tree;
     const lowerTerm = term.toLowerCase();
@@ -270,7 +274,7 @@ constructor() {
       .map(node => {
         let children = node.favourites ? this.filterTree(node.favourites, term) : [];
         const match = (node.contractName && node.contractName.toLowerCase().includes(lowerTerm)) ||
-                      (node.groupName && node.groupName.toLowerCase().includes(lowerTerm));
+                      (node.trainName && node.trainName.toLowerCase().includes(lowerTerm));
         if (match || children.length > 0) {
           return {
             ...node,
