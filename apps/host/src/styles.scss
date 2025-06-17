@@ -29,6 +29,10 @@ body{
   --kendo-checkbox-checked-bg: #209474!important;
   --kendo-checkbox-checked-border: #209474!important;
   --kendo-checkbox-focus-border: #209474!important;
+  --kendo-color-primary-on-surface:#209474!important;
+  --kendo-color-primary-on-surface-hover:#209474!important;
+  --kendo-color-primary-on-surface-active:#209474!important;
+  --kendo-color-primary-on-surface-disabled:#209474!important;
 }
 // *{
 //  font-family: Google Sans Code, sans-serif!important;
@@ -44,4 +48,29 @@ body, *:not(.material-symbols-outlined) {
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
       "Segoe UI Symbol"!important;
   font-size: 12px !important;
+}
+::ng-deep .iep-operation-panel .k-tabstrip-items {
+  display: flex !important;
+  border-bottom: none !important;
+  background: transparent !important;
+}
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-tabstrip-item,
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-item {
+  background: transparent !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  margin: 0 16px 0 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-active{
+
+  padding: 2px;
+  color: black!important;
+  border-bottom-color: #209474!important;
+  font-weight: 600!important;
+}
+::ng-deep .iep-operation-panel .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-active{
+  border-bottom-color: #209474!important;
 }

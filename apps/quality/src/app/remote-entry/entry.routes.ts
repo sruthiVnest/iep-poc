@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
-import { RemoteEntryComponent } from './entry.component';
+import { QualityDashboardComponent } from '../modules/quality-dashboard/quality-dashboard.component';
 
 export const remoteRoutes: Route[] = [
-  { path: '', component: RemoteEntryComponent },
+  { path: '', component: QualityDashboardComponent },
 ];

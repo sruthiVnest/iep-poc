@@ -1,1 +1,31 @@
 <p>ncr works!</p>
+<div *ngIf="!showGrid" class="ncr-bar-chart-wrapper">
+  <h2 class="ncr-bar-chart-title">NCR Count by Month - {{ currentYear }}</h2>
+  <kendo-chart (seriesClick)="onBarClick($event)">
+    <kendo-chart-category-axis>
+      <kendo-chart-category-axis-item [categories]="months" [title]="{ text: 'Month' }"></kendo-chart-category-axis-item>
+    </kendo-chart-category-axis>
+    <kendo-chart-value-axis>
+      <kendo-chart-value-axis-item [title]="{ text: 'NCR count' }"></kendo-chart-value-axis-item>
+    </kendo-chart-value-axis>
+    <kendo-chart-series>
+      <kendo-chart-series-item
+        type="column"
+        [data]="currentYearDataCounts"
+        [color]="'#1976d2'"
+        name="NCR Count">
+      </kendo-chart-series-item>
+    </kendo-chart-series>
+  </kendo-chart>
+  <kendo-pager
+    [total]="ncrData.length"
+    [pageSize]="pageSize"
+    [skip]="skip"
+    (pageChange)="pageChange($event)">
+  </kendo-pager>
+</div>
+
+<div *ngIf="showGrid" class="ncr-grid-wrapper">
+  <button class="close-btn" (click)="closeGrid()">X</button>
+  <iep-grid [data]="gridData" [columns]="gridColumns"></iep-grid>
+</div>
