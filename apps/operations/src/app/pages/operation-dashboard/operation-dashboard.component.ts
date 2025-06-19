@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { FilterProjectsComponent } from '../../shared/filter-projects/filter-projects.component';
 import { TabStripModule } from '@progress/kendo-angular-layout';
 import { IspoComponent } from '../../modules/ispo/ispo.component';
 import { CommonModule } from '@angular/common';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { DovsbuyComponent } from '../dovsbuy/dovsbuy.component';
-
+import { FilterProjectsComponent } from 'lib/shared-ui/filter-projects/filter-projects.component';
 @Component({
   selector: 'app-operation-dashboard',
   standalone: true,

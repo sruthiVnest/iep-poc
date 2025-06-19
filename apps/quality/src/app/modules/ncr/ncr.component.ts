@@ -4,6 +4,7 @@ import { ChartsModule } from '@progress/kendo-angular-charts';
 import { PagerModule, PageChangeEvent } from '@progress/kendo-angular-pager';
 import { IepGridComponent } from 'lib/shared-ui/iep-grid/iep-grid.component';
 
+
 @Component({
   selector: 'copilot-iep-nx-ncr',
   standalone: true,
@@ -13,6 +14,7 @@ import { IepGridComponent } from 'lib/shared-ui/iep-grid/iep-grid.component';
 })
 export class NcrComponent {
   public years = [2020, 2021, 2022, 2023, 2024, 2025];
+  
   public pageSize = 1;
   public skip = 0;
   public ncrData = [
@@ -103,4 +105,5 @@ export class NcrComponent {
   closeGrid() {
     this.showGrid = false;
   }
+ 
 }

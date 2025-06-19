@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@shared-ui/iep-grid": ["lib/shared-ui/iep-grid/iep-grid.component.ts"],
+       "@shared-ui/iep-filter-project": ["lib/shared-ui/filter-project/filter-project.component.ts"],
       "operations/Routes": [
         "apps/operations/src/app/remote-entry/entry.routes.ts"
       ],

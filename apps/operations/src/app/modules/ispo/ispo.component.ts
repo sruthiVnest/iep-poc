@@ -16,7 +16,6 @@ import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_MULTISELECT } from '@progress/kendo-angular-dropdowns';
 import {map} from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
-import { FilterProjectsComponent } from '../../shared/filter-projects/filter-projects.component';
 import { ProjectSelectionService } from '../../services/project-selection.service';
 import { IepGridComponent } from '@shared-ui/iep-grid';
 import { effect } from '@angular/core';
@@ -74,7 +73,6 @@ export class IspoComponent {
   public searchValue: string = '';
 
  private dataService= inject(DataService);
-  public filterProjects = inject(FilterProjectsComponent, { optional: true });
   private projectSelectionService = inject(ProjectSelectionService);
   public selectedProjects = this.projectSelectionService.selectedProjects;
 

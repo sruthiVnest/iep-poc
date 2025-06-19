@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = withModuleFederation({
   name: 'host',
-  remotes: ['operations', 'projectinfo'],
+  remotes: ['operations', 'projectinfo','quality'],
   exposes: {},
   shared: {
     '@angular/core': { singleton: true, strictVersion: true, requiredVersion: 'auto' },

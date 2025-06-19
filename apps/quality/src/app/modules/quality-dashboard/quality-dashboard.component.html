@@ -1,7 +1,8 @@
 <div class="dashboard-flex" >
+   <shared-filter-projects class="dashboard-filter" *ngIf="!dashboard_expand"></shared-filter-projects>
   <div class="dashboard-content">
     <div class="dashboard-header">
-      <span class="dashboard-title">Operations</span>
+      <span class="dashboard-title">Quality</span>
       <div class="dashboard-header-right">
         <span class="dashboard-updated">Last Updated: {{ lastUpdated }}</span>
         <div class="dashboard-progress">

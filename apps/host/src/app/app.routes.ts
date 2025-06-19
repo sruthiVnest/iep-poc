@@ -26,6 +26,11 @@ export const appRoutes: Route[] = [
         loadChildren: () =>
           import('operations/Routes').then((m) => m.remoteRoutes),
       },
+       {
+        path: 'quality-dashboard',
+        loadChildren: () =>
+          import('quality/Routes').then((m) => m.remoteRoutes),
+      },
       // Add more protected routes here
     ],
   },
