@@ -17,7 +17,7 @@ import { KENDO_MULTISELECT } from '@progress/kendo-angular-dropdowns';
 import {map} from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectSelectionService } from '../../services/project-selection.service';
-import { IepGridComponent } from '@shared-ui/iep-grid';
+import { SharedUiIepGridComponent } from '@shared-ui/iep-grid';
 import { effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FilterActivitiesComponent } from '../../pages/filter-activities/filter-activities.component';
@@ -36,7 +36,7 @@ import { FilterActivitiesComponent } from '../../pages/filter-activities/filter-
     KENDO_MULTISELECT,
     KENDO_DIALOG,
     KENDO_TOOLTIP,
-    IepGridComponent,
+    SharedUiIepGridComponent,
     FormsModule, // <-- Add FormsModule for ngModel support
     FilterActivitiesComponent // <-- Add FilterActivitiesComponent for use in template
   ],
@@ -92,16 +92,16 @@ export class IspoComponent {
      // Use effect to react to signal changes
     effect(() => {
       const selectedProjects = this.dataService.getTreeData();
-      // if (selectedProjects && selectedProjects.length > 0) {
-      //   const selected = selectedProjects.split(',');
-      //   // Only filter if there are selected projects
-      //   this.gridView = this.data.filter((row: any) => {
-      //     const projectId = row['id'] || row['ProjectID'] || row['projectId'] || row['ProjectId'];
-      //     return selected.includes(projectId?.toString());
-      //   });
-      // } else {
-      //   this.gridView = this.data;
-      // }
+      if (selectedProjects && selectedProjects.length > 0) {
+        const selected = selectedProjects.split(',');
+        // Only filter if there are selected projects
+        this.gridView = this.data.filter((row: any) => {
+          const projectId = row['id'] || row['ProjectID'] || row['projectId'] || row['ProjectId'];
+          return selected.includes(projectId?.toString());
+        });
+      } else {
+        this.gridView = this.data;
+      }
     }); 
   }
   public ngOnInit(): void {

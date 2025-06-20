@@ -1,6 +1,34 @@
 
 
 <div *ngIf="!showGrid" class="ncr-bar-chart-wrapper">
+    <div *ngIf="selectedProjects().length > 0" class="selected-projects-section">
+    <span class="selected-label">Project(s) Selected:</span>
+    <span class="selected-list">{{ selectedProjects().join(', ') }}</span>
+  </div>
+  <div *ngIf="showWarning" class="warning-message">
+    <span class="material-symbols-outlined notification-icon" style="vertical-align: middle; color: #e65100; font-size: 22px;">notification_important</span>
+    <span class="warning-text">You have received 3 primary resources re assigned requests <a href="" style="color: #e65100;">View Requests</a></span>
+    <span class="material-symbols-outlined close-icon" (click)="showWarning = false">close</span>
+  </div>
+   <div class="filter-expansion-panel" [class.expanded]="isExpanded">
+        <div class="filter-expansion-header">
+          <h3 class="filter-title">Filter Activities</h3>
+          <div class="filter-header-actions">
+            <button class="clear-filter-btn primary" type="button" (click)="clearFilter();">
+              Clear Filter
+            </button>
+            <button class="expansion-toggle-btn primary" type="button" (click)="isExpanded = !isExpanded" [attr.aria-expanded]="isExpanded" [title]="isExpanded ? 'Collapse' : 'Expand'">
+              <span class="material-symbols-outlined primary">{{ isExpanded ? 'expand_less' : 'expand_more' }}</span>
+            </button>
+          </div>
+        </div>
+        <div class="filter-expansion-content" *ngIf="isExpanded">
+      <div class="dropdown-row">
+    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" [(ngModel)]="selectedViewAs" [defaultItem]="'Chart View'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" [(ngModel)]="selectedFunction" [defaultItem]="'Individual'" ></kendo-dropdownlist>
+    </div>
+        </div>
+      </div>
   <h2 class="ncr-bar-chart-title">NCR Count by Month - {{ currentYear }}</h2>
   <kendo-chart (seriesClick)="onBarClick($event)">
     <kendo-chart-category-axis>
@@ -27,6 +55,34 @@
 </div>
 
 <div *ngIf="showGrid" class="ncr-grid-wrapper">
-  <button class="close-btn" (click)="closeGrid()">X</button>
+  <div class="iep-grid-header">
+        <div class="header-left">
+          <h3>Activities</h3>
+          <span class="result-count">Result: {{ ncrData.length }}</span>
+        </div>
+        <div class="header-right">
+          <!-- <kendo-textbox
+            [style.width.px]="180"
+            placeholder="Search in all columns..."
+            [ngClass]="'search-textbox'"
+            name="searchTextBox"
+            [(ngModel)]="searchValue"
+          >
+            <ng-template kendoTextBoxSuffixTemplate>
+              <button class="search-btn" type="button" (click)="onFilter(searchValue)">
+                <span class="material-symbols-outlined">search</span>
+              </button>
+            </ng-template>
+          </kendo-textbox> -->
+          <button class="icon-btn" (click)="isGridExpanded = !isGridExpanded" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
+            <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
+          </button>
+          <button class="icon-btn" (click)="open('dialog')" title="Settings">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+           <button class="icon-btn" (click)="closeGrid()">  <span class="material-symbols-outlined">close</span></button>
+        </div>
+      </div>
+ 
   <iep-grid [data]="gridData" [columns]="gridColumns"></iep-grid>
 </div>

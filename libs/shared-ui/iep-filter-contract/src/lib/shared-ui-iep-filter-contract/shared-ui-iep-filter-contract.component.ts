@@ -5,24 +5,23 @@ import { filter, Observable, of } from 'rxjs';
 import { starIcon } from '@progress/kendo-svg-icons';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
-import { DataService } from '../../shared-service/services/data.service';
+import { ApiService } from '@shared-service/data-service';
 import { CommonModule } from '@angular/common';
-import { ProjectSelectionService } from '../../shared-service/services/project-selection.service';
 import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 @Component({
-  selector: 'shared-filter-projects',
+  selector: 'iep-filter-contract',
   standalone: true,
-  templateUrl: './filter-projects.component.html',
-  styleUrls: ['./filter-projects.component.scss'],
-  imports:[KENDO_TABSTRIP, KENDO_TREEVIEW, KENDO_SVGICON, KENDO_INPUTS, KENDO_LAYOUT, KENDO_DROPDOWNS, CommonModule, FormsModule]
+   imports:[KENDO_TABSTRIP, KENDO_TREEVIEW, KENDO_SVGICON, KENDO_INPUTS, KENDO_LAYOUT, KENDO_DROPDOWNS, CommonModule, FormsModule],
+
+  templateUrl: './shared-ui-iep-filter-contract.component.html',
+  styleUrl: './shared-ui-iep-filter-contract.component.scss',
 })
-export class FilterProjectsComponent {
-public data: any = [];
+export class SharedUiIepFilterContractComponent {
+  public data: any = [];
 public myContracts : any = [];
 public favouriteProject: any = [];
-private dataService = inject(DataService);
-private projectSelectionService = inject(ProjectSelectionService);
+private dataService = inject(ApiService);
 
 constructor() {
   this.dataService.getCurrentProjects().subscribe((data) => {
@@ -94,7 +93,7 @@ constructor() {
     const tree = this.activeTabIndex === 1 ? this.favourites : this.data;
     const fullNodes = this.getCheckedNodesByPaths(tree, this.checkedKeys);
     const selectedTexts = fullNodes.map((n: any) => n.contractName);
-    this.projectSelectionService.selectedProjects.set(selectedTexts);
+    this.dataService.selectedProjects.set(selectedTexts);
     this.dataService.setTreeData(selectedTexts.map(text => ({ text })));
     // Update allChecked for current tab
     const allKeys = this.getAllNodeKeys(tree);
@@ -115,10 +114,10 @@ constructor() {
         this.checkedKeys
       );
       const selectedTexts = fullNodes.map((n: any) => n.contractName);
-      this.projectSelectionService.selectedProjects.set(selectedTexts);
+      this.dataService.selectedProjects.set(selectedTexts);
     } else {
       this.checkedKeys = [];
-      this.projectSelectionService.selectedProjects.set([]);
+      this.dataService.selectedProjects.set([]);
     }
   }
   addToFavourites(itemText: string) {
@@ -343,4 +342,5 @@ constructor() {
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
   }
+
 }

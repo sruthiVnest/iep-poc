@@ -3,16 +3,15 @@ import { CommonModule } from '@angular/common';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { FormsModule } from '@angular/forms';
-
 @Component({
   selector: 'iep-grid',
   standalone: true,
-  imports: [CommonModule, KENDO_GRID, KENDO_INPUTS, FormsModule],
-  templateUrl: './iep-grid.component.html',
-  styleUrls: ['./iep-grid.component.scss']
+    imports: [CommonModule, KENDO_GRID, KENDO_INPUTS, FormsModule],
+  templateUrl: './shared-ui-iep-grid.component.html',
+  styleUrl: './shared-ui-iep-grid.component.scss',
 })
-export class IepGridComponent implements OnInit {
-  @Input() data: any[] = [];
+export class SharedUiIepGridComponent {
+   @Input() data: any[] = [];
   @Input() columns: { field: string; title: string; filterValue?: string }[] = [];
 
   public gridView: any[] = [];

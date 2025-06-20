@@ -15,8 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@shared-ui/iep-grid": ["lib/shared-ui/iep-grid/iep-grid.component.ts"],
-       "@shared-ui/iep-filter-project": ["lib/shared-ui/filter-project/filter-project.component.ts"],
+      "@shared-service/data-service": [
+        "libs/shared-service/data-service/src/index.ts"
+      ],
+      "@shared-ui/iep-filter-contract": [
+        "libs/shared-ui/iep-filter-contract/src/index.ts"
+      ],
+      "@shared-ui/iep-grid": ["libs/shared-ui/iep-grid/src/index.ts"],
       "operations/Routes": [
         "apps/operations/src/app/remote-entry/entry.routes.ts"
       ],

@@ -1,0 +1,9 @@
+{
+  "name": "shared-ui-iep-filter-contract",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared-ui/iep-filter-contract/src",
+  "prefix": "copilot-iep-nx",
+  "tags": [],
+  "projectType": "library",
+  "targets": {}
+}

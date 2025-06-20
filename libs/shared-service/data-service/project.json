@@ -1,0 +1,9 @@
+{
+  "name": "shared-service-data-service",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared-service/data-service/src",
+  "prefix": "copilot-iep-nx",
+  "tags": [],
+  "projectType": "library",
+  "targets": {}
+}

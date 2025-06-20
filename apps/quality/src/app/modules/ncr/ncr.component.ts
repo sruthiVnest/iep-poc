@@ -1,18 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { PagerModule, PageChangeEvent } from '@progress/kendo-angular-pager';
-import { IepGridComponent } from 'lib/shared-ui/iep-grid/iep-grid.component';
-
+import { SharedUiIepGridComponent } from '@shared-ui/iep-grid';
+import { ApiService } from '@shared-service/data-service';
+import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'copilot-iep-nx-ncr',
   standalone: true,
-  imports: [CommonModule, ChartsModule, PagerModule, IepGridComponent],
+  imports: [CommonModule, ChartsModule, PagerModule, SharedUiIepGridComponent,KENDO_DROPDOWNLIST,FormsModule],
   templateUrl: './ncr.component.html',
   styleUrl: './ncr.component.scss',
 })
 export class NcrComponent {
+  
+  private dataService = inject(ApiService);
+  public selectedProjects = this.dataService.selectedProjects;
+    viewAsOptions = ['Tabular View', 'Chart View'];
+  functionsOptions = ['Individual', 'Office', 'Summary'];
+   selectedViewAs: string | null = null;
+  selectedFunction: string | null = null;
+   public showWarning = true;
+   public isExpanded = true;
+  public isGridExpanded = false;
+  public mySelection: string[] = [];
+ public dialogOpened = false;
+  public searchValue: string = '';
+  constructor() {
+    effect(() => {
+       const selectedProjects = this.dataService.getTreeData();
+      // if (selectedProjects && selectedProjects.length > 0) {
+      //   const selected = selectedProjects.split(',');
+      //   // Only filter if there are selected projects
+      //   this.gridView = this.data.filter((row: any) => {
+      //     const projectId = row['id'] || row['ProjectID'] || row['projectId'] || row['ProjectId'];
+      //     return selected.includes(projectId?.toString());
+      //   });
+      // } else {
+      //   this.gridView = this.data;
+      // }
+    }); 
+  }
   public years = [2020, 2021, 2022, 2023, 2024, 2025];
   
   public pageSize = 1;
@@ -105,5 +135,20 @@ export class NcrComponent {
   closeGrid() {
     this.showGrid = false;
   }
- 
+ clearFilter(){
+
+ }
+  public close(component: string): void {
+    this.dialogOpened = false;
+  }
+
+  public open(component: string): void {
+    this.dialogOpened = true;
+  }
+
+  public action(status: string): void {
+    console.log(`Dialog result: ${status}`);
+    this.dialogOpened = false;
+  }
+  onFilter(value: string): void {}
 }

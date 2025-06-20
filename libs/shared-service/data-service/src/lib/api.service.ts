@@ -1,15 +1,19 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable, signal } from "@angular/core";
-import { Observable } from "rxjs";
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class DataService {
-    private apiUrl="http://localhost:3000/api/";
+export class ApiService {
+
+
+   private apiUrl="http://localhost:3000/api/";
     constructor(private http:HttpClient){
 
     }
     _tree= signal<any>('');
+      public selectedProjects: WritableSignal<string[]> = signal([]);
     readonly tree=this._tree;
     setTreeData(nodes:any){
         let nodeArray: any[]=[]
