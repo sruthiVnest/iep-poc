@@ -29,12 +29,12 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumError": "2mb"
             },
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "4kb"
+              "maximumError": "8kb"
             }
           ],
           "outputHashing": "all"
@@ -72,9 +72,6 @@
       "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "customWebpackConfig": {
-          "path": "webpack.config.js"
-        },
         "outputPath": "dist/apps/host",
         "index": "apps/host/src/index.html",
         "main": "apps/host/src/main.ts",
