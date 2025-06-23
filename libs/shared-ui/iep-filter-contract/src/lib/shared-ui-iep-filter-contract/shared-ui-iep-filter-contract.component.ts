@@ -22,6 +22,7 @@ export class SharedUiIepFilterContractComponent {
 public myContracts : any = [];
 public favouriteProject: any = [];
 private dataService = inject(ApiService);
+public savedFIlteroptions:any;
 
 constructor() {
   this.dataService.getCurrentProjects().subscribe((data) => {
@@ -31,6 +32,10 @@ constructor() {
     this.myContracts = this.data.filter((item: any) => item.isMyContracts === 'True');
     this.favouriteProject = this.data.filter((item: any) => item.isFavourite === 'True');
   });
+ 
+   
+      
+
 }
 
   public checkedKeys: string[] = ['0'];
@@ -301,6 +306,7 @@ constructor() {
     this.selectedConnectors = [];
     this.selectedInstallationCountries = [];
   }
+  
   showFilterOptions(){
     
   }
@@ -332,8 +338,17 @@ constructor() {
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
   }
-  saveFilter(type: string) {
+  saveFilter() {
     // Implement save filter logic here
+    this.savedFIlteroptions={
+      deliveryYears: this.selectedDeliveryYears,
+      racYears: this.selectedRacYears,
+      projectStatuses: this.selectedProjectStatuses,
+      drivers: this.selectedDrivers,
+      connectors: this.selectedConnectors,
+      installationCountries: this.selectedInstallationCountries
+    }
+    this.dataService.setFilterOptions(this.savedFIlteroptions);;
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
   }
@@ -341,6 +356,16 @@ constructor() {
     // Implement load filter logic here
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
+    this.savedFIlteroptions = this.dataService.getFilterOptions();
+      if (this.savedFIlteroptions) {
+        this.selectedDeliveryYears = this.savedFIlteroptions[0]?.deliveryYears || [];
+        this.selectedRacYears = this.savedFIlteroptions[0]?.racYears || [];
+        this.selectedProjectStatuses = this.savedFIlteroptions[0]?.projectStatuses || [];
+        this.selectedDrivers = this.savedFIlteroptions[0]?.drivers || [];
+        this.selectedConnectors = this.savedFIlteroptions[0]?.connectors || [];
+        this.selectedInstallationCountries = this.savedFIlteroptions[0]?.installationCountries || [];
+      }
+    
   }
 
 }

@@ -15,6 +15,7 @@ export class ApiService {
     _tree= signal<any>('');
       public selectedProjects: WritableSignal<string[]> = signal([]);
     readonly tree=this._tree;
+    public selectedFilters: WritableSignal<any[]> = signal([]);
     setTreeData(nodes:any){
         let nodeArray: any[]=[]
         nodes.forEach((item:any)=>{
@@ -31,5 +32,15 @@ export class ApiService {
     }
       getNCRData():Observable<any> {
         return this.http.get(this.apiUrl+'getNCRData');
+    }
+    setFilterOptions(filterOptions:any){
+        let filterArray: any[]=[]
+        // filterOptions.forEach((item:any)=>{
+        //     filterArray.push(item.text)
+        // })
+        this.selectedFilters.set([filterOptions]);
+    }
+    getFilterOptions():any {
+        return this.selectedFilters();
     }
 }

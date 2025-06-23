@@ -1,4 +1,4 @@
-import { Component, effect, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { PagerModule, PageChangeEvent } from '@progress/kendo-angular-pager';
@@ -21,6 +21,7 @@ import { process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
   ],
   templateUrl: './ncr.component.html',
   styleUrl: './ncr.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NcrComponent {
   @ViewChild('tooltipDir')
