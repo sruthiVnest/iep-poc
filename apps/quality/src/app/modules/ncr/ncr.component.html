@@ -24,8 +24,8 @@
         </div>
         <div class="filter-expansion-content">
       <div class="dropdown-row">
-    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" [(ngModel)]="selectedViewAs"  (selectionChange)="showGrid=!showGrid"></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" [(ngModel)]="selectedFunction"></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" name="selectedview" [(ngModel)]="selectedViewAs"  (selectionChange)="showGrid=!showGrid"></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" name="selectedfns" [(ngModel)]="selectedFunction"></kendo-dropdownlist>
     </div>
         </div>
       </div>
@@ -60,22 +60,9 @@
   <div class="iep-grid-header" *ngIf="isBarChartData">
         <div class="header-left">
           <h3>Tabular View of {{selectedMonth}} {{currentYear}} </h3>
-          <span class="result-count">Result: {{ ncrData.length }}</span>
         </div>
         <div class="header-right">
-          <!-- <kendo-textbox
-            [style.width.px]="180"
-            placeholder="Search in all columns..."
-            [ngClass]="'search-textbox'"
-            name="searchTextBox"
-            [(ngModel)]="searchValue"
-          >
-            <ng-template kendoTextBoxSuffixTemplate>
-              <button class="search-btn" type="button" (click)="onFilter(searchValue)">
-                <span class="material-symbols-outlined">search</span>
-              </button>
-            </ng-template>
-          </kendo-textbox> -->
+         
           <button class="icon-btn" (click)="isGridExpanded = !isGridExpanded" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
             <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
           </button>
@@ -85,6 +72,20 @@
            <button class="icon-btn" (click)="closeGrid()">  <span class="material-symbols-outlined">close</span></button>
         </div>
       </div>
- 
+ <div class="iep-grid-header" *ngIf="!isBarChartData">
+        <div class="header-left">
+          <h3>Activities</h3>
+          <span class="result-count">Result: {{ gridView.length }}</span>
+        </div>
+        <div class="header-right">
+          
+          <button class="icon-btn" (click)="isGridExpanded = !isGridExpanded" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
+            <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
+          </button>
+          <button class="icon-btn" (click)="open('dialog')" title="Settings">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+        </div>
+      </div>
   <iep-grid [data]="gridView" [columns]="mapView"></iep-grid>
 </div>
