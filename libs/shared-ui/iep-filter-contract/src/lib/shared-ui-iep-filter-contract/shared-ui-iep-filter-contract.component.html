@@ -129,7 +129,7 @@ info
               <span class="tree-parent-label">Current Projects</span>
             </div>
            
-            <kendo-treeview kendoTreeViewExpandable [nodes]="filteredData" [children]="children" [hasChildren]="hasChildren"
+            <kendo-treeview kendoTreeViewExpandable [nodes]="myContracts" [children]="children" [hasChildren]="hasChildren"
               [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
               [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem>
@@ -148,11 +148,11 @@ info
           <div class="content">
             <ng-container *ngTemplateOutlet="searchAndPanel"></ng-container>
             <!-- Treeview for All Contracts goes here -->
-              <kendo-treeview kendoTreeViewExpandable [nodes]="myContracts" [children]="children" [hasChildren]="hasChildren"
+              <kendo-treeview kendoTreeViewExpandable [nodes]="filteredData" [children]="children" [hasChildren]="hasChildren"
               [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
               [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem >
-              <span *ngIf="dataItem.isMyContracts=='True'">   {{dataItem.contractName ? dataItem.contractName : dataItem.trainName}}</span>
+              {{dataItem.contractName ? dataItem.contractName : dataItem.trainName}} <span *ngIf="!dataItem.trainName && !dataItem.contractName">{{dataItem}}</span>
                 <span class="material-symbols-outlined filled-star" *ngIf="(dataItem.isMyContracts=='True') && (dataItem.isFavourite=='False')" style="font-variation-settings: 'FILL' 1; color: #209474;" (click)="addToFavourites(dataItem.contractName ? dataItem.contractName : dataItem.trainName)">star</span>
               </ng-template>
             </kendo-treeview>
@@ -169,7 +169,7 @@ info
             <kendo-treeview kendoTreeViewExpandable [nodes]="favouriteProject" [children]="children" [hasChildren]="hasChildren"
               textField="text" [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem>
-                {{dataItem.contractName ? dataItem.contractName : dataItem.trainName || dataItem.text}}
+                {{dataItem.contractName ? dataItem.contractName : dataItem.trainName}}<span *ngIf="!dataItem.trainName && !dataItem.contractName">{{dataItem}}</span>
               </ng-template>
             </kendo-treeview>
           </div>

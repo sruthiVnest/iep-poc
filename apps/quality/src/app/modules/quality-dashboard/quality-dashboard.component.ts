@@ -10,10 +10,16 @@ import { SharedUiIepFilterContractComponent } from '@shared-ui/iep-filter-contra
   templateUrl: './quality-dashboard.component.html',
   styleUrls: ['./quality-dashboard.component.scss'],
   imports: [SharedUiIepFilterContractComponent, TabStripModule,  CommonModule, KENDO_DIALOG,NcrComponent],
+  
 })
 export class QualityDashboardComponent {
     lastUpdated = '2025-06-03 10:00 AM';
   completion = 72; 
    dashboard_expand = false;
    
+  ngOnInit() {
+      window.addEventListener('filterProjectsCollapse', (event: any) => {
+      this.dashboard_expand = event.detail.collapsed;
+    });
+  }
 }

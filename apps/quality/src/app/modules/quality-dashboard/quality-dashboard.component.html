@@ -1,4 +1,4 @@
-<div class="dashboard-flex" >
+<div class="dashboard-flex" [class.dashboard-expand]="dashboard_expand">
    <iep-filter-contract class="dashboard-filter" *ngIf="!dashboard_expand"></iep-filter-contract>
   <div class="dashboard-content">
     <div class="dashboard-header">

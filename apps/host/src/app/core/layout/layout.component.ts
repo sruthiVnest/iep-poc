@@ -19,8 +19,8 @@ public items: Array<{ text: string; route: string; icon: string }>
       { text: 'Dashboard', icon:'widget_small' , route: '/dashboard' },
       { text: 'Dashboard', icon:'folder_managed' , route: '/dashboard' },
       { text: 'Dashboard', icon:'folder' , route: '/dashboard' },
-      { text: 'Settings', icon: 'verified', route: '/dashboard' },
-       { text: 'quality', icon:'engineering' , route: '/quality-dashboard' },
+      { text: 'Quality', icon: 'verified', route: '/quality-dashboard' },
+       { text: 'engineering', icon:'engineering' , route: '/quality-dashboard' },
       { text: 'Scheduler', icon: 'Settings', route: '/dashboard' }
     ];
   public selected = '/dashboard';

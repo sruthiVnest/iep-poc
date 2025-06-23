@@ -5,16 +5,24 @@ import {
   KENDO_GRID,
   KENDO_GRID_EXCEL_EXPORT,
   KENDO_GRID_PDF_EXPORT,
-} from "@progress/kendo-angular-grid";
-import { process, SortDescriptor, orderBy } from "@progress/kendo-data-query";
+} from '@progress/kendo-angular-grid';
+import { process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 
-import { SVGIcon, filePdfIcon, fileExcelIcon, caretAltExpandIcon, exeIcon } from '@progress/kendo-svg-icons';
+import {
+  SVGIcon,
+  filePdfIcon,
+  fileExcelIcon,
+  caretAltExpandIcon,
+  exeIcon,
+} from '@progress/kendo-svg-icons';
 import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { DataService } from '../../services/data.service';
-import { KENDO_TOOLTIP,TooltipDirective } from '@progress/kendo-angular-tooltip';
+import {
+  KENDO_TOOLTIP,
+  TooltipDirective,
+} from '@progress/kendo-angular-tooltip';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_MULTISELECT } from '@progress/kendo-angular-dropdowns';
-import {map} from 'rxjs/operators';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectSelectionService } from '../../services/project-selection.service';
 import { SharedUiIepGridComponent } from '@shared-ui/iep-grid';
@@ -38,28 +46,22 @@ import { FilterActivitiesComponent } from '../../pages/filter-activities/filter-
     KENDO_TOOLTIP,
     SharedUiIepGridComponent,
     FormsModule, // <-- Add FormsModule for ngModel support
-    FilterActivitiesComponent // <-- Add FilterActivitiesComponent for use in template
+    FilterActivitiesComponent, // <-- Add FilterActivitiesComponent for use in template
   ],
   templateUrl: './ispo.component.html',
   styleUrls: ['./ispo.component.scss'],
 })
 export class IspoComponent {
-    @ViewChild('tooltipDir')
+  @ViewChild('tooltipDir')
   public tooltipDir!: TooltipDirective;
-  
-@ViewChild('filterActivitiesRef') filterActivitiesRef!: FilterActivitiesComponent;
+
+  @ViewChild('filterActivitiesRef')
+  filterActivitiesRef!: FilterActivitiesComponent;
 
   public gridView: any[] = [];
   public mapView: any[] = [];
-  public elementsMeta: any[] = [{
-    columnTitle: 'projectID',
-    columnField: 'data'
-  },
-  {
-    columnTitle: 'activityID',
-    columnField: 'Activity'
-  }];
-  public data:any=[];
+
+  public data: any = [];
   public isExpanded = true;
   public isGridExpanded = false;
   public mySelection: string[] = [];
@@ -72,7 +74,7 @@ export class IspoComponent {
   public showWarning = true;
   public searchValue: string = '';
 
- private dataService= inject(DataService);
+  private dataService = inject(DataService);
   private projectSelectionService = inject(ProjectSelectionService);
   public selectedProjects = this.projectSelectionService.selectedProjects;
 
@@ -88,58 +90,63 @@ export class IspoComponent {
     console.log(`Dialog result: ${status}`);
     this.dialogOpened = false;
   }
-  constructor(){
-     // Use effect to react to signal changes
+  constructor() {
+    // Use effect to react to signal changes
     effect(() => {
       const selectedProjects = this.dataService.getTreeData();
       if (selectedProjects && selectedProjects.length > 0) {
         const selected = selectedProjects.split(',');
         // Only filter if there are selected projects
         this.gridView = this.data.filter((row: any) => {
-          const projectId = row['id'] || row['ProjectID'] || row['projectId'] || row['ProjectId'];
+          const projectId =
+            row['id'] ||
+            row['ProjectID'] ||
+            row['projectId'] ||
+            row['ProjectId'];
           return selected.includes(projectId?.toString());
         });
       } else {
         this.gridView = this.data;
       }
-    }); 
+    });
   }
   public ngOnInit(): void {
-  
-    this.dataService.getGridData().subscribe((data)=>{
-      this.data=data[0]?.data?.activities || [];
-         this.gridView = this.data.map((el:any) =>
-      Object.fromEntries(Object.entries(el).map(([key, value]) => ([
-        key.replace(/\s+/g, ""),
-        value
-      ])))
-    );
-if(this.data){
-    this.mapView = Object.keys(this.data[0]).map(key => ({
-      field: key.replace(/\s+/g, ""),
-      title: key.replace('_', ' ').toUpperCase()
-    }))
-  }
+    this.dataService.getGridData().subscribe((data) => {
+      this.data = data.data?.activities || [];
+      this.gridView = this.data.map((el: any) =>
+        Object.fromEntries(
+          Object.entries(el).map(([key, value]) => [
+            key.replace(/\s+/g, ''),
+            value,
+          ])
+        )
+      );
+      if (this.data) {
+        this.mapView = Object.keys(this.data[0]).map((key) => ({
+          field: key.replace(/\s+/g, ''),
+          title: key.replace('_', ' ').toUpperCase(),
+        }));
+      }
     });
-
-   
   }
 
   public onFilter(value: string): void {
     const inputValue = value.toLowerCase();
     this.gridView = this.data.map((el: any) =>
-      Object.fromEntries(Object.entries(el).map(([key, value]) => ([
-        key.replace(/\s+/g, ""),
-        value
-      ])))
+      Object.fromEntries(
+        Object.entries(el).map(([key, value]) => [
+          key.replace(/\s+/g, ''),
+          value,
+        ])
+      )
     );
     if (!inputValue) {
       return;
     }
     // Dynamically filter across all string fields
     this.gridView = this.gridView.filter((row: any) =>
-      Object.values(row).some(val =>
-        val && val.toString().toLowerCase().includes(inputValue)
+      Object.values(row).some(
+        (val) => val && val.toString().toLowerCase().includes(inputValue)
       )
     );
   }
@@ -149,9 +156,11 @@ if(this.data){
     this.gridView = orderBy(this.gridView, this.sort);
   }
   public showTooltip(event: MouseEvent): void {
-     const element = event.target as HTMLElement;
-    if ((element.nodeName === "TD" || element.className === "k-column-title") && element.nodeName !== "kendo-checkbox") {
-     
+    const element = event.target as HTMLElement;
+    if (
+      (element.nodeName === 'TD' || element.className === 'k-column-title') &&
+      element.nodeName !== 'kendo-checkbox'
+    ) {
       this.tooltipDir.toggle(element);
     } else {
       this.tooltipDir.hide();
@@ -163,4 +172,3 @@ if(this.data){
     // Add more filter reset logic here if needed
   }
 }
-

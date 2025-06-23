@@ -29,4 +29,7 @@ export class ApiService {
     getCurrentProjects():Observable<any> {
         return this.http.get(this.apiUrl+'getCurrentProjects');
     }
+      getNCRData():Observable<any> {
+        return this.http.get(this.apiUrl+'getNCRData');
+    }
 }

@@ -1,6 +1,6 @@
 
 
-<div *ngIf="!showGrid" class="ncr-bar-chart-wrapper">
+<div  class="ncr-bar-chart-wrapper">
     <div *ngIf="selectedProjects().length > 0" class="selected-projects-section">
     <span class="selected-label">Project(s) Selected:</span>
     <span class="selected-list">{{ selectedProjects().join(', ') }}</span>
@@ -22,13 +22,14 @@
             </button>
           </div>
         </div>
-        <div class="filter-expansion-content" *ngIf="isExpanded">
+        <div class="filter-expansion-content">
       <div class="dropdown-row">
-    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" [(ngModel)]="selectedViewAs" [defaultItem]="'Chart View'" ></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" [(ngModel)]="selectedFunction" [defaultItem]="'Individual'" ></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" [(ngModel)]="selectedViewAs"  (selectionChange)="showGrid=!showGrid"></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" [(ngModel)]="selectedFunction"></kendo-dropdownlist>
     </div>
         </div>
       </div>
+      <div class="chart-view" *ngIf="!showGrid">
   <h2 class="ncr-bar-chart-title">NCR Count by Month - {{ currentYear }}</h2>
   <kendo-chart (seriesClick)="onBarClick($event)">
     <kendo-chart-category-axis>
@@ -52,12 +53,13 @@
     [skip]="skip"
     (pageChange)="pageChange($event)">
   </kendo-pager>
+  </div>
 </div>
 
 <div *ngIf="showGrid" class="ncr-grid-wrapper">
-  <div class="iep-grid-header">
+  <div class="iep-grid-header" *ngIf="isBarChartData">
         <div class="header-left">
-          <h3>Activities</h3>
+          <h3>Tabular View of {{selectedMonth}} {{currentYear}} </h3>
           <span class="result-count">Result: {{ ncrData.length }}</span>
         </div>
         <div class="header-right">
@@ -84,5 +86,5 @@
         </div>
       </div>
  
-  <iep-grid [data]="gridData" [columns]="gridColumns"></iep-grid>
+  <iep-grid [data]="gridView" [columns]="mapView"></iep-grid>
 </div>

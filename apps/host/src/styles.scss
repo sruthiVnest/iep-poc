@@ -49,13 +49,13 @@ body, *:not(.material-symbols-outlined) {
       "Segoe UI Symbol"!important;
   font-size: 12px !important;
 }
-::ng-deep .iep-operation-panel .k-tabstrip-items {
+ .iep-operation-panel .k-tabstrip-items {
   display: flex !important;
   border-bottom: none !important;
   background: transparent !important;
 }
-::ng-deep .iep-operation-panel .k-tabstrip-items .k-tabstrip-item,
-::ng-deep .iep-operation-panel .k-tabstrip-items .k-item {
+.iep-operation-panel .k-tabstrip-items .k-tabstrip-item,
+.iep-operation-panel .k-tabstrip-items .k-item {
   background: transparent !important;
   border-top: none !important;
   border-left: none !important;
@@ -64,13 +64,13 @@ body, *:not(.material-symbols-outlined) {
   padding: 0 !important;
   box-shadow: none !important;
 }
-::ng-deep .iep-operation-panel .k-tabstrip-items .k-item.k-active{
+.iep-operation-panel .k-tabstrip-items .k-item.k-active{
 
   padding: 2px;
   color: black!important;
   border-bottom-color: #209474!important;
   font-weight: 600!important;
 }
-::ng-deep .iep-operation-panel .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-active{
+.iep-operation-panel .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-active{
   border-bottom-color: #209474!important;
 }
