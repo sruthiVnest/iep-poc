@@ -26,7 +26,7 @@
         "apps/operations/src/app/remote-entry/entry.routes.ts"
       ],
       "projectinfo/Routes": [
-        "projectinfo/src/app/remote-entry/entry.routes.ts"
+        "apps/projectinfo/src/app/remote-entry/entry.routes.ts"
       ],
       "quality/Routes": ["apps/quality/src/app/remote-entry/entry.routes.ts"]
     }

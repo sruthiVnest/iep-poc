@@ -24,5 +24,9 @@ module.exports = withModuleFederation({
         '@assets': path.resolve(__dirname, 'apps/host/src/assets'),
       },
     },
+    shared: {
+  '@angular/localize': { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+ 
+}
   },
 });
