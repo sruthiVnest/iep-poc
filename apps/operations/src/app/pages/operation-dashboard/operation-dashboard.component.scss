@@ -179,19 +179,56 @@ h2 {
   }
 }
 
-@media (max-width: 600px) {
-  .dashboard-header,
-  .dashboard-header-right {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-  .dashboard-title {
-    font-size: 1.1rem;
-  }
-  .dashboard-action {
-    width: 100%;
-    margin: 0.5rem 0 0 0;
-  }
+.iep-grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+  background: #fafafa;
+  /* Make header content in line */
 }
+.iep-grid-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.iep-grid-header h3 {
+  margin: 0;
+  font-size: 22px; /* Bigger font for Activities */
+  font-weight: 700;
+  color: #05322B;
+}
+.iep-grid-header .result-count {
+  font-size: 18px; /* Bigger font for Result */
+ // color: #209474;
+ // font-weight: 600;
+  margin-left: 0;
+}
+.iep-grid-header .icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+ // padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  font-size: 16px;
+}
+.iep-grid-header .icon-btn:hover {
+  background: #f0f0f0;
+}
+::ng-deep .iep-grid-header .header-right .material-symbols-outlined  {
+    cursor: pointer !important;
+    font-size: 19px !important;
+    padding-left: 13px;
+}
+.iep-grid-header kendo-svgicon {
+  display: none!important;
+}
+::ng-deep .iep-dialog-titlebar .k-window-titlebar-actions {
+  display: none!important;
+}
+
 

@@ -1,5 +1,8 @@
 <div class="dashboard-flex" [class.dashboard-expand]="dashboard_expand">
-   <iep-filter-contract class="dashboard-filter" *ngIf="!dashboard_expand"></iep-filter-contract>
+  <iep-filter-contract
+    class="dashboard-filter"
+    *ngIf="!dashboard_expand"
+  ></iep-filter-contract>
   <div class="dashboard-content">
     <div class="dashboard-header">
       <span class="dashboard-title">Operations</span>
@@ -7,19 +10,27 @@
         <span class="dashboard-updated">Last Updated: {{ lastUpdated }}</span>
         <div class="dashboard-progress">
           <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg"
-                  d="M18 2.0845
+            <path
+              class="circle-bg"
+              d="M18 2.0845
                      a 15.9155 15.9155 0 0 1 0 31.831
-                     a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <path class="circle"
-                  [attr.stroke-dasharray]="completion + ', 100'"
-                  d="M18 2.0845
+                     a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path
+              class="circle"
+              [attr.stroke-dasharray]="completion + ', 100'"
+              d="M18 2.0845
                      a 15.9155 15.9155 0 0 1 0 31.831
-                     a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <text x="18" y="20.35" class="percentage" text-anchor="middle">{{ completion }}%</text>
+                     a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <text x="18" y="20.35" class="percentage" text-anchor="middle">
+              {{ completion }}%
+            </text>
           </svg>
         </div>
-        <button class="dashboard-action" (click)="openDoVsBuyDialog()">Do vs Buy</button>
+        <button class="dashboard-action" (click)="openDoVsBuyDialog()">
+          Do vs Buy
+        </button>
       </div>
     </div>
     <div class="dashboard-tabs">
@@ -42,15 +53,56 @@
           <ng-template kendoTabContent>OTD Trends Content</ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="Engineering Productivity">
-          <ng-template kendoTabContent>Engineering Productivity Content</ng-template>
+          <ng-template kendoTabContent
+            >Engineering Productivity Content</ng-template
+          >
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="Technical Alignment">
           <ng-template kendoTabContent>Technical Alignment Content</ng-template>
         </kendo-tabstrip-tab>
       </kendo-tabstrip>
-      <kendo-dialog *ngIf="doVsBuyDialogOpen" title="Do Vs Buy Deliverable Data Sheet" (close)="closeDoVsBuyDialog()" [width]="600">
+      <kendo-dialog
+        *ngIf="doVsBuyDialogOpen"
+        [width]="1000"
+      >
+      <kendo-dialog-titlebar class="iep-dialog-titlebar">
+       
+          <div class="iep-grid-header">
+          <div class="header-left">
+            <h3>Do Vs Buy Deliverable Data Sheet</h3>
+            <kendo-textbox
+              [style.width.px]="180"
+              placeholder="Search in all columns..."
+              [ngClass]="'search-textbox'"
+              [(ngModel)]="searchValue"
+              (ngModelChange)="onFilter($event)"
+            >
+              <ng-template kendoTextBoxSuffixTemplate>
+                <button
+                  class="search-btn"
+                  type="button"
+                  (click)="onFilter(searchValue)"
+                >
+                  <span class="material-symbols-outlined">search</span>
+                </button>
+              </ng-template>
+            </kendo-textbox>
+          </div>
+          <div class="header-right">
+            <span class="material-symbols-outlined">info</span>
+            <span class="material-symbols-outlined"> assignment_ind </span>
+            <span class="material-symbols-outlined">settings</span>
+            <span class="material-symbols-outlined"> export_notes </span>
+            <span
+              class="material-symbols-outlined"
+              (click)="closeDoVsBuyDialog()"
+              >close</span
+            >
+          </div>
+          </div>
+      
         <copilot-iep-nx-dovsbuy></copilot-iep-nx-dovsbuy>
-        
+        </kendo-dialog-titlebar>
       </kendo-dialog>
     </div>
   </div>
