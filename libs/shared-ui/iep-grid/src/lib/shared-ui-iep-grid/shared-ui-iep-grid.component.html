@@ -3,10 +3,10 @@
   [pageSize]="pageSize"
   [skip]="skip"
   [sortable]="true"
-  [pageable]="true"
+  [pageable]="pageable"
   [sortable]="{ allowUnsort: true, mode: 'multiple' }"
- 
-  (pageChange)="pageChange($event)"
+  [scrollable]='enablescrolling ? "virtual" : "none"'
+  (scrollBottom)="loadMore()"
   (sortChange)="sortChange($event)"
   [height]="300"
   [groupable]="false"

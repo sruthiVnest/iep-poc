@@ -6,14 +6,16 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'iep-grid',
   standalone: true,
-    imports: [CommonModule, KENDO_GRID, KENDO_INPUTS, FormsModule],
+  imports: [CommonModule, KENDO_GRID, KENDO_INPUTS, FormsModule],
   templateUrl: './shared-ui-iep-grid.component.html',
   styleUrl: './shared-ui-iep-grid.component.scss',
 })
 export class SharedUiIepGridComponent {
-   @Input() data: any[] = [];
-  @Input() columns: { field: string; title: string; filterValue?: string }[] = [];
-
+  @Input() data: any[] = [];
+  @Input() columns: { field: string; title: string; filterValue?: string }[] =
+    [];
+  @Input() pageable = true;
+  @Input() enablescrolling= false;
   public gridView: any[] = [];
   public pageSize = 10;
   public skip = 0;
@@ -45,9 +47,9 @@ export class SharedUiIepGridComponent {
     col.filterValue = value;
     // Filter data based on all column filters
     let filtered = this.data;
-    this.columns.forEach(c => {
+    this.columns.forEach((c) => {
       if (c.filterValue && c.filterValue.trim() !== '') {
-        filtered = filtered.filter(row => {
+        filtered = filtered.filter((row) => {
           const cellValue = (row[c.field] ?? '').toString().toLowerCase();
           const filterVal = (c.filterValue ?? '').toString().toLowerCase();
           return cellValue.includes(filterVal);
@@ -55,5 +57,10 @@ export class SharedUiIepGridComponent {
       }
     });
     this.gridView = filtered.slice(this.skip, this.skip + this.pageSize);
+  }
+
+  public loadMore(): void {
+    const next = this.gridView.length;
+    this.gridView = [...this.gridView, ...this.data.slice(next, next + 50)];
   }
 }

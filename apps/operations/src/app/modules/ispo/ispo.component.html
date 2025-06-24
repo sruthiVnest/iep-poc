@@ -64,7 +64,7 @@
           </button>
         </div>
       </div>
-      <iep-grid [data]="gridView" [columns]="mapView"></iep-grid>
+      <iep-grid [data]="gridView" [pageable]="false" [enablescrolling]="true" [columns]="mapView"></iep-grid>
     </div>
     @if(dialogOpened){
     <kendo-dialog title="Grid Settings" (close)="close('dialog')" [minWidth]="250" [width]="450">

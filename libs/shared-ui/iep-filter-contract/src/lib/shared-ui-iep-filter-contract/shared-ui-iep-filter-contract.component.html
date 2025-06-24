@@ -20,12 +20,11 @@ save
         <li style="position: relative;">
           <span class="material-symbols-outlined">filter_list</span>    Load Filter
           <span class="material-symbols-outlined submenu-arrow" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #209474;">chevron_right</span>
-          <ul class="submenu" >
-            <li (click)="loadFilter('recent')">Saved Filter 1</li>
-            <li (click)="loadFilter('recent')">Saved Filter 2</li>
-            <li (click)="loadFilter('recent')">Saved Filter 3</li>
-            <li (click)="loadFilter('recent')">Saved Filter 4</li>
+       
+          <ul class="submenu">
+            <li *ngFor=" let filters of filterlist"><span *ngFor="let filter of filters | keyvalue" (click)="loadFilter(filter.value)">Saved {{filter.key }}</span></li> 
           </ul>
+         
         </li>
           <li style="position: relative;">
           <span class="material-symbols-outlined">help</span>  Instruction to Use</li>

@@ -23,8 +23,16 @@ public myContracts : any = [];
 public favouriteProject: any = [];
 private dataService = inject(ApiService);
 public savedFIlteroptions:any;
+public filterlist: any[] = [];  
 
 constructor() {
+  this.dataService.getFilterList().subscribe((data) => {
+    this.filterlist = data.data;
+  
+    console.log('Filter list loaded:', this.filterlist);
+  }, (error) => {
+    console.error('Error loading filter list:', error);
+  });
   this.dataService.getCurrentProjects().subscribe((data) => {
     this.data = data;
     this.filteredData = this.data;
@@ -348,22 +356,31 @@ constructor() {
       connectors: this.selectedConnectors,
       installationCountries: this.selectedInstallationCountries
     }
-    this.dataService.setFilterOptions(this.savedFIlteroptions);;
+   // this.dataService.setFilterOptions(this.savedFIlteroptions);;
+   this.dataService.saveFilterOptions(this.savedFIlteroptions).subscribe((response) => {
+      console.log('Filter saved successfully:', response);
+      this.dataService.getFilterList().subscribe((data) => {
+        this.filterlist = data.data;
+      });
+    }, (error) => {
+      console.error('Error saving filter:', error);
+   });
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
   }
-  loadFilter(type: string) {
+  loadFilter(filter: any) {
     // Implement load filter logic here
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
-    this.savedFIlteroptions = this.dataService.getFilterOptions();
+    this.savedFIlteroptions=filter
+    // this.savedFIlteroptions = this.dataService.getFilterOptions();
       if (this.savedFIlteroptions) {
-        this.selectedDeliveryYears = this.savedFIlteroptions[0]?.deliveryYears || [];
-        this.selectedRacYears = this.savedFIlteroptions[0]?.racYears || [];
-        this.selectedProjectStatuses = this.savedFIlteroptions[0]?.projectStatuses || [];
-        this.selectedDrivers = this.savedFIlteroptions[0]?.drivers || [];
-        this.selectedConnectors = this.savedFIlteroptions[0]?.connectors || [];
-        this.selectedInstallationCountries = this.savedFIlteroptions[0]?.installationCountries || [];
+        this.selectedDeliveryYears = this.savedFIlteroptions?.deliveryYears || [];
+        this.selectedRacYears = this.savedFIlteroptions?.racYears || [];
+        this.selectedProjectStatuses = this.savedFIlteroptions?.projectStatuses || [];
+        this.selectedDrivers = this.savedFIlteroptions?.drivers || [];
+        this.selectedConnectors = this.savedFIlteroptions?.connectors || [];
+        this.selectedInstallationCountries = this.savedFIlteroptions?.installationCountries || [];
       }
     
   }

@@ -34,13 +34,17 @@ export class ApiService {
         return this.http.get(this.apiUrl+'getNCRData');
     }
     setFilterOptions(filterOptions:any){
-        let filterArray: any[]=[]
-        // filterOptions.forEach((item:any)=>{
-        //     filterArray.push(item.text)
-        // })
         this.selectedFilters.set([filterOptions]);
     }
+
+
     getFilterOptions():any {
         return this.selectedFilters();
+    }
+    saveFilterOptions(filterOptions:any):Observable<any> {
+        return this.http.post(this.apiUrl+'saveFilter', filterOptions);
+    }
+    getFilterList():Observable<any> {
+        return this.http.get(this.apiUrl+'getFilterList');
     }
 }
