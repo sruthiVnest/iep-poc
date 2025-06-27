@@ -26,7 +26,7 @@ import { process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
 export class NcrComponent {
   @ViewChild('tooltipDir')
   public tooltipDir!: TooltipDirective;
-  private dataService = inject(ApiService);
+  public dataService = inject(ApiService);
   public selectedProjects = this.dataService.selectedProjects;
   public gridView: any[] = [];
   public mapView: any[] = [];
@@ -291,4 +291,13 @@ export class NcrComponent {
     this.onFilter('');
     // Add more filter reset logic here if needed
   }
+  showGridOrTable(){
+    this.isGridExpanded = !this.isGridExpanded;
+    if (this.selectedViewAs == 'Tabular View') {
+      this.showGrid=false;
+    } else {
+      this.showGrid=true;
+    }
+  }
+  
 }

@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { NcrComponent } from '../ncr/ncr.component';
 import { SharedUiIepFilterContractComponent } from '@shared-ui/iep-filter-contract';
+import { OtrdrComponent } from '../otrdr/otrdr.component';
 @Component({
   selector: 'quality-dashboard',
   standalone: true,
   templateUrl: './quality-dashboard.component.html',
   styleUrls: ['./quality-dashboard.component.scss'],
-  imports: [SharedUiIepFilterContractComponent, TabStripModule,  CommonModule, KENDO_DIALOG,NcrComponent],
+  imports: [SharedUiIepFilterContractComponent, TabStripModule,  CommonModule, KENDO_DIALOG,NcrComponent,OtrdrComponent],
   
 })
 export class QualityDashboardComponent {

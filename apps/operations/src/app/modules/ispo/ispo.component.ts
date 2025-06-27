@@ -57,7 +57,8 @@ export class IspoComponent {
 
   @ViewChild('filterActivitiesRef')
   filterActivitiesRef!: FilterActivitiesComponent;
-
+  filterMenuOpen = false;
+  activeSubMenu: string | null = null;
   public gridView: any[] = [];
   public mapView: any[] = [];
 
@@ -77,7 +78,8 @@ export class IspoComponent {
   private dataService = inject(DataService);
   private projectSelectionService = inject(ProjectSelectionService);
   public selectedProjects = this.projectSelectionService.selectedProjects;
-
+public savedFIlteroptions:any;
+public filterlist: any[] = [];
   public close(component: string): void {
     this.dialogOpened = false;
   }
@@ -171,4 +173,30 @@ export class IspoComponent {
     this.onFilter('');
     // Add more filter reset logic here if needed
   }
+    saveFilter() {
+    // Implement save filter logic here
+ 
+  
+  }
+  loadFilter(filter: any) {
+    // Implement load filter logic here
+
+    
+  }
+    toggleFilterMenu(event: MouseEvent) {
+    event.stopPropagation();
+    this.filterMenuOpen = !this.filterMenuOpen;
+    if (this.filterMenuOpen) {
+      document.addEventListener('click', this.closeFilterMenuOnOutsideClick);
+    } else {
+      document.removeEventListener('click', this.closeFilterMenuOnOutsideClick);
+    }
+  }
+
+  closeFilterMenuOnOutsideClick = () => {
+    this.filterMenuOpen = false;
+    this.activeSubMenu = null;
+    document.removeEventListener('click', this.closeFilterMenuOnOutsideClick);
+  };
+
 }

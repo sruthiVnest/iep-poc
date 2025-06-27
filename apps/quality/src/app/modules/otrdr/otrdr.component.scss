@@ -1,0 +1,16 @@
+.charts-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.charts-div > .chart-item{
+    width: 33%;
+}
+.second-row{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}

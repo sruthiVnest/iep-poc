@@ -16,6 +16,7 @@ export class ApiService {
       public selectedProjects: WritableSignal<string[]> = signal([]);
     readonly tree=this._tree;
     public selectedFilters: WritableSignal<any[]> = signal([]);
+    
     setTreeData(nodes:any){
         let nodeArray: any[]=[]
         nodes.forEach((item:any)=>{
@@ -46,5 +47,8 @@ export class ApiService {
     }
     getFilterList():Observable<any> {
         return this.http.get(this.apiUrl+'getFilterList');
+    }
+    getOtrDrData():Observable<any> {
+        return this.http.get(this.apiUrl+'getotrdr');
     }
 }

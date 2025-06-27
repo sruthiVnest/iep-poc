@@ -28,6 +28,30 @@
             <button class="clear-filter-btn primary" type="button" (click)="clearFilters(); filterActivitiesRef.clearAll()">
               Clear Filter
             </button>
+                <button class="filter-dots" (click)="toggleFilterMenu($event)">...</button>
+    <div class="filter-dots-menu" *ngIf="filterMenuOpen" (click)="$event.stopPropagation()">
+      <ul>
+        
+        <li (click)="saveFilter()">
+      <span class="material-symbols-outlined" >
+save
+      </span>  Save Filter
+       
+        </li>
+        <li style="position: relative;">
+          <span class="material-symbols-outlined">filter_list</span>    Load Filter
+          <span class="material-symbols-outlined submenu-arrow" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #209474;">chevron_right</span>
+       
+          <ul class="submenu">
+            <li *ngFor=" let filters of filterlist"><span *ngFor="let filter of filters | keyvalue" (click)="loadFilter(filter.value)">Saved {{filter.key }}</span></li> 
+          </ul>
+         
+        </li>
+          <li style="position: relative;">
+          <span class="material-symbols-outlined">help</span>  Instruction to Use</li>
+      </ul>
+    </div>
+
             <button class="expansion-toggle-btn primary" type="button" (click)="isExpanded = !isExpanded" [attr.aria-expanded]="isExpanded" [title]="isExpanded ? 'Collapse' : 'Expand'">
               <span class="material-symbols-outlined primary">{{ isExpanded ? 'expand_less' : 'expand_more' }}</span>
             </button>

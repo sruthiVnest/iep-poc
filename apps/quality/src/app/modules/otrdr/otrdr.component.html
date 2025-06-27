@@ -1,0 +1,96 @@
+<div class="charts-div">
+  <div class="chart-item">
+    <kendo-chart title="DR AI STATUS">
+      <kendo-chart-legend position="bottom"></kendo-chart-legend>
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          type="pie"
+          [data]="pieData"
+          field="Value"
+          categoryField="Title"
+          [labels]="{ visible: true }"
+        >
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+  <div class="chart-item">
+    <kendo-chart-breadcrumb [chart]="instance"> </kendo-chart-breadcrumb>
+
+    <kendo-chart title="Action Owner Team" #instance>
+      <kendo-chart-legend position="bottom"> </kendo-chart-legend>
+
+      <kendo-chart-series *ngIf="drilldownData">
+        <kendo-chart-series-item
+          type="bar"
+          name="Action Owner Team"
+          [data]="drilldownData?.due"
+          [drilldownField]="drilldownData.due"
+        >
+          <!-- Details by Product -->
+          <ng-template kendoChartDrilldownSeries let-teams="drilldownValue">
+            <kendo-chart-series-item
+              name="{{ teams }}"
+              [data]="drilldownData[teams]"
+              field="count"
+              categoryField="teams"
+            >
+            </kendo-chart-series-item>
+          </ng-template>
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+  <div class="chart-item" *ngIf="apiapprover">
+    <kendo-chart-breadcrumb [chart]="instance"> </kendo-chart-breadcrumb>
+
+    <kendo-chart title="AI Approver Team" #instance>
+      <kendo-chart-legend position="bottom"> </kendo-chart-legend>
+
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          type="bar"
+          name="AI Approver Team"
+          [data]="apiapprover.count"
+          [drilldownField]="apiapprover.count"
+        >
+          <!-- Details by Product -->
+          <ng-template kendoChartDrilldownSeries let-teams="drilldownValue">
+            <kendo-chart-series-item
+              name="{{ teams }}"
+              [data]="drilldownData[teams]"
+              field="count"
+              categoryField="teams"
+            >
+            </kendo-chart-series-item>
+          </ng-template>
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</div>
+<div class="second-row">
+    <div class="chart-item" style="width:33%">
+  <kendo-chart title="Current OTRDR Pending With" *ngIf="currentOTRDR">
+      <kendo-chart-series>
+        <kendo-chart-series-item type="column" [stack]="true" [data]="currentOTRDR?.due">
+        </kendo-chart-series-item>
+       
+        <kendo-chart-series-item type="column" [data]="currentOTRDR?.backlog">
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+  <div class="chart-item" style="width:66%">
+  <kendo-chart title="Design Review Type" *ngIf="actionItem">
+      <kendo-chart-series>
+        <kendo-chart-series-item type="column" [stack]="true" [data]="actionItem?.due">
+        </kendo-chart-series-item>
+        <kendo-chart-series-item type="column" [data]="actionItem?.backlog">
+        </kendo-chart-series-item>
+        <kendo-chart-series-item type="column" [data]="actionItem?.complete">
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+</div>

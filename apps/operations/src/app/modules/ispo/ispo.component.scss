@@ -253,3 +253,76 @@ iep-grid {
  // color: #209474;
   vertical-align: middle;
 }
+.filter-dots {
+  margin-left: auto;
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.2em;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.filter-dots-menu {
+  text-align: justify;
+  position: absolute;
+  top: 44px;
+  right: 16px;
+  min-width: 210px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.12);
+  z-index: 2000;
+  padding: 8px 0;
+  font-size: 1rem;
+  color: #05322B;
+  user-select: none;
+}
+.filter-dots-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.filter-dots-menu > ul > li {
+  padding: 8px 20px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.filter-dots-menu > ul > li > span {
+  vertical-align: bottom;
+}
+.filter-dots-menu > ul > li:hover {
+  background: #f5f7fa;
+}
+.filter-dots-menu ul > li .submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  min-width: 180px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.10);
+  z-index: 2100;
+  margin-left: 2px;
+  padding: 4px 0;
+}
+.filter-dots-menu ul > li:hover .submenu {
+  display: block;
+}
+.submenu-arrow {
+  pointer-events: none;
+}
+.filter-dots-menu .submenu li {
+  padding: 8px 18px;
+  cursor: pointer;
+  color: #209474;
+  border-radius: 4px;
+  margin: 0 4px 2px 4px;
+  transition: background 0.2s;
+  background: none;
+}
+.filter-dots-menu .submenu li:hover {
+  background: #f5f7fa;
+}

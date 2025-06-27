@@ -24,7 +24,7 @@
         </div>
         <div class="filter-expansion-content">
       <div class="dropdown-row">
-    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" name="selectedview" [(ngModel)]="selectedViewAs"  (selectionChange)="showGrid=!showGrid"></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" name="selectedview" [(ngModel)]="selectedViewAs"  (selectionChange)="showGridOrTable()"></kendo-dropdownlist>
     <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" name="selectedfns" [(ngModel)]="selectedFunction"></kendo-dropdownlist>
     </div>
         </div>
