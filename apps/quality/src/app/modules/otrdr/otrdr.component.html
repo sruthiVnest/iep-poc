@@ -1,6 +1,12 @@
 <div class="charts-div">
-  <div class="chart-item">
+  <div class="chart-item" *ngIf="pieData">
     <kendo-chart title="DR AI STATUS">
+         <kendo-chart-tooltip [visible]="true"> <ng-template kendoChartSeriesTooltipTemplate let-dataItem="dataItem">
+          
+            <ul>
+                <li *ngFor="let data of pieData">{{data.Title}} : {{data.Value}}</li>
+            </ul>
+        </ng-template> </kendo-chart-tooltip>
       <kendo-chart-legend position="bottom"></kendo-chart-legend>
       <kendo-chart-series>
         <kendo-chart-series-item
@@ -14,64 +20,79 @@
       </kendo-chart-series>
     </kendo-chart>
   </div>
-  <div class="chart-item">
-    <kendo-chart-breadcrumb [chart]="instance"> </kendo-chart-breadcrumb>
-
-    <kendo-chart title="Action Owner Team" #instance>
-      <kendo-chart-legend position="bottom"> </kendo-chart-legend>
-
-      <kendo-chart-series *ngIf="drilldownData">
-        <kendo-chart-series-item
-          type="bar"
-          name="Action Owner Team"
-          [data]="drilldownData?.due"
-          [drilldownField]="drilldownData.due"
-        >
-          <!-- Details by Product -->
-          <ng-template kendoChartDrilldownSeries let-teams="drilldownValue">
-            <kendo-chart-series-item
-              name="{{ teams }}"
-              [data]="drilldownData[teams]"
-              field="count"
-              categoryField="teams"
-            >
-            </kendo-chart-series-item>
-          </ng-template>
-        </kendo-chart-series-item>
-      </kendo-chart-series>
-    </kendo-chart>
+  <div class="chart-item"  *ngIf="drilldownData">
+    <!-- Breadcrumb -->
+<div style="margin-bottom: 10px;text-decoration: underline;">
+ 
+  {{ 'All Business Unit' + (breadcrumb.length ? ' > ' + breadcrumb.join(' > ') : '') }}
+  
+</div>
+  
+<kendo-chart #instance
+  title="Action Owner Team"
+  (seriesClick)="onSeriesClick($event,'actionowner')"
+>
+  <kendo-chart-legend position="bottom"></kendo-chart-legend>
+ 
+  <kendo-chart-value-axis>
+    <kendo-chart-value-axis-item [title]="{ text: chartTitle }" [min]="0" ></kendo-chart-value-axis-item>
+  </kendo-chart-value-axis>
+ 
+  <kendo-chart-category-axis>
+    <kendo-chart-category-axis-item [categories]="currentData.categories"></kendo-chart-category-axis-item>
+  </kendo-chart-category-axis>
+ 
+  <kendo-chart-series>
+    <kendo-chart-series-item
+      *ngFor="let series of currentData.series"
+      type="bar" [stack]="true"
+        [name]="series.name"
+      [data]="series.data" 
+    ></kendo-chart-series-item>
+  </kendo-chart-series>
+</kendo-chart>
   </div>
   <div class="chart-item" *ngIf="apiapprover">
-    <kendo-chart-breadcrumb [chart]="instance"> </kendo-chart-breadcrumb>
-
-    <kendo-chart title="AI Approver Team" #instance>
+    <!-- <kendo-chart-breadcrumb [chart]="instanceai"> </kendo-chart-breadcrumb> -->
+<div style="margin-bottom: 10px;text-decoration: underline;">
+ 
+  {{ 'All Business Unit' + (breadcrumbai.length ? ' > ' + breadcrumbai.join(' > ') : '') }}
+  
+</div>
+    <kendo-chart title="AI Approver Team" #instanceai   (seriesClick)="onSeriesClick($event,'AI')">
       <kendo-chart-legend position="bottom"> </kendo-chart-legend>
-
-      <kendo-chart-series>
-        <kendo-chart-series-item
-          type="bar"
-          name="AI Approver Team"
-          [data]="apiapprover.count"
-          [drilldownField]="apiapprover.count"
-        >
-          <!-- Details by Product -->
-          <ng-template kendoChartDrilldownSeries let-teams="drilldownValue">
-            <kendo-chart-series-item
-              name="{{ teams }}"
-              [data]="drilldownData[teams]"
-              field="count"
-              categoryField="teams"
-            >
-            </kendo-chart-series-item>
-          </ng-template>
-        </kendo-chart-series-item>
-      </kendo-chart-series>
-    </kendo-chart>
+  <kendo-chart-value-axis>
+    <kendo-chart-value-axis-item [title]="{ text: apiapprover.teams }" [min]="0"  ></kendo-chart-value-axis-item>
+  </kendo-chart-value-axis>
+ 
+  <kendo-chart-category-axis>
+    <kendo-chart-category-axis-item [categories]="approverData.categories"></kendo-chart-category-axis-item>
+  </kendo-chart-category-axis>
+ 
+  <kendo-chart-series>
+    <kendo-chart-series-item
+      *ngFor="let series of approverData.series"
+      type="bar" 
+        [name]="series.name"
+      [data]="series.data" 
+    ></kendo-chart-series-item>
+  </kendo-chart-series>
+</kendo-chart>
+    
   </div>
 </div>
 <div class="second-row">
     <div class="chart-item" style="width:33%">
   <kendo-chart title="Current OTRDR Pending With" *ngIf="currentOTRDR">
+   
+      <kendo-chart-value-axis>
+    <kendo-chart-value-axis-item [title]="currentOTRDR.pendingWith" [min]="0"  ></kendo-chart-value-axis-item>
+  </kendo-chart-value-axis>
+ 
+  <kendo-chart-category-axis>
+    <kendo-chart-category-axis-item [categories]="currentOTRDR.pendingWith"></kendo-chart-category-axis-item>
+  </kendo-chart-category-axis>
+ 
       <kendo-chart-series>
         <kendo-chart-series-item type="column" [stack]="true" [data]="currentOTRDR?.due">
         </kendo-chart-series-item>
