@@ -83,23 +83,59 @@ save
           <button class="icon-btn" (click)="isGridExpanded = !isGridExpanded" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
             <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
           </button>
-          <button class="icon-btn" (click)="open('dialog')" title="Settings">
-            <span class="material-symbols-outlined">settings</span>
+          <button class="filter-dots" title="Settings" (click)="toggleSettingsMenu($event)">
+            <span class="material-symbols-outlined" style="vertical-align: middle;">more_horiz</span>
           </button>
+          <div class="filter-dots-menu settings-popover-menu" *ngIf="settingsMenuOpen" (click)="$event.stopPropagation()">
+            <ul>
+              <li (click)="exportActivities()">
+                <span class="material-symbols-outlined">save_as</span> Export Activities
+              </li>
+              <li (click)="saveCustomGrid()">
+                <span class="material-symbols-outlined">save</span> Save Custom Grid
+              </li>
+              <li (click)="loadCustomGrid()">
+                <span class="material-symbols-outlined">filter_list</span> Load Custom Grid
+              </li>
+              <li style="position: relative;">
+                <span class="material-symbols-outlined">assignment_ind</span> Multiple Activity Reassign
+                <span class="material-symbols-outlined submenu-arrow" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #209474;">chevron_right</span>
+                <ul class="submenu submenu-left">
+                  <li (click)="reassignAllActivities()">Reassign All Activity</li>
+                  <li [class.disabled]="!hasSelectedRows" (click)="hasSelectedRows && reassignSelectedActivities()">Reassign Selected Activity</li>
+                </ul>
+              </li>
+              <li (click)="openManageSubdivisionDialog()">
+                <span class="material-symbols-outlined">tv_options_edit_channels</span> Manage Subdivision
+              </li>
+              <li (click)="showDeletedIspoItems()">
+                <span class="material-symbols-outlined">delete</span> Deleted ISPO items
+              </li>
+              <li (click)="showInstructions()">
+                <span class="material-symbols-outlined">help</span> Instruction to Use
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <iep-grid [data]="gridView" [pageable]="false" [enablescrolling]="true" [columns]="mapView"></iep-grid>
+      <iep-grid [data]="gridView" [pageable]="false" [enablescrolling]="true" [columns]="mapView" [selectable]="true" (selectionChange)="onGridRowSelectionChange($event)"></iep-grid>
     </div>
-    @if(dialogOpened){
-    <kendo-dialog title="Grid Settings" (close)="close('dialog')" [minWidth]="250" [width]="450">
-        <p style="margin: 30px; text-align: center;">
-            Show/hide Columns
-        </p>
-        <kendo-dialog-actions>
-
-        </kendo-dialog-actions>
-    </kendo-dialog>
-    }
+   
   </div>
+  <!-- <div class="right-window" *ngIf="manageSubdivisionDialogOpen"> -->
+  <kendo-dialog *ngIf="manageSubdivisionDialogOpen"  (close)="closeManageSubdivisionDialog()" [width]="500"  class="right-dialog" style="position:absolute;right:0;">
+    <kendo-dialog-titlebar>
+      <span>Manage Subdivision</span>
+     </kendo-dialog-titlebar>
+    <copilot-iep-nx-manage-subdivision></copilot-iep-nx-manage-subdivision>
+            <kendo-dialog-actions>
+          <button kendoButton fillMode="flat" class="ispo-buttons" (click)="action('no')">Cancel</button>
+          <button kendoButton fillMode="flat" class="ispo-buttons" (click)="action('Apply')" themeColor="primary">
+            Apply
+          </button>
+        </kendo-dialog-actions>
+
+  </kendo-dialog>
+
 </div>
 

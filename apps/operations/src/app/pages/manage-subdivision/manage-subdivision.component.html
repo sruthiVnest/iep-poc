@@ -1,0 +1,48 @@
+<div class="manage-subdivision-container">
+ 
+   <kendo-label text="Office">
+                <kendo-dropdownlist
+                  [data]="officeList"
+                  defaultItem="Select"
+                ></kendo-dropdownlist>
+              </kendo-label>
+   <div class="popup-content">
+  <h6>Enable Or Disable Column</h6>
+  <div class="column-row">
+     <kendo-label
+      class="k-display-block"
+      [for]="switch"
+      text="Flag"
+    ></kendo-label>
+    <kendo-switch
+      #switch
+      [(ngModel)]="flag"
+    >
+    </kendo-switch>
+    </div>
+     <div class="column-row">
+     <kendo-label
+      class="k-display-block"
+      [for]="switch"
+      text="General Comments"
+    ></kendo-label>
+    <kendo-switch
+      #switch
+      [(ngModel)]="comments"
+    >
+    </kendo-switch>
+    </div>
+    <div class="column-row">
+     <kendo-label
+      class="k-display-block"
+      [for]="switch"
+      text="Subdivision"
+    ></kendo-label>
+    <kendo-switch
+      #switch
+      [(ngModel)]="subdivision"
+    >
+    </kendo-switch>
+    </div>
+   </div>
+</div>

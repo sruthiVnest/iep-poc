@@ -29,7 +29,8 @@ import { SharedUiIepGridComponent } from '@shared-ui/iep-grid';
 import { effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FilterActivitiesComponent } from '../../pages/filter-activities/filter-activities.component';
-
+import { ManageSubdivisionComponent } from '../../pages/manage-subdivision/manage-subdivision.component';
+import { KENDO_POPUP } from "@progress/kendo-angular-popup";
 @Component({
   selector: 'copilot-iep-nx-ispo',
   standalone: true,
@@ -44,9 +45,11 @@ import { FilterActivitiesComponent } from '../../pages/filter-activities/filter-
     KENDO_MULTISELECT,
     KENDO_DIALOG,
     KENDO_TOOLTIP,
+    KENDO_POPUP,
     SharedUiIepGridComponent,
     FormsModule, // <-- Add FormsModule for ngModel support
     FilterActivitiesComponent, // <-- Add FilterActivitiesComponent for use in template
+    ManageSubdivisionComponent,
   ],
   templateUrl: './ispo.component.html',
   styleUrls: ['./ispo.component.scss'],
@@ -74,6 +77,10 @@ export class IspoComponent {
   public sort: SortDescriptor[] = [];
   public showWarning = true;
   public searchValue: string = '';
+//For popup
+popupWidth=300;
+windowWidth = window.innerWidth;
+  public manageSubdivisionDialogOpen = false;
 
   private dataService = inject(DataService);
   private projectSelectionService = inject(ProjectSelectionService);
@@ -198,5 +205,54 @@ public filterlist: any[] = [];
     this.activeSubMenu = null;
     document.removeEventListener('click', this.closeFilterMenuOnOutsideClick);
   };
+  settingsMenuOpen = false;
 
+  toggleSettingsMenu(event: Event): void {
+    event.stopPropagation();
+    this.settingsMenuOpen = !this.settingsMenuOpen;
+    if (this.settingsMenuOpen) {
+      document.addEventListener('click', this.closeSettingsMenuOnOutsideClick);
+    } else {
+      document.removeEventListener('click', this.closeSettingsMenuOnOutsideClick);
+    }
+  }
+
+  closeSettingsMenuOnOutsideClick = (event: Event) => {
+    this.settingsMenuOpen = false;
+    document.removeEventListener('click', this.closeSettingsMenuOnOutsideClick);
+  };
+
+  exportActivities() { /* TODO: Implement export logic */ }
+  saveCustomGrid() { /* TODO: Implement save logic */ }
+  loadCustomGrid() { /* TODO: Implement load logic */ }
+  reassignMultipleActivities() { /* TODO: Implement reassign logic */ }
+  manageSubdivision() { /* TODO: Implement manage logic */ }
+  showDeletedIspoItems() { /* TODO: Implement show deleted logic */ }
+  showInstructions() { /* TODO: Implement instructions logic */ }
+  hasSelectedRows = false;
+
+  reassignAllActivities() {
+    // Implement logic for reassigning all activities
+  }
+
+  reassignSelectedActivities() {
+    if (!this.hasSelectedRows) return;
+    // Implement logic for reassigning selected activities
+  }
+
+  // Example: This method should be called by iep-grid when row selection changes
+  onGridRowSelectionChange(selectedRows: any[]) {
+    this.hasSelectedRows = selectedRows && selectedRows.length > 0;
+  }
+
+  public get selectedProjectsList(): string[] {
+    return this.selectedProjects();
+  }
+
+  public openManageSubdivisionDialog(): void {
+    this.manageSubdivisionDialogOpen = !this.manageSubdivisionDialogOpen;
+  }
+  public closeManageSubdivisionDialog(): void {
+    this.manageSubdivisionDialogOpen = false;
+  }
 }

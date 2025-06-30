@@ -1,0 +1,21 @@
+.manage-subdivision-container {
+  padding: 2px;
+  background: #f9f9f9;
+  border-radius: 8px;
+    //  min-width: 350px;
+    // height: 100vh;
+    // z-index: 1001px;
+}
+.popup-header{
+  width: 100%;
+  display: flex;
+  background-color: #a6a5a5;
+}
+.column-row
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}

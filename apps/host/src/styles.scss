@@ -83,3 +83,30 @@ body, *:not(.material-symbols-outlined) {
 .dashboard-tabs{
    margin-left: 2rem!important; 
 }
+.right-dialog .k-dialog {
+  position: fixed !important;
+  right: 0!important;
+ transform: translate(0, -50%);
+   top: 50%;
+  margin: 0;
+  border-radius: 0;
+  max-width: 500px;
+  min-width: 350px;
+
+}
+.right-dialog .k-dialog-titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.right-dialog .k-dialog-close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+.resource-dialog .k-dialog{
+  max-height:500px!important;
+ // overflow: scroll!important;
+}
