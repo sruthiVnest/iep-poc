@@ -64,7 +64,7 @@ export class IspoComponent {
   activeSubMenu: string | null = null;
   public gridView: any[] = [];
   public mapView: any[] = [];
-
+  public collapsed = false;
   public data: any = [];
   public isExpanded = true;
   public isGridExpanded = false;
@@ -255,4 +255,12 @@ public filterlist: any[] = [];
   public closeManageSubdivisionDialog(): void {
     this.manageSubdivisionDialogOpen = false;
   }
+  
+  toggleCollapse() {
+    this.collapsed = !this.collapsed;
+    // Emit an event or use a shared service to notify the parent (ISPO) to expand/collapse
+    const event = new CustomEvent('filterProjectsCollapse', { detail: { collapsed: this.collapsed } });
+    window.dispatchEvent(event);
+  }
+
 }

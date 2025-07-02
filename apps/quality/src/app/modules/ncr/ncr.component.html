@@ -48,7 +48,7 @@
     </kendo-chart-series>
   </kendo-chart>
   <kendo-pager
-    [total]="ncrData.length"
+    [total]="pagedNcrData.length"
     [pageSize]="pageSize"
     [skip]="skip"
     (pageChange)="pageChange($event)">
@@ -63,7 +63,7 @@
         </div>
         <div class="header-right">
          
-          <button class="icon-btn" (click)="isGridExpanded = !isGridExpanded" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
+          <button class="icon-btn" (click)="toggleCollapse()" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
             <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
           </button>
           <button class="icon-btn" (click)="open('dialog')" title="Settings">
@@ -79,7 +79,7 @@
         </div>
         <div class="header-right">
           
-          <button class="icon-btn" (click)="isGridExpanded = !isGridExpanded" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
+          <button class="icon-btn" (click)="toggleCollapse()" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
             <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
           </button>
           <button class="icon-btn" (click)="open('dialog')" title="Settings">

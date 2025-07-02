@@ -80,7 +80,7 @@ save
               </button>
             </ng-template>
           </kendo-textbox>
-          <button class="icon-btn" (click)="isGridExpanded = !isGridExpanded" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
+          <button class="icon-btn" (click)="toggleCollapse()" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
             <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
           </button>
           <button class="filter-dots" title="Settings" (click)="toggleSettingsMenu($event)">

@@ -40,6 +40,11 @@ export class NcrComponent {
   public mySelection: string[] = [];
   public dialogOpened = false;
   public searchValue: string = '';
+  public selectedMonth: string = '';
+  public selectedCount: number = 0;
+  public showGrid: boolean = false;
+  public gridData: any[] = [];
+  public collapsed = false;
   constructor() {
     effect(() => {
       const selectedProjects = this.dataService.getTreeData();
@@ -55,134 +60,54 @@ export class NcrComponent {
       }
     });
   }
-  public years = [2020, 2021, 2022, 2023, 2024, 2025];
+ 
   public isBarChartData=false
   public pageSize = 1;
   public skip = 0;
-  public ncrData = [
-    // Example data for each year
-    {
-      year: 2020,
-      data: [
-        { month: 'January', count: 10 },
-        { month: 'February', count: 12 },
-        { month: 'March', count: 8 },
-        { month: 'April', count: 15 },
-        { month: 'May', count: 7 },
-        { month: 'June', count: 9 },
-        { month: 'July', count: 11 },
-        { month: 'August', count: 13 },
-        { month: 'September', count: 6 },
-        { month: 'October', count: 14 },
-        { month: 'November', count: 10 },
-        { month: 'December', count: 12 },
-      ],
-    },
-    {
-      year: 2021,
-      data: [
-        { month: 'January', count: 9 },
-        { month: 'February', count: 11 },
-        { month: 'March', count: 7 },
-        { month: 'April', count: 13 },
-        { month: 'May', count: 8 },
-        { month: 'June', count: 10 },
-        { month: 'July', count: 12 },
-        { month: 'August', count: 14 },
-        { month: 'September', count: 5 },
-        { month: 'October', count: 13 },
-        { month: 'November', count: 9 },
-        { month: 'December', count: 11 },
-      ],
-    },
-    {
-      year: 2022,
-      data: [
-        { month: 'January', count: 8 },
-        { month: 'February', count: 10 },
-        { month: 'March', count: 6 },
-        { month: 'April', count: 12 },
-        { month: 'May', count: 9 },
-        { month: 'June', count: 11 },
-        { month: 'July', count: 13 },
-        { month: 'August', count: 15 },
-        { month: 'September', count: 7 },
-        { month: 'October', count: 12 },
-        { month: 'November', count: 8 },
-        { month: 'December', count: 10 },
-      ],
-    },
-    {
-      year: 2023,
-      data: [
-        { month: 'January', count: 11 },
-        { month: 'February', count: 13 },
-        { month: 'March', count: 9 },
-        { month: 'April', count: 16 },
-        { month: 'May', count: 10 },
-        { month: 'June', count: 12 },
-        { month: 'July', count: 14 },
-        { month: 'August', count: 16 },
-        { month: 'September', count: 8 },
-        { month: 'October', count: 15 },
-        { month: 'November', count: 11 },
-        { month: 'December', count: 13 },
-      ],
-    },
-    {
-      year: 2024,
-      data: [
-        { month: 'January', count: 12 },
-        { month: 'February', count: 14 },
-        { month: 'March', count: 10 },
-        { month: 'April', count: 17 },
-        { month: 'May', count: 11 },
-        { month: 'June', count: 13 },
-        { month: 'July', count: 15 },
-        { month: 'August', count: 17 },
-        { month: 'September', count: 9 },
-        { month: 'October', count: 16 },
-        { month: 'November', count: 12 },
-        { month: 'December', count: 14 },
-      ],
-    },
-    {
-      year: 2025,
-      data: [
-        { month: 'January', count: 13 },
-        { month: 'February', count: 15 },
-        { month: 'March', count: 11 },
-        { month: 'April', count: 18 },
-        { month: 'May', count: 12 },
-        { month: 'June', count: 14 },
-        { month: 'July', count: 16 },
-        { month: 'August', count: 18 },
-        { month: 'September', count: 10 },
-        { month: 'October', count: 17 },
-        { month: 'November', count: 13 },
-        { month: 'December', count: 15 },
-      ],
-    },
-  ];
+  public ncrData: { year: number; month: string; count: number }[] =[];
 
-  public showGrid = false;
-  public selectedMonth = '';
-  public selectedYear =2024;
-  public selectedCount = 0;
-  public gridData: any[] = [];
-  public gridColumns = [
-    { field: 'id', title: 'ID' },
-    { field: 'description', title: 'Description' },
-    { field: 'month', title: 'Month' },
-    { field: 'count', title: 'NCR Count' },
-  ];
+  public pagedNcrData: { year: number; data: { month: string; count: number }[] }[] = [];
+
+  ngOnInit() {
+   
+    this.dataService.getNCRData().subscribe((data) => {
+      this.data = data.tabularData || [];
+      this.ncrData = data.chartData.monthlyNCR || [];
+       this.pagedNcrData = this.groupNcrDataByYear(this.ncrData);
+      this.gridView = this.data.map((el: any) =>
+        Object.fromEntries(
+          Object.entries(el).map(([key, value]) => [
+            key.replace(/\s+/g, ''),
+            value,
+          ])
+        )
+      );
+      if (this.data) {
+        this.mapView = Object.keys(this.data[0]).map((key) => ({
+          field: key.replace(/\s+/g, ''),
+          title: key.replace('_', ' ').toUpperCase(),
+        }));
+      }
+    });
+  }
+
+  groupNcrDataByYear(data: { year: number; month: string; count: number }[]) {
+    const grouped: { [year: number]: { month: string; count: number }[] } = {};
+    data.forEach((item) => {
+      if (!grouped[item.year]) grouped[item.year] = [];
+      grouped[item.year].push({ month: item.month, count: item.count });
+    });
+    return Object.keys(grouped)
+      .sort((a, b) => +b - +a)
+      .map((year) => ({ year: +year, data: grouped[+year] }));
+  }
 
   get currentYearData() {
-    return this.ncrData[this.skip]?.data || [];
+    return this.pagedNcrData[this.skip]?.data || [];
   }
 
   get currentYear() {
-    return this.ncrData[this.skip]?.year || '';
+    return this.pagedNcrData[this.skip]?.year || '';
   }
 
   get months() {
@@ -200,15 +125,44 @@ export class NcrComponent {
   onBarClick(e: any) {
     this.isBarChartData = true;
     const categoryIndex = e.category;
-    this.selectedMonth = categoryIndex;
+    // Convert month name to month number (1-12)
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    let monthNumber = null;
+    if (typeof categoryIndex === 'string') {
+      monthNumber = monthNames.indexOf(categoryIndex) + 1;
+      this.selectedMonth = categoryIndex;
+    } else if (typeof categoryIndex === 'number') {
+      this.selectedMonth = this.months[categoryIndex];
+      monthNumber = monthNames.indexOf(this.selectedMonth) + 1;
+    }
     this.selectedCount = this.currentYearDataCounts[categoryIndex];
+    const inputParam = { month: monthNumber, year: this.currentYear };
     // Mock data for grid
-    this.gridData = Array.from({ length: 25 }, (_, i) => ({
-      id: i + 1,
-      description: `NCR for ${this.selectedMonth} #${i + 1}`,
-      month: this.selectedMonth,
-      count: this.selectedCount,
-    }));
+    this.dataService.getNCRDataBymonth(inputParam).subscribe((data) => {
+      this.gridView=[];
+      console.log("data is ==>",data);
+      this.data=data;
+      if(this.data.length > 0){
+       this.gridView = this.data.map((el: any) =>
+        Object.fromEntries(
+          Object.entries(el).map(([key, value]) => [
+            key.replace(/\s+/g, ''),
+            value,
+          ])
+        )
+      );
+    
+      if (this.data) {
+        this.mapView = Object.keys(this.data[0]).map((key) => ({
+          field: key.replace(/\s+/g, ''),
+          title: key.replace('_', ' ').toUpperCase(),
+        }));
+      }
+    }
+    });
     this.showGrid = true;
   }
 
@@ -230,26 +184,7 @@ export class NcrComponent {
   }
   public data: any[] = [];
   public sort: SortDescriptor[] = [];
-  public ngOnInit(): void {
-    this.dataService.getNCRData().subscribe((data) => {
-      this.data = data || [];
-      this.gridView = this.data.map((el: any) =>
-        Object.fromEntries(
-          Object.entries(el).map(([key, value]) => [
-            key.replace(/\s+/g, ''),
-            value,
-          ])
-        )
-      );
-      if (this.data) {
-        this.mapView = Object.keys(this.data[0]).map((key) => ({
-          field: key.replace(/\s+/g, ''),
-          title: key.replace('_', ' ').toUpperCase(),
-        }));
-      }
-    });
-  }
-
+ 
   public onFilter(value: string): void {
     const inputValue = value.toLowerCase();
     this.gridView = this.data.map((el: any) =>
@@ -300,4 +235,11 @@ export class NcrComponent {
     }
   }
   
+  toggleCollapse() {
+    this.collapsed = !this.collapsed;
+    // Emit an event or use a shared service to notify the parent (ISPO) to expand/collapse
+    const event = new CustomEvent('filterProjectsCollapse', { detail: { collapsed: this.collapsed } });
+    window.dispatchEvent(event);
+  }
+
 }

@@ -34,6 +34,9 @@ export class ApiService {
       getNCRData():Observable<any> {
         return this.http.get(this.apiUrl+'getNCRData');
     }
+      getNCRDataBymonth(inputParam:any):Observable<any> {
+        return this.http.post(this.apiUrl+'getNCRDataBymonth',inputParam);
+    }
     setFilterOptions(filterOptions:any){
         this.selectedFilters.set([filterOptions]);
     }

@@ -44,7 +44,7 @@
         <div class="user-email">{{ userEmail || 'joe.doe@email.com' }}</div>
       </div>
     </div>
-    <button kendoButton look="flat" class="user-menu-btn" style="display: flex; align-items: center; justify-content: space-between;">
+    <button kendoButton look="flat" class="user-menu-btn">
       <span class="material-symbols-outlined icon-class">group</span>  <span (click)="toggleDashboardMenu()"  style="flex:1; text-align:left;">Change Dashboard</span>
       <span class="material-symbols-outlined icon-class" *ngIf="!dashboardMenuOpen" style="margin-left:35%;" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_right</span>
     <span class="material-symbols-outlined icon-class" *ngIf="dashboardMenuOpen" style="margin-left:35%" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_left</span>
