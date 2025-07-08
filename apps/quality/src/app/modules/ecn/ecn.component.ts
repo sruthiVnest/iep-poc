@@ -4,23 +4,24 @@ import { ChartsModule, Series, ValueAxis } from '@progress/kendo-angular-charts'
 import { PagerModule, PageChangeEvent } from '@progress/kendo-angular-pager';
 import { SharedUiIepGridComponent } from '@shared-ui/iep-grid';
 import { ApiService } from '@shared-service/data-service';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
+import { KENDO_DROPDOWNLIST, KENDO_MULTISELECT } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
-import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
+import { KENDO_TEXTBOX, CheckBoxComponent } from '@progress/kendo-angular-inputs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 @Component({
   selector: 'copilot-iep-nx-ecn',
   standalone: true,
-  imports: [  CommonModule,
+  imports: [CommonModule,
     ChartsModule,
     PagerModule,
     SharedUiIepGridComponent,
     KENDO_DROPDOWNLIST,
+    KENDO_MULTISELECT,
     KENDO_TEXTBOX,
     KENDO_BUTTON,
-    FormsModule,],
+    FormsModule],
   templateUrl: './ecn.component.html',
   styleUrl: './ecn.component.scss',
 })
@@ -58,10 +59,10 @@ export class EcnComponent {
   public pageSize = 1;
   public skip = 0;
   
-   public crossingValues: number[] = [0, 0, 10, 10];
+   public crossingValues: number[] = [0, 10, 10, 10];
  public series: Series[] = [
     {
-      type: "column",
+      type:"column",
       data: [20, 40, 45, 30, 50],
       stack: true,
       name: "0-20",
@@ -105,7 +106,6 @@ export class EcnComponent {
       max: 2500,
        majorUnit: 500,
       title: { text: "Aging p95 counts" },
-      color: "#ec5e0a",
       axisCrossingValue: 0,
     },
 

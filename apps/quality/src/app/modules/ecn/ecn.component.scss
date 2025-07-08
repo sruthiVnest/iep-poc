@@ -257,7 +257,11 @@ iep-grid {
   max-width: 90%;
 
 }
-
+.filter-dropdown::after{
+  content: '\25BC';
+  font-size: 10px;
+  padding: 4px;
+}
 .ecn-bar-chart-title {
   text-align: center;
   color: #1976d2;
@@ -403,6 +407,8 @@ iep-grid {
 .warning-text a {
   color: #e65100;
 }
-.readonly-textbox{
-    background-color:#209474;
+.ecnbutton{
+  width: 160px!important;
+    background-color:#49deb4;
+    border-color: #209474;
 }
