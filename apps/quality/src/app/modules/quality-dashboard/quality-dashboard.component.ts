@@ -23,4 +23,8 @@ export class QualityDashboardComponent {
       this.dashboard_expand = event.detail.collapsed;
     });
   }
+
+  openKaizenPage() {
+    window.open('https://kaizen.example.com', '_blank');
+  }
 }

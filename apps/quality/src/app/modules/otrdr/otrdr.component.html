@@ -22,7 +22,7 @@
   </div>
   <div class="chart-item"  *ngIf="drilldownData">
     <!-- Breadcrumb -->
-<div style="margin-bottom: 10px;text-decoration: underline;">
+<div class="mb-underline">
  
   {{ 'All Business Unit' + (breadcrumb.length ? ' > ' + breadcrumb.join(' > ') : '') }}
   
@@ -54,7 +54,7 @@
   </div>
   <div class="chart-item" *ngIf="apiapprover">
     <!-- <kendo-chart-breadcrumb [chart]="instanceai"> </kendo-chart-breadcrumb> -->
-<div style="margin-bottom: 10px;text-decoration: underline;">
+<div class="mb-underline">
  
   {{ 'All Business Unit' + (breadcrumbai.length ? ' > ' + breadcrumbai.join(' > ') : '') }}
   
@@ -82,7 +82,7 @@
   </div>
 </div>
 <div class="second-row">
-    <div class="chart-item" style="width:33%">
+    <div class="chart-item chart-item-33">
   <kendo-chart title="Current OTRDR Pending With" *ngIf="currentOTRDR">
    
       <kendo-chart-value-axis>
@@ -102,7 +102,7 @@
       </kendo-chart-series>
     </kendo-chart>
   </div>
-  <div class="chart-item" style="width:66%">
+  <div class="chart-item chart-item-66">
   <kendo-chart title="Design Review Type" *ngIf="actionItem">
       <kendo-chart-series>
         <kendo-chart-series-item type="column" [stack]="true" [data]="actionItem?.due">

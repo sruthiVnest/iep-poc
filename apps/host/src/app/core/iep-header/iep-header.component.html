@@ -45,9 +45,9 @@
       </div>
     </div>
     <button kendoButton look="flat" class="user-menu-btn">
-      <span class="material-symbols-outlined icon-class">group</span>  <span (click)="toggleDashboardMenu()"  style="flex:1; text-align:left;">Change Dashboard</span>
-      <span class="material-symbols-outlined icon-class" *ngIf="!dashboardMenuOpen" style="margin-left:35%;" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_right</span>
-    <span class="material-symbols-outlined icon-class" *ngIf="dashboardMenuOpen" style="margin-left:35%" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_left</span>
+      <span class="material-symbols-outlined icon-class">group</span>  <span (click)="toggleDashboardMenu()" class="change-dashboard">Change Dashboard</span>
+      <span class="material-symbols-outlined icon-class chevron-right" *ngIf="!dashboardMenuOpen" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_right</span>
+      <span class="material-symbols-outlined icon-class chevron-left" *ngIf="dashboardMenuOpen" (click)="$event.stopPropagation(); toggleDashboardMenu()">chevron_left</span>
    
     </button>
     <ng-container *ngIf="dashboardMenuOpen">
@@ -56,9 +56,8 @@
           <input type="checkbox" [checked]="myDashboardSelected" (change)="toggleMyDashboard()" />
           <span>My Dashboard</span>
         </label>
-        <div style="margin: 8px 4px 4px 4px; font-weight: 500; color: #05322B;">Extended Users</div>
-       
-          <input kendoTextBox placeholder="Extended Users" [(ngModel)]="userSearch" (ngModelChange)="onUserSearch($event)" style="width: 180px; margin: 8px 0;" />
+        <div class="dashboard-submenu-label">Extended Users</div>
+        <input kendoTextBox placeholder="Extended Users" [(ngModel)]="userSearch" (ngModelChange)="onUserSearch($event)" class="extended-users-input" />
           <ul *ngIf="filteredUsers.length > 0" class="autocomplete-list">
             <li *ngFor="let user of filteredUsers">
               <label class="user-checkbox">

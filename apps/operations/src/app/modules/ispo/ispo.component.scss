@@ -418,3 +418,39 @@ iep-grid {
   background-color: none!important;
   border:none!important
 }
+.material-symbols-outlined.notification-icon {
+  vertical-align: middle;
+  color: #e65100;
+  font-size: 22px;
+}
+
+.warning-text a {
+  color: #e65100;
+}
+
+.iep-grid-wrapper-bordered {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.relative {
+  position: relative;
+}
+
+.submenu-arrow-custom {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #209474;
+}
+
+.more-horiz-middle {
+  vertical-align: middle;
+}
+
+.right-dialog-absolute {
+  position: absolute;
+  right: 0;
+}

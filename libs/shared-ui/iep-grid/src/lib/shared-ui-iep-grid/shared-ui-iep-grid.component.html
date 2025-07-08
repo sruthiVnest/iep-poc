@@ -28,7 +28,7 @@
   <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
     {{ dataItem[col.field] }}
             <ng-container *ngIf="col.field === 'PRIMARY_RESOURCE_NAME'">
-              <span class="material-symbols-outlined user-group-icon" style="vertical-align: middle;" (click)="openResourceDialog(dataItem)">assignment_ind</span>
+              <span class="material-symbols-outlined user-group-icon" (click)="openResourceDialog(dataItem)">assignment_ind</span>
             </ng-container>
   </ng-template>
 

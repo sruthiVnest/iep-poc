@@ -132,6 +132,16 @@
 .user-menu-btn:hover {
   background: #f5f7fa;
 }
+.user-menu-btn .change-dashboard {
+  flex: 1;
+  text-align: left;
+}
+.user-menu-btn .chevron-right {
+  margin-left: 35%;
+}
+.user-menu-btn .chevron-left {
+  margin-left: 35%;
+}
 
 .dashboard-submenu {
   position: absolute;
@@ -160,6 +170,11 @@
 }
 .dashboard-menu-item:hover {
   background: #f5f7fa;
+}
+.dashboard-submenu-label {
+  margin: 8px 4px 4px 4px;
+  font-weight: 500;
+  color: #05322B;
 }
 
 .autocomplete-dropdown {
@@ -216,3 +231,7 @@
 }
 .icon-class{
   font-size: 18px; vertical-align: middle; margin-right: 0px; cursor: pointer; color: #209474}
+.extended-users-input {
+  width: 180px;
+  margin: 8px 0;
+}

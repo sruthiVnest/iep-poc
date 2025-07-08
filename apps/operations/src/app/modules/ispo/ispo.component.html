@@ -4,8 +4,8 @@
     <span class="selected-list">{{ selectedProjects().join(', ') }}</span>
   </div>
   <div *ngIf="showWarning" class="warning-message">
-    <span class="material-symbols-outlined notification-icon" style="vertical-align: middle; color: #e65100; font-size: 22px;">notification_important</span>
-    <span class="warning-text">You have received 3 primary resources re assigned requests <a href="" style="color: #e65100;">View Requests</a></span>
+    <span class="material-symbols-outlined notification-icon">notification_important</span>
+    <span class="warning-text">You have received 3 primary resources re assigned requests <a href="" class="warning-link">View Requests</a></span>
     <button class="close-btn" (click)="showWarning = false">&times;</button>
   </div>
 
@@ -20,7 +20,7 @@
        filter=".k-grid td"
        (mouseover)="showTooltip($event)">
 
-    <div class="iep-grid-wrapper" [class.grid-expanded]="isGridExpanded" style="border: 1px solid #ddd; border-radius: 4px;">
+    <div class="iep-grid-wrapper iep-grid-wrapper-bordered" [class.grid-expanded]="isGridExpanded">
       <div class="filter-expansion-panel" [class.expanded]="isExpanded">
         <div class="filter-expansion-header">
           <h3 class="filter-title">Filter Activities</h3>
@@ -38,16 +38,16 @@ save
       </span>  Save Filter
        
         </li>
-        <li style="position: relative;">
+        <li class="relative">
           <span class="material-symbols-outlined">filter_list</span>    Load Filter
-          <span class="material-symbols-outlined submenu-arrow" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #209474;">chevron_right</span>
+          <span class="material-symbols-outlined submenu-arrow submenu-arrow-custom">chevron_right</span>
        
           <ul class="submenu">
             <li *ngFor=" let filters of filterlist"><span *ngFor="let filter of filters | keyvalue" (click)="loadFilter(filter.value)">Saved {{filter.key }}</span></li> 
           </ul>
          
         </li>
-          <li style="position: relative;">
+          <li class="relative">
           <span class="material-symbols-outlined">help</span>  Instruction to Use</li>
       </ul>
     </div>
@@ -84,7 +84,7 @@ save
             <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
           </button>
           <button class="filter-dots" title="Settings" (click)="toggleSettingsMenu($event)">
-            <span class="material-symbols-outlined" style="vertical-align: middle;">more_horiz</span>
+            <span class="material-symbols-outlined more-horiz-middle">more_horiz</span>
           </button>
           <div class="filter-dots-menu settings-popover-menu" *ngIf="settingsMenuOpen" (click)="$event.stopPropagation()">
             <ul>
@@ -97,9 +97,9 @@ save
               <li (click)="loadCustomGrid()">
                 <span class="material-symbols-outlined">filter_list</span> Load Custom Grid
               </li>
-              <li style="position: relative;">
+              <li class="relative">
                 <span class="material-symbols-outlined">assignment_ind</span> Multiple Activity Reassign
-                <span class="material-symbols-outlined submenu-arrow" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #209474;">chevron_right</span>
+                <span class="material-symbols-outlined submenu-arrow submenu-arrow-custom">chevron_right</span>
                 <ul class="submenu submenu-left">
                   <li (click)="reassignAllActivities()">Reassign All Activity</li>
                   <li [class.disabled]="!hasSelectedRows" (click)="hasSelectedRows && reassignSelectedActivities()">Reassign Selected Activity</li>
@@ -123,7 +123,7 @@ save
    
   </div>
   <!-- <div class="right-window" *ngIf="manageSubdivisionDialogOpen"> -->
-  <kendo-dialog *ngIf="manageSubdivisionDialogOpen"  (close)="closeManageSubdivisionDialog()" [width]="500"  class="right-dialog" style="position:absolute;right:0;">
+  <kendo-dialog *ngIf="manageSubdivisionDialogOpen"  (close)="closeManageSubdivisionDialog()" [width]="500"  class="right-dialog right-dialog-absolute">
     <kendo-dialog-titlebar>
       <span>Manage Subdivision</span>
      </kendo-dialog-titlebar>

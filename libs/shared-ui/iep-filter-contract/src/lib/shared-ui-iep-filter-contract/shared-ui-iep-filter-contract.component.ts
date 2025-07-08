@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class SharedUiIepFilterContractComponent {
   public data: any = [];
+  public expandedKeys: string[] = [];
 public myContracts : any = [];
 public favouriteProject: any = [];
 private dataService = inject(ApiService);
@@ -28,7 +29,6 @@ public filterlist: any[] = [];
 constructor() {
   this.dataService.getFilterList().subscribe((data) => {
     this.filterlist = data.data;
-  
     console.log('Filter list loaded:', this.filterlist);
   }, (error) => {
     console.error('Error loading filter list:', error);
@@ -36,9 +36,10 @@ constructor() {
   this.dataService.getCurrentProjects().subscribe((data) => {
     this.data = data;
     this.filteredData = this.data;
-
     this.myContracts = this.data.filter((item: any) => item.isMyContracts === 'True');
     this.favouriteProject = this.data.filter((item: any) => item.isFavourite === 'True');
+    // Expand all root nodes by default
+    this.expandedKeys = this.data.map((_: any, idx: number) => idx.toString());
   });
  
    
@@ -383,6 +384,11 @@ constructor() {
         this.selectedInstallationCountries = this.savedFIlteroptions?.installationCountries || [];
       }
     
+  }
+
+  // Utility to get selected values as a string for display
+  getSelectedValuesText(values: string[]): string {
+    return values && values.length > 0 ? values.join(', ') : '';
   }
 
 }
