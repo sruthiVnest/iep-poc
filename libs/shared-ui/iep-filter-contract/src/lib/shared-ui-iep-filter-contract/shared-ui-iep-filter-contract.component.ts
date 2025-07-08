@@ -40,6 +40,16 @@ constructor() {
     this.favouriteProject = this.data.filter((item: any) => item.isFavourite === 'True');
     // Expand all root nodes by default
     this.expandedKeys = this.data.map((_: any, idx: number) => idx.toString());
+    // Set the first node as selected by default if available
+    if (this.data && this.data.length > 0) {
+      this.checkedKeys = ['0'];
+      const selectedNode = this.data[0];
+      const selectedText = selectedNode.contractName || selectedNode.trainName || '';
+      if (selectedText) {
+        this.dataService.selectedProjects.set([selectedText]);
+        this.dataService.setTreeData([{ text: selectedText }]);
+      }
+    }
   });
  
    
@@ -109,6 +119,8 @@ constructor() {
     const selectedTexts = fullNodes.map((n: any) => n.contractName);
     this.dataService.selectedProjects.set(selectedTexts);
     this.dataService.setTreeData(selectedTexts.map(text => ({ text })));
+    this.dataService.setSelectedProjects(selectedTexts);
+    console.log('Selected projects:', selectedTexts);
     // Update allChecked for current tab
     const allKeys = this.getAllNodeKeys(tree);
     this.allChecked = allKeys.length > 0 && allKeys.every(k => this.checkedKeys.includes(k));

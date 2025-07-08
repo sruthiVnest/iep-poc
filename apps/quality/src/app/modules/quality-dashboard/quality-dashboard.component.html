@@ -4,6 +4,14 @@
     <div class="dashboard-header">
       <span class="dashboard-title">Quality</span>
       <div class="dashboard-header-right">
+        <span class="icons" *ngIf="showIcon">
+           <span class="material-symbols-outlined" id="chartIcon">insert_chart</span>
+           </span>
+           <span class="icons" *ngIf="showIcon">
+          <span class="material-symbols-outlined" id="risk">warning</span>
+         
+         
+        </span>
         <img src="/assets/images/kaizen.png" alt="Kaizen" class="kaizen-icon dashboard-kaizen-icon" (click)="openKaizenPage()" />
         <span class="dashboard-updated">Last Updated: {{ lastUpdated }}</span>
         <div class="dashboard-progress">
@@ -24,7 +32,7 @@
       </div>
     </div>
     <div class="dashboard-tabs">
-      <kendo-tabstrip class="iep-operation-panel">
+      <kendo-tabstrip class="iep-operation-panel"  (tabSelect)="onSelect($event)">
         <kendo-tabstrip-tab title="NCR" [selected]="true">
           <ng-template kendoTabContent>
           <copilot-iep-nx-ncr></copilot-iep-nx-ncr>
@@ -33,11 +41,12 @@
         <kendo-tabstrip-tab title="NCM">
           <ng-template kendoTabContent>NCM Content</ng-template>
         </kendo-tabstrip-tab>
-        <kendo-tabstrip-tab title="ECN">
-          <ng-template kendoTabContent>ECN</ng-template>
-        </kendo-tabstrip-tab>
-        <kendo-tabstrip-tab title="ECR">
-          <ng-template kendoTabContent>ECR Finalization Content</ng-template>
+        <kendo-tabstrip-tab title="ECN/ECR">
+          <ng-template kendoTabContent>
+
+  
+            <copilot-iep-nx-ecn></copilot-iep-nx-ecn>
+          </ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="COQ">
           <ng-template kendoTabContent>COQ Content</ng-template>

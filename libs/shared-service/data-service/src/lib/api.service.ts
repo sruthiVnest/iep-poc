@@ -16,7 +16,10 @@ export class ApiService {
       public selectedProjects: WritableSignal<string[]> = signal([]);
     readonly tree=this._tree;
     public selectedFilters: WritableSignal<any[]> = signal([]);
-    
+
+  public setSelectedProjects(projects: string[]): void {
+    this.selectedProjects.set(projects);
+  }
     setTreeData(nodes:any){
         let nodeArray: any[]=[]
         nodes.forEach((item:any)=>{

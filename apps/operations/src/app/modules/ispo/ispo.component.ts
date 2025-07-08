@@ -23,8 +23,7 @@ import {
 } from '@progress/kendo-angular-tooltip';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_MULTISELECT } from '@progress/kendo-angular-dropdowns';
-import { HttpClientModule } from '@angular/common/http';
-import { ProjectSelectionService } from '../../services/project-selection.service';
+import { HttpClientModule } from '@angular/common/http'
 import { SharedUiIepGridComponent } from '@shared-ui/iep-grid';
 import { effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -83,8 +82,7 @@ windowWidth = window.innerWidth;
   public manageSubdivisionDialogOpen = false;
 
   private dataService = inject(DataService);
-  private projectSelectionService = inject(ProjectSelectionService);
-  public selectedProjects = this.projectSelectionService.selectedProjects;
+  public selectedProjects = this.dataService.getTreeData;
 public savedFIlteroptions:any;
 public filterlist: any[] = [];
   public close(component: string): void {

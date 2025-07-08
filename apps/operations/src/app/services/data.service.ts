@@ -16,7 +16,8 @@ export class DataService {
         nodes.forEach((item:any)=>{
             nodeArray.push(item.text)
         })
-        this.tree.set(nodeArray.toString());
+        // Fix: set as array, not string
+        this.tree.set(nodeArray);
     }
     getTreeData=this.tree;
     getGridData():Observable<any> {

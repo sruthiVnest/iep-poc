@@ -31,7 +31,7 @@ export class NcrComponent {
   public gridView: any[] = [];
   public mapView: any[] = [];
   viewAsOptions = ['Tabular View', 'Chart View'];
-  functionsOptions = ['Individual', 'Office', 'SumMarchy'];
+  functionsOptions = ['Individual','Project', 'Office'];
   selectedViewAs: string = 'Chart View';
   selectedFunction: string = 'Individual';
   public showWarning = true;

@@ -1,0 +1,118 @@
+<div  class="ecn-bar-chart-wrapper">
+    <div *ngIf="selectedProjects.length > 0" class="selected-projects-section">
+    <span class="selected-label">Project(s) Selected:</span>
+    <span class="selected-list">{{ selectedProjects().join(', ') }}</span>
+  </div>
+  <div *ngIf="showWarning" class="warning-message">
+    <span class="material-symbols-outlined notification-icon">notification_important</span>
+    <span class="warning-text">You have received 3 primary resources re assigned requests <a href="" class="warning-link">View Requests</a></span>
+    <span class="material-symbols-outlined close-icon" (click)="showWarning = false">close</span>
+  </div>
+   <div class="filter-expansion-panel" [class.expanded]="isExpanded">
+        <div class="filter-expansion-header">
+          <h3 class="filter-title">Summary</h3>
+          <div class="filter-header-actions">
+            <button class="clear-filter-btn primary" type="button" (click)="clearFilter();">
+              Clear Filter
+            </button>
+            <button class="expansion-toggle-btn primary" type="button" (click)="isExpanded = !isExpanded" [attr.aria-expanded]="isExpanded" [title]="isExpanded ? 'Collapse' : 'Expand'">
+              <span class="material-symbols-outlined primary">{{ isExpanded ? 'expand_less' : 'expand_more' }}</span>
+            </button>
+          </div>
+        </div>
+        <div class="filter-expansion-content">
+      <div class="dropdown-row">
+    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" name="selectedview" [(ngModel)]="selectedViewAs"  (selectionChange)="showGridOrTable()"></kendo-dropdownlist>
+    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" name="selectedfns" [(ngModel)]="selectedFunction"></kendo-dropdownlist>
+<button kendoButton class="readonly-textbox" (click)="showopen()">Open {{openECN}}</button>  
+<kendo-dropdownlist class="filter-dropdown" [data]="['Without As Build', 'With As Built']" name="openclosed" (selectionChange)="showopen()">
+      </kendo-dropdownlist>
+      <button kendoButton class="readonly-textbox" (click)="showclosed()">Closed {{closedECN}}</button>  
+      <kendo-dropdownlist class="filter-dropdown" [data]="['Without As Build', 'With As Built']" name="openclosed"  (selectionChange)="showclosed()">
+      </kendo-dropdownlist>
+     
+</div>
+        </div>
+     
+      <div class="chart-view" *ngIf="!showGrid">
+
+  <kendo-chart>
+      <kendo-chart-title text="ECN Metrics Without As Built"></kendo-chart-title>
+      <kendo-chart-legend position="top"></kendo-chart-legend>
+
+      <kendo-chart-value-axis>
+        @for (item of valueAxes; track $index) {
+        <kendo-chart-value-axis-item
+          [name]="item?.name ?? ''"
+          [title]="item.title ?? { text: '' }"
+          [min]="item.min"
+          [max]="item.max"
+          [majorUnit]="item.majorUnit ?? 1"
+          [color]="item.color ?? ''"
+          [axisCrossingValue]="item.axisCrossingValue"
+         [dir]="'ltr'"
+        >
+        </kendo-chart-value-axis-item>
+        }
+      </kendo-chart-value-axis>
+
+      <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item
+          [categories]="categories"
+          [axisCrossingValue]="crossingValues"
+        >
+        </kendo-chart-category-axis-item>
+      </kendo-chart-category-axis>
+
+      <kendo-chart-series>
+        @for (item of series; track $index) {
+        <kendo-chart-series-item
+          [name]="item.name?? ''"
+          [data]="item.data ?? []"
+          [type]="item.type ?? 'line'"
+          [stack]="item.stack ?? ''"
+          [color]="item.color ?? ''"
+          [axis]="item.axis ?? ''"
+        >
+        </kendo-chart-series-item>
+        }
+      </kendo-chart-series>
+    </kendo-chart>
+  <kendo-pager
+    [total]="data.length"
+    [pageSize]="pageSize"
+    [skip]="skip"
+    (pageChange)="pageChange($event)">
+  </kendo-pager>
+  </div>
+</div>
+
+<div *ngIf="showGrid" class="ecn-grid-wrapper">
+
+ <div class="iep-grid-header" *ngIf="!isBarChartData">
+           <div class="header-left">
+          <h3>Tabular View </h3>
+          <span class="result-count">Result: {{ gridView.length }}</span> |
+            <span class="checkboxed">
+                 <label class="critical-checkbox">
+                <input type="checkbox"  />
+                <span>Critical</span>
+              </label>
+               <label class="noncritical-checkbox">
+                <input type="checkbox"  />
+                <span>Non-Critical</span>
+              </label>
+            </span>
+        </div>
+        <div class="header-right">
+          
+          <button class="icon-btn" (click)="toggleCollapse()" title="{{ isGridExpanded ? 'Collapse Grid' : 'Expand Grid' }}">
+            <span class="material-symbols-outlined">{{ isGridExpanded ? 'fullscreen_exit' : 'fullscreen' }}</span>
+          </button>
+          <button class="icon-btn" (click)="open('dialog')" title="Settings">
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+        </div>
+      </div>
+  <iep-grid [data]="gridView" [columns]="mapView" [pageable]="true" [enablescrolling]="false"></iep-grid>
+</div>
