@@ -43,7 +43,7 @@
     </div>
     <div class="filter-expansion-content">
       <div class="dropdown-row">
-        <kendo-dropdownlist 
+        <kendo-dropdownlist
           class="filter-dropdowns"
           [data]="viewAsOptions"
           name="selectedview"
@@ -57,83 +57,130 @@
           [(ngModel)]="selectedFunction"
         ></kendo-dropdownlist>
         <button kendoButton class="ecnbutton" (click)="showopen()">
-         <span class="starttext">Open</span>  <span class="endtext">{{ openECN }}</span> 
+          <span class="starttext">Open</span> &nbsp;&nbsp; &nbsp;&nbsp;
+          &nbsp;&nbsp; <span class="endtext">{{ openECN }}</span>
         </button>
         <kendo-multiselect
           class="filter-dropdown"
           [checkboxes]="true"
+          [(ngModel)]="selectedOpen"
           [data]="['Without As Build', 'With As Built']"
           name="openclosed"
           (selectionChange)="showopen()"
+          [disabled]="selectedClosed.length !== 0"
         >
         </kendo-multiselect>
         <button kendoButton class="ecnbutton" (click)="showclosed()">
-         <span class="starttext">Closed</span>  <span class="endtext">{{ closedECN }}</span>
+          <span class="starttext">Closed</span> &nbsp;&nbsp; &nbsp;&nbsp;
+          &nbsp;&nbsp; <span class="endtext">{{ closedECN }}</span>
         </button>
         <kendo-multiselect
           class="filter-dropdown"
-           [checkboxes]="true"
-           
+          [checkboxes]="true"
+          [(ngModel)]="selectedClosed"
           [data]="['Without As Build', 'With As Built']"
           name="openclosed"
+          [disabled]="selectedOpen.length !== 0"
           (selectionChange)="showclosed()"
         >
         </kendo-multiselect>
       </div>
     </div>
 
-    <div class="chart-view" *ngIf="!showGrid">
-      <kendo-chart>
-        <kendo-chart-title
-          text="ECN Metrics Without As Built"
-        ></kendo-chart-title>
-        <kendo-chart-legend position="top"></kendo-chart-legend>
+    <div class="chart-view" *ngIf="isBarChartData">
+      <div class="without-as-built">
+        <div class="iep-chart-header">
+          <h3>ECN Metrics Without As Built</h3>
+        </div>
+        <kendo-chart [categoryAxis]="{ categories: currentYearMonths }">
+          <kendo-chart-series>
+            <kendo-chart-series-item
+              *ngFor="let series of stackedSeries"
+              [type]="'column'"
+              [name]="series.name"
+              [data]="series.data"
+              [stack]="true"
+            >
+            </kendo-chart-series-item>
 
-        <kendo-chart-value-axis>
-          @for (item of valueAxes; track $index) {
-          <kendo-chart-value-axis-item
-            [name]="item?.name ?? ''"
-            [title]="item.title ?? { text: '' }"
-            [min]="item.min"
-            [max]="item.max"
-            [majorUnit]="item.majorUnit ?? 1"
-            [color]="item.color ?? ''"
-            [axisCrossingValue]="item.axisCrossingValue"
-            [dir]="'ltr'"
-          >
-          </kendo-chart-value-axis-item>
-          }
-        </kendo-chart-value-axis>
+            <kendo-chart-series-item
+              type="line"
+              name="Aging P95"
+              [data]="agingP95ForCurrentYear"
+              [markers]="{ visible: true }"
+            >
+            </kendo-chart-series-item>
+          </kendo-chart-series>
+        </kendo-chart>
 
-        <kendo-chart-category-axis>
-          <kendo-chart-category-axis-item
-            [categories]="categories"
-            [axisCrossingValue]="crossingValues"
-          >
-          </kendo-chart-category-axis-item>
-        </kendo-chart-category-axis>
+        <!-- Pager -->
+        <kendo-pager class="ncr-pager"
+          [total]="years.length"
+          [pageSize]="1"
+          [skip]="currentYearIndex"
+          [info]="false"
+          (pageChange)="onPageChange($event)"
+        >
+        </kendo-pager>
+      </div>
+      <div class="with-as-built">
+        <div class="iep-chart-header">
+          <h3>ECN Metrics With As Built</h3>
+        </div>
 
-        <kendo-chart-series>
-          @for (item of series; track $index) {
-          <kendo-chart-series-item
-            [name]="item.name ?? ''"
-            [data]="item.data ?? []"
-            [type]="item.type ?? 'line'"
-            [stack]="item.stack ?? ''"
-            [color]="item.color ?? ''"
-            [axis]="item.axis ?? ''"
-          >
-          </kendo-chart-series-item>
-          }
-        </kendo-chart-series>
-      </kendo-chart>
-      <kendo-pager
-        [total]="data.length"
-        [pageSize]="pageSize"
-        [skip]="skip"
-        (pageChange)="pageChange($event)"
-      >
-      </kendo-pager>
+        <!-- Chart -->
+        <kendo-chart>
+           <kendo-chart-value-axis>
+        @for (item of valueAxes; track $index) {
+        <kendo-chart-value-axis-item
+          [name]="item.name || ''"
+          [title]="item.title || { text: item.name || '' }"
+          [min]="item.min"
+          [max]="item.max"
+          [majorUnit]="item.majorUnit ? item.majorUnit : 100"
+          [color]="item.color ? item.color : '#000000'"
+        >
+        </kendo-chart-value-axis-item>
+        }
+      </kendo-chart-value-axis>
+
+      <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item
+          [categories]="categories"
+          [axisCrossingValue]="crossingValues"
+        >
+        </kendo-chart-category-axis-item>
+      </kendo-chart-category-axis>
+          <kendo-chart-series>
+            <kendo-chart-series-item
+              *ngFor="let series of stackedSeries"
+              [type]="'column'"
+             
+              [name]="series.name"
+              [data]="series.data"
+              [stack]="true"
+            >
+            </kendo-chart-series-item>
+
+            <kendo-chart-series-item
+              type="line"
+              name="Aging P95"
+              [data]="agingP95ForCurrentYear"
+              [markers]="{ visible: true }"
+            >
+            </kendo-chart-series-item>
+          </kendo-chart-series>
+        </kendo-chart>
+
+        <!-- Pager -->
+        <kendo-pager class="ncr-pager"
+          [total]="years.length"
+          [pageSize]="1"
+          [skip]="currentYearIndex"
+          (pageChange)="onPageChange($event)"
+        >
+        </kendo-pager>
+      </div>
     </div>
   </div>
 

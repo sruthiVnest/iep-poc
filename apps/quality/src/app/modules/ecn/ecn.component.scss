@@ -124,7 +124,14 @@
 .iep-grid-header kendo-svgicon {
   vertical-align: middle;
 }
-
+.iep-chart-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px;
+  padding: 4px;
+  border: 1px solid #ddd;
+}
 .filter-expansion-panel {
   border: 1px solid #ddd;
   border-radius: 3px;
@@ -253,14 +260,20 @@ iep-grid {
  // color: #209474;
   vertical-align: middle;
 }
-.ecn-bar-chart-wrapper {
-  max-width: 90%;
 
-}
 .filter-dropdown::after{
   content: '\25BC';
   font-size: 10px;
-  padding: 4px;
+  display: inline-flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    position: relative;
+    padding-right:3px;
+}
+.filter-dropdown:disabled{
+  cursor: not-allowed;
 }
 .ecn-bar-chart-title {
   text-align: center;
@@ -274,7 +287,7 @@ iep-grid {
 }
 
 .ecn-grid-wrapper {
-  max-width: 90%;
+ // max-width: 90%;
  // margin: 0 auto;
   background: #fff;
   border-radius: 8px;

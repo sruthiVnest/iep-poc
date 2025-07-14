@@ -45,11 +45,14 @@
       </kendo-chart-series-item>
     </kendo-chart-series>
   </kendo-chart>
-  <kendo-pager
+  <div class="pager-right">
+   <kendo-pager class="ncr-pager"
     [total]="pagedNcrData.length"
     [pageSize]="pageSize"
     [skip]="skip"
+   [info]="false"
     (pageChange)="pageChange($event)">
+ 
   </kendo-pager>
   </div>
 </div>

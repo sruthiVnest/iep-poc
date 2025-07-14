@@ -86,13 +86,9 @@ body, *:not(.material-symbols-outlined) {
 .right-dialog .k-dialog {
   position: fixed !important;
   right: 0!important;
- transform: translate(0, -50%);
+ transform: translate(0, -50%)!important;
    top: 50%;
-  margin: 0;
-  border-radius: 0;
-  max-width: 500px;
-  min-width: 350px;
-
+  width: 40%;
 }
 .right-dialog .k-dialog-titlebar {
   display: flex;
@@ -109,4 +105,17 @@ body, *:not(.material-symbols-outlined) {
 .resource-dialog .k-dialog{
   max-height:500px!important;
  // overflow: scroll!important;
+}
+.ncr-pager{
+  display: flex!important;
+    align-items: flex-end!important;
+    flex-direction: column!important;
+    border: none!important;
+
+}
+.ncr-pager .k-pager-sizes{
+  display: none!important;
+}
+.ncr-pager .k-pager-numbers-wrap .k-button{
+  border: 1px solid #cac0c0!important;
 }

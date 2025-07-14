@@ -57,4 +57,10 @@ export class ApiService {
     getOtrDrData():Observable<any> {
         return this.http.get(this.apiUrl+'getotrdr');
     }
+    getECNChartData():Observable<any> {
+        return this.http.get(this.apiUrl+'getECNChart');
+    }
+      getECNData():Observable<any> {
+        return this.http.get(this.apiUrl+'getECNData');
+    }
 }

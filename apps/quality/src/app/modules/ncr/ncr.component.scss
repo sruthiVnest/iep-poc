@@ -254,7 +254,7 @@ iep-grid {
   vertical-align: middle;
 }
 .ncr-bar-chart-wrapper {
-  max-width: 90%;
+ // max-width: 90%;
  // margin: 0 auto;
   padding: 2rem 1rem;
 }
@@ -271,7 +271,7 @@ iep-grid {
 }
 
 .ncr-grid-wrapper {
-  max-width: 90%;
+ // max-width: 90%;
  // margin: 0 auto;
   padding: 2rem 1rem;
   background: #fff;
@@ -404,4 +404,15 @@ iep-grid {
 
 .warning-text a {
   color: #e65100;
+}
+.pager-right{
+ 
+  text-align: right;
+  margin-top: 10px;
+  width: 100%;
+}
+.pager-content{
+ text-align: right;
+width: 100%;
+  margin-top: 10px;
 }

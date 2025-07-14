@@ -65,15 +65,16 @@ export class NcrComponent {
   public pageSize = 1;
   public skip = 0;
   public ncrData: { year: number; month: string; count: number }[] =[];
-
+  public loading=true;
   public pagedNcrData: { year: number; data: { month: string; count: number }[] }[] = [];
 
   ngOnInit() {
-   
+    
     this.dataService.getNCRData().subscribe((data) => {
       this.data = data.tabularData || [];
       this.ncrData = data.chartData.monthlyNCR || [];
        this.pagedNcrData = this.groupNcrDataByYear(this.ncrData);
+      this.loading = false;
       this.gridView = this.data.map((el: any) =>
         Object.fromEntries(
           Object.entries(el).map(([key, value]) => [
