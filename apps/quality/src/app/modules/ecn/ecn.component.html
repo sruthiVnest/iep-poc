@@ -92,7 +92,29 @@
         <div class="iep-chart-header">
           <h3>ECN Metrics Without As Built</h3>
         </div>
-        <kendo-chart [categoryAxis]="{ categories: currentYearMonths }">
+        <kendo-chart >
+           <kendo-chart-legend position="top"></kendo-chart-legend>
+            <kendo-chart-value-axis>
+        @for (item of valueAxes; track $index) {
+        <kendo-chart-value-axis-item
+          [name]="item.name || ''"
+          [title]="item.title || { text: item.name || '' }"
+          [min]="item.min"
+          [max]="item.max"
+          [majorUnit]="item.majorUnit ? item.majorUnit : 100"
+          [color]="item.color ? item.color : '#000000'"
+        >
+        </kendo-chart-value-axis-item>
+        }
+      </kendo-chart-value-axis>
+
+      <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item
+          [categories]="categories"
+          [axisCrossingValue]="crossingValues"
+        >
+        </kendo-chart-category-axis-item>
+      </kendo-chart-category-axis>
           <kendo-chart-series>
             <kendo-chart-series-item
               *ngFor="let series of stackedSeries"
@@ -100,6 +122,7 @@
               [name]="series.name"
               [data]="series.data"
               [stack]="true"
+              [color]="series.color"
             >
             </kendo-chart-series-item>
 
@@ -108,6 +131,7 @@
               name="Aging P95"
               [data]="agingP95ForCurrentYear"
               [markers]="{ visible: true }"
+              [axis]="valueAxes[1].name || ''"
             >
             </kendo-chart-series-item>
           </kendo-chart-series>
@@ -130,6 +154,8 @@
 
         <!-- Chart -->
         <kendo-chart>
+
+           <kendo-chart-legend position="top"></kendo-chart-legend>
            <kendo-chart-value-axis>
         @for (item of valueAxes; track $index) {
         <kendo-chart-value-axis-item
@@ -155,7 +181,7 @@
             <kendo-chart-series-item
               *ngFor="let series of stackedSeries"
               [type]="'column'"
-             
+              [color]="series.color"
               [name]="series.name"
               [data]="series.data"
               [stack]="true"
@@ -167,6 +193,7 @@
               name="Aging P95"
               [data]="agingP95ForCurrentYear"
               [markers]="{ visible: true }"
+              [axis]="valueAxes[1].name || ''"
             >
             </kendo-chart-series-item>
           </kendo-chart-series>

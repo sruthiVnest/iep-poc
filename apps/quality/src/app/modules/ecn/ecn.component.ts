@@ -83,7 +83,7 @@ export class EcnComponent {
   public pageSize = 1;
   public skip = 0;
 
-  public crossingValues: number[] = [0, 10, 10, 10];
+  public crossingValues: number[] = [0, 12];
  currentYearIndex = 0;
  
   years: any[] = [];
@@ -159,6 +159,9 @@ export class EcnComponent {
  
     this.stackedSeries = seriesNames.map(seriesName => ({
       name: seriesName,
+      color: seriesName === 'Less20' ? '#4A9E24' :
+        seriesName === 'Less40' ? '#F2E349' : '#F42E17',
+      // Reverse the data to match the order of months
       data: indicesForYear.map(i =>
         Number((this.data as Record<SeriesKey, any[]>)[seriesName][i]) || 0
       ).reverse()
@@ -167,6 +170,7 @@ export class EcnComponent {
     this.agingP95ForCurrentYear = indicesForYear.map(i =>
       this.data.AgingP95[i] !== null ? Number(this.data.AgingP95[i]) : null
     ).reverse();
+  
       this.isBarChartData = true;
   }
 
