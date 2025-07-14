@@ -68,6 +68,6 @@ export class LayoutComponent {
   }
 
   onDrawerToggle() {
-    this.drawerOpened = !this.drawerOpened;
+    this.expanded = !this.expanded;
   }
 }

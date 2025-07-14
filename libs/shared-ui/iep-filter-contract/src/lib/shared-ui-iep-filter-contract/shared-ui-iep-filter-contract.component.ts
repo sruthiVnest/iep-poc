@@ -70,9 +70,9 @@ export class SharedUiIepFilterContractComponent {
         (item: any) => item.isFavourite === 'True'
       );
       // Expand all root nodes by default
-      this.expandedKeys = this.data.map((_: any, idx: number) =>
-        idx.toString()
-      );
+      // this.expandedKeys = this.data.map((_: any, idx: number) =>
+      //   idx.toString()
+      // );
       // Set the first node as selected by default if available
       if (this.data && this.data.length > 0) {
         this.checkedKeys = ['0'];
