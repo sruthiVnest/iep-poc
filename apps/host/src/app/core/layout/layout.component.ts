@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { DrawerModule, DrawerSelectEvent } from '@progress/kendo-angular-layout';
+import {
+  DrawerModule,
+  DrawerSelectEvent,
+} from '@progress/kendo-angular-layout';
 import { Router, RouterModule } from '@angular/router';
 import { IepHeaderComponent } from '../iep-header/iep-header.component';
 import { CommonModule } from '@angular/common';
@@ -7,37 +10,56 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterModule, DrawerModule, IepHeaderComponent,CommonModule],
+  imports: [RouterModule, DrawerModule, IepHeaderComponent, CommonModule],
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
+  public expanded = false; // Drawer collapsed by default
+  public mini = true; // Drawer in mini state by default
   @Output() dashboardExpandChange = new EventEmitter<boolean>();
-public items: Array<{ text: string; route: string; icon: string }>
+  onToggleMenu() {
+    this.expanded = !this.expanded;
+  }
+  public items: Array<{ text: string; route?: string; icon: string, id?: string }>
     = [
-      { text: '', icon:'network_node' , route: '#' },
+      { text: '', icon:'network_node' , id: 'filter-contract' },
       { text: 'Dashboard', icon:'widget_small' , route: '/dashboard' },
-      { text: 'Dashboard', icon:'folder_managed' , route: '/dashboard' },
-      { text: 'Dashboard', icon:'folder' , route: '/dashboard' },
+      { text: 'OTR', icon:'folder_managed' },
+      { text: 'Settings', icon:'folder'  },
       { text: 'Quality', icon: 'verified', route: '/quality-dashboard' },
-       { text: 'engineering', icon:'engineering' , route: '/quality-dashboard' },
-      { text: 'Scheduler', icon: 'Settings', route: '/dashboard' }
+       { text: 'Engineering', icon:'engineering' },
+      { text: 'Scheduler', icon: 'Settings' }
     ];
-  public selected = '/dashboard';
   public drawerOpened = false;
   public filterCollapsed = false;
 
+  isActive(item: any): boolean {
+    return this.router.isActive(item.route, {
+      paths: 'exact',
+      queryParams: 'ignored',
+      fragment: 'ignored',
+      matrixParams: 'ignored',
+    });
+  }
+  public selected = '/dashboard';
+
   constructor(private router: Router) {}
 
-  onSelect(ev: DrawerSelectEvent) {
+  onSelect(ev: any) {
     this.selected = ev.item.route;
-  if( ev.item.route === '#') {
+   
+    if (ev.item.id === 'filter-contract') {
+      this.filterCollapsed = !this.filterCollapsed;
       this.dashboardExpandChange.emit(!this.filterCollapsed);
-            const event = new CustomEvent('filterProjectsCollapse', { detail: { collapsed: false } });
-    window.dispatchEvent(event);
-
-  }
+      const event = new CustomEvent('filterProjectsCollapse', {
+        detail: { collapsed: false },
+      });
+      window.dispatchEvent(event);
+    }
+    else{
     this.router.navigate([ev.item.route]);
+    }
   }
 
   onLogout() {
@@ -48,6 +70,4 @@ public items: Array<{ text: string; route: string; icon: string }>
   onDrawerToggle() {
     this.drawerOpened = !this.drawerOpened;
   }
-
-
 }

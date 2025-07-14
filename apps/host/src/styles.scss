@@ -49,6 +49,9 @@ body, *:not(.material-symbols-outlined) {
       "Segoe UI Symbol"!important;
   font-size: 12px !important;
 }
+.drawer-container .k-drawer-item.k-selected {
+  background: none !important;
+}
  .iep-operation-panel .k-tabstrip-items {
   display: flex !important;
   border-bottom: none !important;
@@ -118,4 +121,49 @@ body, *:not(.material-symbols-outlined) {
 }
 .ncr-pager .k-pager-numbers-wrap .k-button{
   border: 1px solid #cac0c0!important;
+}
+.iep-grid-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.iep-grid-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.iep-grid-header h3 {
+  margin: 0;
+  font-size: 22px; /* Bigger font for Activities */
+  font-weight: 700;
+  color: #05322B;
+}
+.iep-grid-header .result-count {
+  font-size: 18px; /* Bigger font for Result */
+ // color: #209474;
+ // font-weight: 600;
+  margin-left: 0;
+}
+.iep-grid-header .icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+ // padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+  font-size: 16px;
+}
+.iep-grid-header .icon-btn:hover {
+  background: #f0f0f0;
+}
+::ng-deep .iep-grid-header .header-right .material-symbols-outlined  {
+    cursor: pointer !important;
+    font-size: 19px !important;
+    padding-left: 13px;
+}
+.iep-grid-header kendo-svgicon {
+  display: none!important;
+}
+ .iep-dialog-titlebar .k-window-titlebar-actions {
+  display: none!important;
 }

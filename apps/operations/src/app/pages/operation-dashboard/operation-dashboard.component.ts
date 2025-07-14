@@ -3,7 +3,7 @@ import { TabStripModule } from '@progress/kendo-angular-layout';
 import { IspoComponent } from '../../modules/ispo/ispo.component';
 import { CommonModule } from '@angular/common';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { DovsbuyComponent } from '../dovsbuy/dovsbuy.component';
+import { DovsbuyComponent } from '@copilot-iep-nx/shared-ui/iep-dovsbuy';
 import { SharedUiIepFilterContractComponent } from '@shared-ui/iep-filter-contract';
 import { FormsModule } from '@angular/forms';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
@@ -54,6 +54,7 @@ public searchValue: string = '';
       this.dashboard_expand = event.detail.collapsed;
     });
   }
+
  public onFilter(value: string): void {
     const inputValue = value.toLowerCase();
    

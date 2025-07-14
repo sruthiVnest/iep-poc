@@ -234,11 +234,6 @@ export class EcnComponent {
 
   toggleCollapse() {
     this.collapsed = !this.collapsed;
-    // Emit an event or use a shared service to notify the parent (ISPO) to expand/collapse
-    const event = new CustomEvent('filterProjectsCollapse', {
-      detail: { collapsed: this.collapsed },
-    });
-    window.dispatchEvent(event);
   }
 
   showopen() {

@@ -1,28 +1,46 @@
 <iep-header (logout)="onLogout()" [drawerOpened]="drawerOpened" (drawerToggle)="onDrawerToggle()"></iep-header>
-<kendo-drawer-container>
-    <kendo-drawer
-      [items]="items"
-      [mode]="'push'"
-      [mini]="!drawerOpened"
-      [position]="'start'"
-      (select)="onSelect($event)"
-      [expanded]="drawerOpened"
-      class="app-drawer"
-      [autoCollapse]="false"
-    >
-      <ng-template kendoDrawerItemTemplate let-item>
-        <span *ngIf="!drawerOpened">
-          <span class="circle_selected"> <span class="material-symbols-outlined">
-            {{ item.icon }}
-          </span> </span>
-         
-        </span>
-        <span *ngIf="drawerOpened">{{ item.text }}</span>
+<kendo-drawer-container class="drawer-container">
+  <kendo-drawer
+    [items]="items"
+    [expanded]="expanded"
+    mode="push"
+    [mini]="mini"
+    [position]="'start'"
+    (select)="onSelect($event)"
+    [autoCollapse]="true"
+    [width]="240"
+    [miniWidth]="60"
+    *ngIf="items.length"
+  >
+    <ng-template kendoDrawerItemTemplate let-item>
+      <a
+        *ngIf="item.route; else filterContractLink"
+        [routerLink]="item.route"
+        routerLinkActive="k-selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="drawer-link"
+      >
+        <span
+          class="material-symbols-outlined drawer-icon"
+          [ngClass]="{'active': isActive(item)}"
+        >{{item?.icon}}</span>
+        <span *ngIf="expanded" class="drawer-text">{{ item?.text }}</span>
+      </a>
+      <ng-template #filterContractLink>
+        <a
+          href="#"
+          (click)="$event.preventDefault(); onSelect({ item: item })"
+          class="drawer-link"
+        >
+          <span class="material-symbols-outlined drawer-icon">{{item?.icon}}</span>
+          <span *ngIf="expanded" class="drawer-text">{{ item?.text }}</span>
+        </a>
       </ng-template>
-    </kendo-drawer>
-    <kendo-drawer-content>
-    <div class="main-content">
+    </ng-template>
+  </kendo-drawer>
+  <kendo-drawer-content>
+    <main class="main-content">
       <router-outlet></router-outlet>
-    </div>
+    </main>
   </kendo-drawer-content>
 </kendo-drawer-container>

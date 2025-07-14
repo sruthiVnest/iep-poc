@@ -35,7 +35,7 @@ export class NcrComponent {
   selectedViewAs: string = 'Chart View';
   selectedFunction: string = 'Individual';
   public showWarning = true;
-  public isExpanded = true;
+  public isExpanded = false;
   public isGridExpanded = false;
   public mySelection: string[] = [];
   public dialogOpened = false;
@@ -238,9 +238,6 @@ export class NcrComponent {
   
   toggleCollapse() {
     this.collapsed = !this.collapsed;
-    // Emit an event or use a shared service to notify the parent (ISPO) to expand/collapse
-    const event = new CustomEvent('filterProjectsCollapse', { detail: { collapsed: this.collapsed } });
-    window.dispatchEvent(event);
   }
 
 }
