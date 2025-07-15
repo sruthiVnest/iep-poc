@@ -92,7 +92,7 @@
         <div class="iep-chart-header">
           <h3>ECN Metrics Without As Built</h3>
         </div>
-        <kendo-chart >
+        <kendo-chart (seriesClick)="onBarClick($event)">
            <kendo-chart-legend position="top"></kendo-chart-legend>
             <kendo-chart-value-axis>
         @for (item of valueAxes; track $index) {
@@ -117,19 +117,20 @@
       </kendo-chart-category-axis>
           <kendo-chart-series>
             <kendo-chart-series-item
-              *ngFor="let series of stackedSeries"
+              *ngFor="let series of stackedSerieswithoutAsBuilt"
               [type]="'column'"
               [name]="series.name"
               [data]="series.data"
               [stack]="true"
               [color]="series.color"
+               [tooltip]="{ visible: true, format: '{0}' }"
             >
             </kendo-chart-series-item>
 
             <kendo-chart-series-item
               type="line"
               name="Aging P95"
-              [data]="agingP95ForCurrentYear"
+              [data]="agingP95ForCurrentYearWithout"
               [markers]="{ visible: true }"
               [axis]="valueAxes[1].name || ''"
             >
@@ -141,9 +142,9 @@
         <kendo-pager class="ncr-pager"
           [total]="years.length"
           [pageSize]="1"
-          [skip]="currentYearIndex"
+          [skip]="currentYearWithOutIndex"
           [info]="false"
-          (pageChange)="onPageChange($event)"
+          (pageChange)="onPageWithoutChange($event)"
         >
         </kendo-pager>
       </div>
@@ -204,8 +205,8 @@
         <kendo-pager class="ncr-pager"
           [total]="years.length"
           [pageSize]="1"
-          [skip]="currentYearIndex"
-          (pageChange)="onPageChange($event)"
+          [skip]="currentYearWithIndex"
+          (pageChange)="onWithPageChange($event)"
         >
         </kendo-pager>
       </div>
@@ -238,8 +239,8 @@
             isGridExpanded ? 'fullscreen_exit' : 'fullscreen'
           }}</span>
         </button>
-        <button class="icon-btn" (click)="open('dialog')" title="Settings">
-          <span class="material-symbols-outlined">settings</span>
+        <button class="icon-btn" (click)="isBarChartData=!isBarChartData" title="Close">
+          <span class="material-symbols-outlined">close</span>
         </button>
       </div>
     </div>
@@ -247,7 +248,11 @@
       [data]="gridView"
       [columns]="mapView"
       [pageable]="true"
-      [enablescrolling]="false"
+      [enablescrolling]="true"
+      [selectable]="true"
+      [acknowledgeable]="true"
+      class="iep-grid-scrollable"
     ></iep-grid>
+    
   </div>
 </div>

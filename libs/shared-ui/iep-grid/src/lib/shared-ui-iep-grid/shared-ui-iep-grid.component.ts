@@ -4,10 +4,11 @@ import { KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { FormsModule } from '@angular/forms';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
+import {KENDO_DATEINPUTS} from "@progress/kendo-angular-dateinputs";
 @Component({
   selector: 'iep-grid',
   standalone: true,
-  imports: [CommonModule, KENDO_GRID, KENDO_INPUTS, FormsModule,KENDO_DIALOG],
+  imports: [CommonModule, KENDO_GRID, KENDO_INPUTS, FormsModule,KENDO_DIALOG,KENDO_DATEINPUTS],
   templateUrl: './shared-ui-iep-grid.component.html',
   styleUrl: './shared-ui-iep-grid.component.scss',
 })
@@ -18,6 +19,7 @@ export class SharedUiIepGridComponent {
   @Input() pageable = true;
   @Input() enablescrolling= false;
   @Input() selectable = false;
+  @Input() acknowledgeable = false;
   @Output() selectionChange = new EventEmitter<any[]>();
   public gridView: any[] = [];
   public pageSize = 10;
@@ -87,7 +89,7 @@ export class SharedUiIepGridComponent {
   }
 
   onSelectionChange(event: any) {
-    this.selectedKeys = event.selectedRows.map((r: any) => r.dataItem);
+    this.selectedKeys.push(event.selectedRows.map((r: any) => r.dataItem));
     this.selectionChange.emit(this.selectedKeys);
   }
 
@@ -105,5 +107,16 @@ export class SharedUiIepGridComponent {
   closeResourceDialog() {
     this.resourceDialogOpen = false;
     this.resourceDialogData = null;
+  }
+  acknowledge() {
+    if (this.acknowledgeable && this.selectedKeys.length > 0) {
+      // Logic to acknowledge selected items
+      console.log('Acknowledging:', this.selectedKeys);
+      // Reset selection after acknowledging
+//ssthis.selectedKeys = [];
+      this.selectionChange.emit(this.selectedKeys);
+    } else {
+      console.warn('No items selected for acknowledgment');
+    }
   }
 }

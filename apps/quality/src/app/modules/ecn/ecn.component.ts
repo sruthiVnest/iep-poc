@@ -71,12 +71,31 @@ export class EcnComponent {
   public closedDropdown = false;
   public selectedOpen: string[] = ['Without As Build', 'With As Built'];
   public selectedClosed: string[] = [];
-    public data!: { "yearMonth": any[]; "Less20": any[]; "Less40": any[]; "Grt40": any[]; "AgingP95": any[]; };
+  public data!: {
+    yearMonth: any[];
+    Less20: any[];
+    Less40: any[];
+    Grt40: any[];
+    AgingP95: any[];
+  };
+   public withoutAsBuilt!: {
+    yearMonth: any[];
+    Less20: any[];
+    Less40: any[];
+    Grt40: any[];
+    AgingP95: any[];
+  };
   pagedECNData: any[] = [];
   groupedData: { categories: string[]; series: any[] } = {
     categories: [],
     series: [],
   };
+  agingP95ForCurrentYearWithout:any=[];
+  stackedSerieswithoutAsBuilt!: {
+    name: "Less20" | "Less40" | "Grt40"; color: string;
+    // Reverse the data to match the order of months
+    data: number[];
+  }[];
   constructor() {}
 
   public isBarChartData = false;
@@ -84,11 +103,11 @@ export class EcnComponent {
   public skip = 0;
 
   public crossingValues: number[] = [0, 12];
- currentYearIndex = 0;
- 
+  currentYearWithIndex = 0;
+ currentYearWithOutIndex = 0;
   years: any[] = [];
   monthsPerYear = 12;
- 
+
   currentYearMonths: string[] = [];
   stackedSeries: any[] = [];
   agingP95ForCurrentYear: any[] = [];
@@ -112,68 +131,206 @@ export class EcnComponent {
   public categories: string[] = [];
   ngOnInit() {
     this.dataService.getECNChartData().subscribe((data: any) => {
-      this.data = data.activities;
-       this.years = Array.from(
-      new Set(this.data.yearMonth.map(m => m.split('-')[0]))
-    ).reverse();
- 
-    this.prepareChartData();
-     
-      // Initialize gridView with the full data set
-      this.gridView = process(this.gridView, {
-        sort: this.sort,
-      }).data;
+      this.data = data.withAsBuilt;
+      this.withoutAsBuilt = data.withoutAsBuilt;
+      this.years = Array.from(
+        new Set(this.data.yearMonth.map((m) => m.split('-')[0]))
+      ).reverse();
+
+      this.prepareChartWithData();
+      this.prepareChartWithOutData();
     });
     this.dataService.getCurrentProjects().subscribe((data: any) => {
       this.selectedProjects.set(data);
     });
-   
   }
 
- 
-
- onPageChange(e: { skip: number }) {
-    this.currentYearIndex = e.skip;
-    this.prepareChartData();
+  onWithPageChange(e: { skip: number }) {
+    this.currentYearWithIndex = e.skip;
+    this.prepareChartWithData();
   }
- 
-  prepareChartData() {
-    const year = this.years[this.currentYearIndex];
+  onPageWithoutChange(e: { skip: number }) {
+    this.currentYearWithOutIndex = e.skip;
+    this.prepareChartWithOutData();
+  }
+
+  prepareChartWithData() {
+    const year = this.years[this.currentYearWithIndex];
     const yearMonth = this.data.yearMonth;
-  
-    const monthNames = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
- this.categories = monthNames.map((m) => `${year}-${m}`);
-    const indicesForYear = yearMonth
-      .map((ym, i) => ym.startsWith(year) ? i : -1)
-      .filter(i => i !== -1);
- 
-    this.currentYearMonths = indicesForYear.map(i =>
-      yearMonth[i].split('-')[1]
-    ).reverse(); // For left to right from Jan to Dec
- 
-    const seriesNames = ['Less20', 'Less40', 'Grt40'] as const;
-    type SeriesKey = typeof seriesNames[number];
- 
-    this.stackedSeries = seriesNames.map(seriesName => ({
-      name: seriesName,
-      color: seriesName === 'Less20' ? '#4A9E24' :
-        seriesName === 'Less40' ? '#F2E349' : '#F42E17',
-      // Reverse the data to match the order of months
-      data: indicesForYear.map(i =>
-        Number((this.data as Record<SeriesKey, any[]>)[seriesName][i]) || 0
-      ).reverse()
-    }));
- 
-    this.agingP95ForCurrentYear = indicesForYear.map(i =>
-      this.data.AgingP95[i] !== null ? Number(this.data.AgingP95[i]) : null
-    ).reverse();
-  
-      this.isBarChartData = true;
-  }
 
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    this.categories = monthNames.map((m) => `${year}-${m}`);
+    const indicesForYear = yearMonth
+      .map((ym, i) => (ym.startsWith(year) ? i : -1))
+      .filter((i) => i !== -1);
+
+    this.currentYearMonths = indicesForYear
+      .map((i) => yearMonth[i].split('-')[1])
+      .reverse(); // For left to right from Jan to Dec
+
+    const seriesNames = ['Less20', 'Less40', 'Grt40'] as const;
+    type SeriesKey = (typeof seriesNames)[number];
+
+    this.stackedSeries = seriesNames.map((seriesName) => ({
+      name: seriesName,
+      color:
+        seriesName === 'Less20'
+          ? '#4A9E24'
+          : seriesName === 'Less40'
+          ? '#F2E349'
+          : '#F42E17',
+      // Reverse the data to match the order of months
+      data: indicesForYear
+        .map(
+          (i) =>
+            Number((this.data as Record<SeriesKey, any[]>)[seriesName][i]) || 0
+        )
+        .reverse(),
+    }));
+
+    this.agingP95ForCurrentYear = indicesForYear
+      .map((i) =>
+        this.data.AgingP95[i] !== null ? Number(this.data.AgingP95[i]) : null
+      )
+      .reverse();
+   this.stackedSerieswithoutAsBuilt = seriesNames.map((seriesName) => ({
+      name: seriesName,
+      color:
+        seriesName === 'Less20'
+          ? '#4A9E24'
+          : seriesName === 'Less40'
+          ? '#F2E349'
+          : '#F42E17',
+      // Reverse the data to match the order of months
+      data: indicesForYear
+        .map(
+          (i) =>
+            Number((this.withoutAsBuilt as Record<SeriesKey, any[]>)[seriesName][i]) || 0
+        )
+        .reverse(),
+    }));
+
+    this.agingP95ForCurrentYearWithout = indicesForYear
+      .map((i) =>
+        this.withoutAsBuilt.AgingP95[i] !== null ? Number(this.withoutAsBuilt.AgingP95[i]) : null
+      )
+      .reverse();
+
+    this.isBarChartData = true;
+  }
+   prepareChartWithOutData() {
+    const year = this.years[this.currentYearWithOutIndex];
+    const yearMonth = this.withoutAsBuilt.yearMonth;
+
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    this.categories = monthNames.map((m) => `${year}-${m}`);
+    const indicesForYear = yearMonth
+      .map((ym, i) => (ym.startsWith(year) ? i : -1))
+      .filter((i) => i !== -1);
+
+    this.currentYearMonths = indicesForYear
+      .map((i) => yearMonth[i].split('-')[1])
+      .reverse(); // For left to right from Jan to Dec
+
+    const seriesNames = ['Less20', 'Less40', 'Grt40'] as const;
+    type SeriesKey = (typeof seriesNames)[number];
+
+   
+   this.stackedSerieswithoutAsBuilt = seriesNames.map((seriesName) => ({
+      name: seriesName,
+      color:
+        seriesName === 'Less20'
+          ? '#4A9E24'
+          : seriesName === 'Less40'
+          ? '#F2E349'
+          : '#F42E17',
+      // Reverse the data to match the order of months
+      data: indicesForYear
+        .map(
+          (i) =>
+            Number((this.withoutAsBuilt as Record<SeriesKey, any[]>)[seriesName][i]) || 0
+        )
+        .reverse(),
+    }));
+
+    this.agingP95ForCurrentYearWithout = indicesForYear
+      .map((i) =>
+        this.withoutAsBuilt.AgingP95[i] !== null ? Number(this.withoutAsBuilt.AgingP95[i]) : null
+      )
+      .reverse();
+
+    this.isBarChartData = true;
+  }
+//Grid
+
+ onBarClick(e: any) {
+    this.isBarChartData = false;
+    const categoryIndex = e.category;
+    // Convert month name to month number (1-12)
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    let monthNumber = null;
+    if (typeof categoryIndex === 'string') {
+      monthNumber = monthNames.indexOf(categoryIndex) + 1;
+      this.selectedMonth = categoryIndex;
+    } else if (typeof categoryIndex === 'number') {
+   //   this.selectedMonth = this.months[categoryIndex];
+      monthNumber = monthNames.indexOf(this.selectedMonth) + 1;
+    }
+   // this.selectedCount = this.currentYearDataCounts[categoryIndex];
+    const inputParam = { month: monthNumber, year: 2014 };
+    // Mock data for grid
+    this.dataService.getECNData().subscribe((data) => {
+      this.gridView=[];
+      const gridData=data.data.activities || [];
+      if(gridData.length > 0){
+       this.gridView = gridData.map((el: any) =>
+        Object.fromEntries(
+          Object.entries(el).map(([key, value]) => [
+            key.replace(/\s+/g, ''),
+            value,
+          ])
+        )
+      );
+    
+      if (this.data) {
+        this.mapView = Object.keys(gridData[0]).map((key) => ({
+          field: key.replace(/\s+/g, ''),
+          title: key.replace('_', ' ').toUpperCase(),
+        }));
+      }
+    }
+    });
+    this.showGrid = true;
+  }
   closeGrid() {
     this.showGrid = false;
   }
@@ -195,7 +352,7 @@ export class EcnComponent {
 
   public onFilter(value: string): void {
     const inputValue = value.toLowerCase();
-   
+
     if (!inputValue) {
       return;
     }
@@ -238,6 +395,11 @@ export class EcnComponent {
 
   toggleCollapse() {
     this.collapsed = !this.collapsed;
+    window.dispatchEvent(
+      new CustomEvent('filterProjectsCollapse', {
+        detail: { collapsed: this.collapsed },
+      })
+    );
   }
 
   showopen() {
@@ -252,5 +414,5 @@ export class EcnComponent {
       this.openDropdown = false;
     }
   }
-  
+ 
 }

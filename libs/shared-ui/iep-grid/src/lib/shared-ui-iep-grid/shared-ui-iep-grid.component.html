@@ -16,46 +16,57 @@
   class="testgrid"
   [selectable]="selectable ? { checkboxOnly: true, mode: 'multiple' } : false"
   (selectionChange)="onSelectionChange($event)"
+  
+  [navigable]="true"
+ 
 >
   <kendo-grid-checkbox-column *ngIf="selectable" [width]="50"></kendo-grid-checkbox-column>
-  <kendo-grid-column
-    *ngFor="let col of columns"
-    [field]="col.field"
-    [title]="col.title"
-    [sortable]="true"
-    [width]="150"
-  >
-  <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
-    {{ dataItem[col.field] }}
-            <ng-container *ngIf="col.field === 'PRIMARY_RESOURCE_NAME'">
-              <span class="material-symbols-outlined user-group-icon" (click)="openResourceDialog(dataItem)">assignment_ind</span>
-            </ng-container>
-  </ng-template>
-
-    <ng-template kendoGridFilterMenuTemplate
-        let-column="column"
-        let-filter="filter"
-        let-filterService="filterService"
-        >
-      <input
-        kendoTextBox
-        [placeholder]="'Search ' + column.title"
-        [(ngModel)]="col.filterValue"
-        (ngModelChange)="onColumnFilterChange(col, $event, filterService)"
-        type="text"
-      />
-      <div class="filter-checkbox-list">
-        <ng-container *ngFor="let value of getFilteredColumnValues(col); let i = index">
-          <label>
-            <input type="checkbox"
-                   [checked]="col.selectedValues?.includes(value)"
-                   (change)="onColumnValueCheck(col, value, $event)" />
-            {{ value }} 
-          </label>
+  <ng-container *ngFor="let col of columns">
+    <kendo-grid-column
+      [field]="col.field"
+      [title]="col.title"
+      [sortable]="true"
+      [width]="150"
+      [editable]="col.field === 'PROMISE_DATE' || col.field === 'ACKNOWLEDGE_DATE'"
+      [editor]="'date'"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+        {{ dataItem[col.field] }}
+        <ng-container *ngIf="col.field === 'PRIMARY_RESOURCE_NAME'">
+          <span class="material-symbols-outlined user-group-icon" (click)="openResourceDialog(dataItem)">assignment_ind</span>
         </ng-container>
-      </div>
-    </ng-template>
-  </kendo-grid-column>
+         
+      </ng-template>
+      <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+        <ng-container *ngIf="col.field === 'PROMISE_DATE' || col.field === 'ACKNOWLEDGE_DATE'">
+          <kendo-datepicker [(ngModel)]="dataItem[col.field]"></kendo-datepicker>
+        </ng-container>
+      </ng-template>
+      <ng-template kendoGridFilterMenuTemplate
+          let-column="column"
+          let-filter="filter"
+          let-filterService="filterService"
+          >
+        <input
+          kendoTextBox
+          [placeholder]="'Search ' + column.title"
+          [(ngModel)]="col.filterValue"
+          (ngModelChange)="onColumnFilterChange(col, $event, filterService)"
+          type="text"
+        />
+        <div class="filter-checkbox-list">
+          <ng-container *ngFor="let value of getFilteredColumnValues(col); let i = index">
+            <label>
+              <input type="checkbox"
+                     [checked]="col.selectedValues?.includes(value)"
+                     (change)="onColumnValueCheck(col, value, $event)" />
+              {{ value }} 
+            </label>
+          </ng-container>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </ng-container>
 </kendo-grid>
 
 <kendo-dialog *ngIf="resourceDialogOpen" (close)="closeResourceDialog()" [width]="400" class="resource-dialog">
@@ -66,3 +77,4 @@
     <pre>{{ resourceDialogData | json }}</pre>
   </div>
 </kendo-dialog>
+<button *ngIf="acknowledgeable" (click)="acknowledge()" [disabled]="selectedKeys.length==0">Acknowledge</button> 

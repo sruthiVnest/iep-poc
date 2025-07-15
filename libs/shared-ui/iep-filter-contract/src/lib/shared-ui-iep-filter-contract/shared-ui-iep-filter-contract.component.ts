@@ -24,6 +24,7 @@ import { ApiService } from '@shared-service/data-service';
 import { CommonModule } from '@angular/common';
 import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'iep-filter-contract',
   standalone: true,
