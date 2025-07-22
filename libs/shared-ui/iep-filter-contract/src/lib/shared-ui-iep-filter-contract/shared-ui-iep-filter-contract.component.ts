@@ -51,7 +51,12 @@ export class SharedUiIepFilterContractComponent {
   public savedFIlteroptions: any;
   public filterlist: any[] = [];
 
+  public searchOptions: any[] = [];
   constructor() {
+    this.dataService.getSearchOptions().subscribe((data) => {
+      this.searchOptions =data?.data;
+      console.log(this.searchOptions)
+    });
     this.dataService.getFilterList().subscribe(
       (data) => {
         this.filterlist = data.data;
@@ -104,13 +109,11 @@ export class SharedUiIepFilterContractComponent {
   public selectedProjects: WritableSignal<string[]> = signal([]);
   public favourites: any[] = [];
   public activeTabIndex = 0;
-  public deliveryYears: string[] = ['2022', '2023', '2024', '2025'];
-  public racYears: string[] = ['2022', '2023', '2024', '2025'];
-  public projectStatuses: string[] = ['Active', 'Completed', 'Pending'];
-  public drivers: string[] = ['Driver A', 'Driver B', 'Driver C'];
-  public connectors: string[] = ['Connector X', 'Connector Y', 'Connector Z'];
-  public installationCountries: string[] = ['USA', 'Germany', 'India', 'UAE'];
 
+  public emptyTagMapper = (item: any[]) => {
+    return item.map(() => null);
+  };
+  public selectYr: any;
   selectedDeliveryYears: string[] = [];
   selectedRacYears: string[] = [];
   selectedProjectStatuses: string[] = [];
@@ -471,5 +474,31 @@ export class SharedUiIepFilterContractComponent {
   // Utility to get selected values as a string for display
   getSelectedValuesText(values: string[]): string {
     return values && values.length > 0 ? values.join(', ') : '';
+  }
+  deselect(e: any) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.selectedDeliveryYears = [];
+    this.selectedRacYears = [];
+    this.selectedProjectStatuses = [];
+    this.selectedDrivers = [];
+    this.selectedConnectors = [];
+    this.selectedInstallationCountries = [];
+  }
+  onUserSearch(term: string) {
+    const lower = term.toLowerCase();
+    
+  }
+  toggleUserSelection(user: string) {
+    const idx = this.selectedDeliveryYears.indexOf(user);
+    if (idx > -1) {
+      this.selectedDeliveryYears.splice(idx, 1);
+    } else {
+      this.selectedDeliveryYears.push(user);
+    }
+  }
+
+  isUserSelected(user: string): boolean {
+    return this.selectedDeliveryYears.includes(user);
   }
 }

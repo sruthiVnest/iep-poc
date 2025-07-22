@@ -16,10 +16,15 @@
   class="testgrid"
   [selectable]="selectable ? { checkboxOnly: true, mode: 'multiple' } : false"
   (selectionChange)="onSelectionChange($event)"
-  
+  [kendoGridInCellEditing]="createFormGroup"
   [navigable]="true"
- 
+ (cellClick)="onCellClick($event)"
+      (dblclick)="onColumnDblClick($event)"
 >
+
+  <ng-template kendoGridNoRecordsTemplate>
+ No data available. 
+  </ng-template>
   <kendo-grid-checkbox-column *ngIf="selectable" [width]="50"></kendo-grid-checkbox-column>
   <ng-container *ngFor="let col of columns">
     <kendo-grid-column
@@ -28,7 +33,6 @@
       [sortable]="true"
       [width]="150"
       [editable]="col.field === 'PROMISE_DATE' || col.field === 'ACKNOWLEDGE_DATE'"
-      [editor]="'date'"
     >
       <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
         {{ dataItem[col.field] }}
@@ -67,6 +71,8 @@
       </ng-template>
     </kendo-grid-column>
   </ng-container>
+ 
+
 </kendo-grid>
 
 <kendo-dialog *ngIf="resourceDialogOpen" (close)="closeResourceDialog()" [width]="400" class="resource-dialog">
@@ -75,6 +81,47 @@
      </kendo-dialog-titlebar>
   <div *ngIf="resourceDialogData">
     <pre>{{ resourceDialogData | json }}</pre>
+  </div>
+</kendo-dialog>
+<kendo-dialog *ngIf="editDialogOpen" (close)="closeEditDialog()" [width]="600" class="right-dialog">
+  <kendo-dialog-titlebar>
+    <span>Edit Details</span>
+     </kendo-dialog-titlebar>
+  <div *ngIf="resourceDialogData && source!='ecn'">
+    <pre>{{ resourceDialogData | json }}</pre>
+  </div>
+
+  <div class="dialog-dat" *ngIf="source=='ecn'">
+<div class="non-editable">
+  <h3>ECN Details</h3>
+  ECN Code : {{ resourceDialogData?.ECN_CODE }}<br/>
+  ECN Type : {{ resourceDialogData?.ECN_TYPE }}<br/>
+  ECN Description : {{ resourceDialogData?.ECN_DESCRIPTION }}<br/>
+  Execution :{{ resourceDialogData?.ECN_EXECUTION }}
+</div>
+<div class="editable">
+  <h3>All Action</h3>
+   <kendo-expansionpanel
+        [title]="'Comment'"
+        [expanded]="true"
+      >
+        <div class="content">
+          <kendo-textarea
+            [(ngModel)]="resourceDialogData.COMMENT"
+            [rows]="3"
+          ></kendo-textarea>
+        </div>
+      </kendo-expansionpanel>
+        <kendo-expansionpanel
+        [title]="'Acknowledge Date And Promise Date'"
+        [expanded]="true"
+      >
+        <div class="content">
+       ACKNOWLEDGE DATE<kendo-datepicker [(ngModel)]="resourceDialogData.ACKNOWLEDGE_DATE"></kendo-datepicker>
+       PROMISE DATE <kendo-datepicker [(ngModel)]="resourceDialogData.PROMISE_DATE"></kendo-datepicker>
+        </div>
+      </kendo-expansionpanel>
+</div>
   </div>
 </kendo-dialog>
 <button *ngIf="acknowledgeable" (click)="acknowledge()" [disabled]="selectedKeys.length==0">Acknowledge</button> 

@@ -89,8 +89,9 @@ body, *:not(.material-symbols-outlined) {
 .right-dialog .k-dialog {
   position: fixed !important;
   right: 0!important;
- transform: translate(0, -50%)!important;
+  transform: translate(0, -50%)!important;
    top: 50%;
+   height: 80%!important;
   width: 40%;
 }
 .right-dialog .k-dialog-titlebar {
@@ -167,3 +168,47 @@ body, *:not(.material-symbols-outlined) {
  .iep-dialog-titlebar .k-window-titlebar-actions {
   display: none!important;
 }
+.k-grid-norecords{
+  text-align: left!important;
+}
+.right-dialog-absolute {
+  position: absolute;
+  right: 0;
+}
+/* Collapse Icon (when node is expanded) */
+
+// .iep-tree-view .k-treeview .k-icon {
+//   background-image: url('/assets/images/icons/chevron_right.svg')!important; /* your custom icon */
+//   background-size: contain;
+//   width: 16px;
+//   height: 16px;
+//   content: none!important;
+// }
+ 
+// /* Expand Icon (when node is collapsed) */
+// .iep-tree-view .k-treeview .k-icon.k-i-expand {
+//   background-image: url('/assets/images/icons/chevron_down.svg')!important; /* your custom icon */
+//   background-size: contain;
+//   width: 16px;
+//   height: 16px;
+// }
+ 
+// /* Hide the default icon content */
+// .k-treeview .k-icon,
+// .k-treeview .k-icon.k-i-collapse::before {
+//   content: '';
+// }
+ 
+// .advance-expansion-panel .k-expander-indicator::before {
+//   content: "-";
+// }
+.advance-expansion-panel .k-multiselect .k-chip-list {
+  display: none;
+}
+.autocomplete-list::-webkit-scrollbar {
+   width: 6px;
+ }
+ .autocomplete-list::-webkit-scrollbar-thumb {
+   background-color: #ccc;
+   border-radius: 3px;
+ }

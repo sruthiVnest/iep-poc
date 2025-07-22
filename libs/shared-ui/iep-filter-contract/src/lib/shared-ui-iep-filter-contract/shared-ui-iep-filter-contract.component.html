@@ -59,62 +59,44 @@ info
           <div class="advance-search-row">
             <button class="clear-filter-link" (click)="clearAdvanceFilters()">Clear Filter</button>
           </div>
-          <div class="advance-search-row">
-            <kendo-multiselect
-              [data]="deliveryYears"
-              [(ngModel)]="selectedDeliveryYears"
-              [placeholder]="'Delivery Year'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedDeliveryYears.length">{{ getSelectedValuesText(selectedDeliveryYears) }}</span>
-            <kendo-multiselect
-              [data]="racYears"
-              [(ngModel)]="selectedRacYears"
-              [placeholder]="'RAC Year'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedRacYears.length">{{ getSelectedValuesText(selectedRacYears) }}</span>
-            <kendo-multiselect
-              [data]="projectStatuses"
-              [(ngModel)]="selectedProjectStatuses"
-              [placeholder]="'Project Status'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedProjectStatuses.length">{{ getSelectedValuesText(selectedProjectStatuses) }}</span>
-            <kendo-multiselect
-              [data]="drivers"
-              [(ngModel)]="selectedDrivers"
-              [placeholder]="'Driver'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedDrivers.length">{{ getSelectedValuesText(selectedDrivers) }}</span>
-            <kendo-multiselect
-              [data]="connectors"
-              [(ngModel)]="selectedConnectors"
-              [placeholder]="'Connector'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedConnectors.length">{{ getSelectedValuesText(selectedConnectors) }}</span>
-            <kendo-multiselect
-              [data]="installationCountries"
-              [(ngModel)]="selectedInstallationCountries"
-              [placeholder]="'Installation Country'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedInstallationCountries.length">{{ getSelectedValuesText(selectedInstallationCountries) }}</span>
-          </div>
+          <div class="advance-search-row" *ngIf="searchOptions.length>0">
+             <kendo-expansionpanel class="advance-expansion-panel" *ngFor="let item of searchOptions;let i=index"
+      
+        [subtitle]="getSelectedValuesText(selectedDeliveryYears)"
+        [expanded]="false"
+      >
+      <ng-template kendoExpansionPanelTitleDirective>
+         <div class="custom-header">
+     
+ 
+        <div class="title-group">
+          <div class="main-title"> {{item.title}}</div>
+          <div class="sub-title">  <span class="selected-values-text" *ngIf="item.key.length">{{ getSelectedValuesText(item.key) }}</span></div>
+        </div>
+      </div>
+         <span class="custom-icon k-icon k-i-folder"><span class="material-symbols-outlined"  (click)="deselect($event)">
+check_indeterminate_small
+</span></span>
+    </ng-template>
+      
+    
+        <div class="content" >
+           <input kendoTextBox placeholder="{{item.title}}" [(ngModel)]="item.key" (ngModelChange)="onUserSearch($event)" class="extended-users-input" />
+          <ul *ngIf="item.values.length > 0" class="autocomplete-list">
+            <li *ngFor="let year of item.values">
+              <label class="user-checkbox">
+                <kendo-checkbox type="checkbox" [checkedState]="isUserSelected(year)" (change)="toggleUserSelection(year)" />
+                  <span class="tree-parent-label">{{ year }}</span>
+            
+              </label>
+            </li>
+          </ul>
+       
+        </div>
+      </kendo-expansionpanel>
+           
+
+            </div>
         </div>
       </div>
     </ng-template>
@@ -133,7 +115,7 @@ info
               <kendo-checkbox [checkedState]="allChecked" (change)="onSelectAllChange($event)"></kendo-checkbox>
               <span class="tree-parent-label">Current Projects</span>
             </div>
-           
+           <div class="iep-tree-view">
             <kendo-treeview kendoTreeViewExpandable [nodes]="myContracts" [children]="children" [hasChildren]="hasChildren"
               [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
               [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys"
@@ -143,6 +125,7 @@ info
                 <span class="material-symbols-outlined filled-star filled-star-true" *ngIf="dataItem.isFavourite=='True'" (click)="addToFavourites(dataItem.contractName ? dataItem.contractName : dataItem.trainName)">star</span>
               </ng-template>
             </kendo-treeview>
+            </div>
           </div>
         </ng-template>
       </kendo-tabstrip-tab>

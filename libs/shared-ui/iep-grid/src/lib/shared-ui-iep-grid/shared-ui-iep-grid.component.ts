@@ -1,14 +1,15 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { CreateFormGroupArgs, KENDO_GRID } from '@progress/kendo-angular-grid';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import {KENDO_DATEINPUTS} from "@progress/kendo-angular-dateinputs";
+import { KENDO_EXPANSIONPANEL } from '@progress/kendo-angular-layout';
 @Component({
   selector: 'iep-grid',
   standalone: true,
-  imports: [CommonModule, KENDO_GRID, KENDO_INPUTS, FormsModule,KENDO_DIALOG,KENDO_DATEINPUTS],
+  imports: [CommonModule, KENDO_GRID, KENDO_INPUTS,KENDO_EXPANSIONPANEL, FormsModule,KENDO_DIALOG,KENDO_DATEINPUTS],
   templateUrl: './shared-ui-iep-grid.component.html',
   styleUrl: './shared-ui-iep-grid.component.scss',
 })
@@ -20,6 +21,7 @@ export class SharedUiIepGridComponent {
   @Input() enablescrolling= false;
   @Input() selectable = false;
   @Input() acknowledgeable = false;
+  @Input() source: string = '';
   @Output() selectionChange = new EventEmitter<any[]>();
   public gridView: any[] = [];
   public pageSize = 10;
@@ -27,10 +29,24 @@ export class SharedUiIepGridComponent {
   public sort: any[] = [];
   public selectedKeys: any[] = [];
   public resourceDialogOpen = false;
+  public editDialogOpen = false;
   public resourceDialogData: any = null;
+  public formGroup!: FormGroup;
 
+  constructor(private formBuilder: FormBuilder) {
+    this.createFormGroup = this.createFormGroup.bind(this);
+  }
+
+  public createFormGroup(args: CreateFormGroupArgs): FormGroup {
+    const item = args.dataItem;
+
+    this.formGroup = this.formBuilder.group({
+      PROMISE_DATE: item.PROMISE_DATE});
+      return this.formGroup;
+    }
   ngOnInit() {
     this.loadGrid();
+    console.log(this.source)
   }
 
   ngOnChanges() {
@@ -118,5 +134,21 @@ export class SharedUiIepGridComponent {
     } else {
       console.warn('No items selected for acknowledgment');
     }
+  }
+   public clickedRowItem:any;
+
+    onCellClick(e:any) {
+      this.clickedRowItem = e.dataItem;
+    }
+  onColumnDblClick(col: any) {
+    // Handle double-click on column header
+    console.log('Column double-clicked:', this.clickedRowItem);
+    this.resourceDialogData = this.clickedRowItem;
+    this.editDialogOpen = true;
+    // You can implement any specific logic here, like opening a dialog or editing the column
+  }
+  closeEditDialog() {
+    this.editDialogOpen = false;
+    this.resourceDialogData = null;
   }
 }

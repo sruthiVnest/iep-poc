@@ -34,3 +34,15 @@ kendo-grid {
 .user-group-icon {
   vertical-align: middle;
 }
+.dialog-dat{
+  display:flex;
+}
+.non-editable {
+  flex: 1;
+  margin-right: 16px;
+  width: 50%;
+}
+.editable {
+  flex: 1;
+  width:50%
+}

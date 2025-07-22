@@ -333,3 +333,48 @@ text-align: center;
   display: block;
 }
 
+.custom-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+ 
+.custom-icon {
+  font-size: 24px;
+  color: #000609;
+}
+ 
+.title-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+ 
+.main-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+ 
+.sub-title {
+  font-size: 13px;
+  color: #6c757d; /* light gray text */
+}
+.autocomplete-list {
+  text-align: justify;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 100px;
+  overflow-y: auto;
+}
+.autocomplete-list li {
+  padding: 0;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #05322B;
+  transition: background 0.2s;
+}
+.autocomplete-list li:hover {
+  background: #f5f7fa;
+}

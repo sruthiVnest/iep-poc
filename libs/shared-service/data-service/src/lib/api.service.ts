@@ -51,6 +51,9 @@ export class ApiService {
     saveFilterOptions(filterOptions:any):Observable<any> {
         return this.http.post(this.apiUrl+'saveFilter', filterOptions);
     }
+    getSearchOptions():Observable<any>{
+      return this.http.get(this.apiUrl+'advancesearch')
+    }
     getFilterList():Observable<any> {
         return this.http.get(this.apiUrl+'getFilterList');
     }
