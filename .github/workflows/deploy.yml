@@ -28,7 +28,7 @@ jobs:
             npm install --force
  
       - name: Build Angular App
-        run: npx nx build host --prod
+        run: npx nx build host --configuration production --base-href=/iep-poc/
  
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
