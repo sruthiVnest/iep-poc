@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@copilot-iep-nx/auth": ["libs/shared-utils/src/index.ts"],
       "@copilot-iep-nx/shared-ui/iep-dovsbuy": [
         "libs/shared-ui/iep-dovsbuy/src/index.ts"
       ],

@@ -1,14 +1,14 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import {environment} from '../../../../../apps/host/src/environments/environment'
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
 
-   private apiUrl="http://localhost:3000/api/";
+   private apiUrl=environment.apiUrl;
     constructor(private http:HttpClient){
 
     }

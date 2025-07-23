@@ -88,7 +88,12 @@
       },
       "configurations": {
         "production": {
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "baseHref": "/iep-web/",
+          "fileReplacements": [{
+            "replace": "apps/host/src/environment/environment.ts",
+            "with": "apps/host/src/environment/environment.prod.ts"
+          }]
         },
         "development": {
           "buildOptimizer": false,
