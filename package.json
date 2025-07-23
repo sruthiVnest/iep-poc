@@ -70,7 +70,7 @@
     "typescript": "~5.3.2"
   },
   "resolutions": {
-    "webpack": "5.88.2",
-    "stylus": "npm:empty-npm-package@1.0.0"
-  }
+    "webpack": "5.88.2"
+  },
+  "overrides":{"stylus":"0.0.1-security"}
 }
