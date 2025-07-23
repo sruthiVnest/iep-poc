@@ -82,8 +82,8 @@ check_indeterminate_small
     
         <div class="content">
            <input kendoTextBox placeholder="Delivery Year" [(ngModel)]="selectYr" (ngModelChange)="onUserSearch($event)" class="extended-users-input" />
-          <ul *ngIf="deliveryYears.length > 0" class="autocomplete-list">
-            <li *ngFor="let year of deliveryYears">
+          <ul *ngIf="deliveryYearsFiltered.length > 0" class="autocomplete-list">
+            <li *ngFor="let year of deliveryYearsFiltered">
               <label class="user-checkbox">
                 <kendo-checkbox type="checkbox" [checkedState]="isUserSelected(year)" (change)="toggleUserSelection(year)" />
                 <span>{{ year }}</span>

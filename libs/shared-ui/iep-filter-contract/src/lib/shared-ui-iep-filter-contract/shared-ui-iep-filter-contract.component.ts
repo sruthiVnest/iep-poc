@@ -105,6 +105,7 @@ export class SharedUiIepFilterContractComponent {
   public favourites: any[] = [];
   public activeTabIndex = 0;
   public deliveryYears: string[] = ['2022', '2023', '2024', '2025','2000','2006','2010','1999'];
+  public deliveryYearsFiltered:string[]=[];
   public racYears: string[] = ['2022', '2023', '2024', '2025'];
   public projectStatuses: string[] = ['Active', 'Completed', 'Pending'];
   public drivers: string[] = ['Driver A', 'Driver B', 'Driver C'];
@@ -146,7 +147,9 @@ export class SharedUiIepFilterContractComponent {
       )
     );
   }
-
+  ngOnInit(){
+    this.deliveryYearsFiltered=[...this.deliveryYears];
+  }
   onNodeSelect(keys: any) {
     console.log(keys);
     this.checkedKeys = keys;
@@ -487,7 +490,8 @@ export class SharedUiIepFilterContractComponent {
   }
     onUserSearch(term: string) {
     const lower = term.toLowerCase();
-    this.deliveryYears = this.deliveryYears.filter(u => u.toLowerCase().includes(lower));
+    if(lower!=null)
+      this.deliveryYearsFiltered = this.deliveryYears.filter(u => u.toLowerCase().includes(lower));
   }
     toggleUserSelection(user: string) {
     const idx = this.selectedDeliveryYears.indexOf(user);
