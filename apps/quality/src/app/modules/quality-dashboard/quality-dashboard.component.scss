@@ -175,7 +175,13 @@ h2 {
 #chartIcon{
   color:#17695a;
 }
-
+.risktitle{
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #d4550b;
+  margin-left: 8px;
+  vertical-align: super;
+}
 @media (max-width: 900px) {
   .dashboard-flex {
     flex-direction: column;

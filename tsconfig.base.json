@@ -26,6 +26,7 @@
         "libs/shared-ui/iep-filter-contract/src/index.ts"
       ],
       "@shared-ui/iep-grid": ["libs/shared-ui/iep-grid/src/index.ts"],
+      "@shared-ui/pareto-chart": ["libs/shared-ui/pareto-chart/src/index.ts"],
       "operations/Routes": [
         "apps/operations/src/app/remote-entry/entry.routes.ts"
       ],

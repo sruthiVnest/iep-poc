@@ -1,7 +1,7 @@
 {
-  "name": "shared-ui-iep-filter-contract",
+  "name": "shared-ui-pareto-chart",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": " shared-ui/iep-filter-contract/src",
+  "sourceRoot": "libs/shared-ui/pareto-chart/src",
   "prefix": "copilot-iep-nx",
   "tags": [],
   "projectType": "library",

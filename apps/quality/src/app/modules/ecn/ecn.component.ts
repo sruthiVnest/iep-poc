@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  EventEmitter,
   inject,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -44,6 +46,7 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
   styleUrl: './ecn.component.scss',
 })
 export class EcnComponent {
+  @Output() ecnSummaryChange = new EventEmitter<string>();
   @ViewChild('tooltipDir')
   public tooltipDir!: TooltipDirective;
   public dataService = inject(ApiService);
@@ -414,5 +417,8 @@ export class EcnComponent {
       this.openDropdown = false;
     }
   }
- 
+ onSummaryChange(event: any) {
+ const selectedValue = event;
+  this.ecnSummaryChange.emit(selectedValue);
+ }
 }

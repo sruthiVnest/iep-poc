@@ -66,4 +66,7 @@ export class ApiService {
       getECNData():Observable<any> {
         return this.http.get(this.apiUrl+'getECNData');
     }
+    getECRRiskData():Observable<any> {
+        return this.http.get(this.apiUrl+'getECRRiskData');
+    }
 }

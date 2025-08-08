@@ -6,19 +6,14 @@
     <div class="filter-dots-menu" *ngIf="filterMenuOpen" (click)="$event.stopPropagation()">
       <ul>
         <li >
-           <span class="material-symbols-outlined">
-save_as
-</span>   Export Contract
-       
+           <span class="material-symbols-outlined">save_as</span>   Export Contract     
         </li>
         <li (click)="saveFilter()">
-      <span class="material-symbols-outlined" >
-save
-      </span>  Save Filter
+      <span class="material-symbols-outlined">save</span>  Save Filter
        
         </li>
         <li class="relative">
-          <span class="material-symbols-outlined">filter_list</span>    Load Filter
+          <span class="material-symbols-outlined">filter_list</span> Load Filter
           <span class="material-symbols-outlined submenu-arrow submenu-arrow-custom">chevron_right</span>
        
           <ul class="submenu">
@@ -90,20 +85,9 @@ check_indeterminate_small
               </label>
             </li>
           </ul>
-        <!-- <kendo-multiselect
-              [data]="deliveryYears"
-              [(ngModel)]="selectedDeliveryYears"
-              [placeholder]="'Delivery Year'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              [filterable]="true"
-              [tagMapper]="emptyTagMapper"
-              class="advance-multiselect"
-            ></kendo-multiselect> -->
         </div>
       </kendo-expansionpanel>
            
-
             <kendo-multiselect
               [data]="racYears"
               [(ngModel)]="selectedRacYears"

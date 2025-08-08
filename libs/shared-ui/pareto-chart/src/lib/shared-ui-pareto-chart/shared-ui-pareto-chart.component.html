@@ -1,0 +1,41 @@
+ <kendo-chart>
+      <kendo-chart-title text="Hybrid car mileage report"></kendo-chart-title>
+      <kendo-chart-legend position="top"></kendo-chart-legend>
+
+      <kendo-chart-value-axis>
+        @for (item of valueAxes; track $index) {
+        <kendo-chart-value-axis-item
+          [name]="item.name || ''"
+          [title]="item.title || { text: item.name || '' }"
+          [min]="item.min"
+          [max]="item.max"
+          [majorUnit]="item.majorUnit ? item.majorUnit : 100"
+          [color]="item.color ? item.color : '#000000'"
+          
+        >
+        </kendo-chart-value-axis-item>
+        }
+      </kendo-chart-value-axis>
+
+      <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item
+          [categories]="categories"
+          [axisCrossingValue]="crossingValues"
+        >
+        </kendo-chart-category-axis-item>
+      </kendo-chart-category-axis>
+
+      <kendo-chart-series>
+        @for (item of series; track $index) {
+        <kendo-chart-series-item
+          [name]="item.name || ''"
+          [data]="item.data || []"
+          [type]="item.type || 'column'"
+          [stack]="item.stack || false"
+          [color]="item.color || '#000000'"
+          [axis]="item.axis || ''"
+        >
+        </kendo-chart-series-item>
+        }
+      </kendo-chart-series>
+    </kendo-chart>

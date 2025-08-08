@@ -1,0 +1,21 @@
+<div class="dashboard-tabs">
+      <kendo-tabstrip class="iep-operation-panel">
+        <kendo-tabstrip-tab title="Soft Alert" [selected]="true">
+          <ng-template kendoTabContent>
+           <iep-grid [data]="gridView"
+      [columns]="mapView"
+      [pageable]="true"
+      [enablescrolling]="false"
+      [selectable]="true"></iep-grid>
+          </ng-template>
+        </kendo-tabstrip-tab>
+        <kendo-tabstrip-tab title="Hard Alert">
+          <ng-template kendoTabContent><iep-grid [data]="gridView"
+      [columns]="mapView"
+      [pageable]="true"
+      [enablescrolling]="false"
+      [selectable]="true"
+      ></iep-grid></ng-template>
+        </kendo-tabstrip-tab>
+        </kendo-tabstrip>
+        </div>

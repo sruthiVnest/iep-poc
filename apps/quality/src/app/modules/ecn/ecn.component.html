@@ -55,6 +55,7 @@
           [data]="functionsOptions"
           name="selectedfns"
           [(ngModel)]="selectedFunction"
+           (selectionChange)="onSummaryChange($event)"
         ></kendo-dropdownlist>
         <button kendoButton class="ecnbutton" (click)="showopen()">
           <span class="starttext">Open</span> &nbsp;&nbsp; &nbsp;&nbsp;

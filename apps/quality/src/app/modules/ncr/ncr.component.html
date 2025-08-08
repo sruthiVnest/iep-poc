@@ -29,7 +29,7 @@
       </div>
       <div class="chart-view" *ngIf="!showGrid">
   <h2 class="ncr-bar-chart-title">NCR Count by Month - {{ currentYear }}</h2>
-  <kendo-chart [transitions]="false" (seriesClick)="onBarClick($event)">
+  <kendo-chart [transitions]="false" [zoomable]="true" (seriesClick)="onBarClick($event)">
      <kendo-chart-legend position="top"></kendo-chart-legend>
     <kendo-chart-category-axis>
       <kendo-chart-category-axis-item [categories]="months" [title]="{ text: 'Month' }"></kendo-chart-category-axis-item>
@@ -42,6 +42,7 @@
         type="column"
         [data]="currentYearDataCounts"
         [color]="'#1976d2'"
+        [gap]="5.5" [spacing]="0.08"
         name="NCR Count">
       </kendo-chart-series-item>
     </kendo-chart-series>

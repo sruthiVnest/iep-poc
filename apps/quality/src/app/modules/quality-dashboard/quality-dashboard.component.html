@@ -4,11 +4,11 @@
     <div class="dashboard-header">
       <span class="dashboard-title">Quality</span>
       <div class="dashboard-header-right">
-        <span class="icons" *ngIf="showIcon">
-           <span class="material-symbols-outlined" id="chartIcon">insert_chart</span>
+        <span class="icons" *ngIf="showIcon && isOffice">
+           <span class="material-symbols-outlined" id="chartIcon" (click)="openPareto()">insert_chart</span>
            </span>
            <span class="icons" *ngIf="showIcon">
-          <span class="material-symbols-outlined" id="risk">warning</span>
+          <span class="material-symbols-outlined" id="risk" (click)="openRisk()">warning</span>
          
          
         </span>
@@ -45,7 +45,7 @@
           <ng-template kendoTabContent>
 
   
-            <copilot-iep-nx-ecn></copilot-iep-nx-ecn>
+            <copilot-iep-nx-ecn (ecnSummaryChange)="summaryChange($event)"></copilot-iep-nx-ecn>
           </ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="COQ">
@@ -102,7 +102,7 @@
             </kendo-textbox>
           </div>
           <div class="header-right">
-            <span class="material-symbols-outlined">info</span>
+            <span class="material-symbols-outlined" (click)="openInfo('dovsbuyinfo')">info</span>
             <span class="material-symbols-outlined"> assignment_ind </span>
             <span class="material-symbols-outlined">settings</span>
             <span class="material-symbols-outlined"> export_notes </span>
@@ -122,3 +122,45 @@
   </div>
 </div>
 
+<kendo-dialog *ngIf="chartOpen" (close)="chartOpen=false" [width]="800" class="pareto-dialog">
+  <kendo-dialog-titlebar>
+    <span>Pareto Chart</span>
+  </kendo-dialog-titlebar>
+  <shared-ui-pareto-chart></shared-ui-pareto-chart>
+  
+</kendo-dialog>
+<kendo-dialog *ngIf="riskOpen"  (close)="riskOpen=false" [width]="800" class="pareto-dialog">
+  <kendo-dialog-titlebar>
+    <span class="risk-title">
+      <span class="material-symbols-outlined" (click)="openInfo('riskInfo')">info</span>
+      <span class="risktitle">ECR RISK</span>
+  </span>
+  </kendo-dialog-titlebar>
+<ecr-risk></ecr-risk> 
+</kendo-dialog>
+<kendo-dialog *ngIf="helpOpen" (close)="helpOpen=false" [width]="800" class="pareto-dialog">
+  <kendo-dialog-titlebar>
+    <span class="risk-title">
+      
+      <span class="risktitle">Information</span>
+  </span>
+  </kendo-dialog-titlebar>
+  <div *ngIf="content === 'dovsbuy'">
+    This window corresponds to the information regarding Do vs Buy.
+    <p>
+      The Do vs Buy tab provides insights into the decision-making process of whether to develop a solution in-house or purchase it from an external vendor.
+    </p>
+    </div>
+  <div *ngIf="content === 'risk'">
+This window curresponds to the information regarding ECR RISK. 
+  <p>
+    The ECR RISK tab provides insights into the risk associated with Engineering Change Requests (ECRs). It helps in identifying potential risks and their impact on the project.
+  </p>
+  <p>
+    The Pareto Chart displays the distribution of ECRs based on their risk levels, allowing users to focus on the most significant risks first.
+  </p>
+  <p>
+    Use the search functionality to filter ECRs based on specific criteria, and utilize the grid view for detailed analysis.
+  </p>   
+  </div>
+</kendo-dialog>
