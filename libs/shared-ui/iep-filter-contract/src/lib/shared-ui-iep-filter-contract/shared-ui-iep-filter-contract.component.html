@@ -5,28 +5,31 @@
     <button class="filter-dots" (click)="toggleFilterMenu($event)">...</button>
     <div class="filter-dots-menu" *ngIf="filterMenuOpen" (click)="$event.stopPropagation()">
       <ul>
-        <li >
-           <span class="material-symbols-outlined">save_as</span>   Export Contract     
-        </li>
-        <li (click)="saveFilter()">
-      <span class="material-symbols-outlined">save</span>  Save Filter
-       
-        </li>
+        <li (click)="excelexport.save()">
+          
+           <span class="material-symbols-outlined">save_as</span>   Export Contract
+           <kendo-excelexport [data]="filteredData" fileName="contracts.xlsx" #excelexport>
+                  <kendo-excelexport-column field="projectId" title="Project Id"></kendo-excelexport-column>
+      <kendo-excelexport-column field="contractName" title="Project Name"></kendo-excelexport-column>
+      
+           </kendo-excelexport>
+       </li>
+        <li (click)="openSaveFilter()">
+      <span class="material-symbols-outlined" >save</span>  Save Filter
+      </li>
         <li class="relative">
-          <span class="material-symbols-outlined">filter_list</span> Load Filter
+          <span class="material-symbols-outlined">filter_list</span>Load Filter
           <span class="material-symbols-outlined submenu-arrow submenu-arrow-custom">chevron_right</span>
        
           <ul class="submenu">
-            <li *ngFor=" let filters of filterlist"><span *ngFor="let filter of filters | keyvalue" (click)="loadFilter(filter.value)">Saved {{filter.key }}</span></li> 
+            <li *ngFor=" let filters of filterlist"><span *ngFor="let filter of filters | keyvalue" (click)="loadFilter(filter.value)"> {{filter.key }}</span></li> 
           </ul>
          
         </li>
-          <li class="relative">
+          <li class="relative" (click)="openInfoPopup()">
           <span class="material-symbols-outlined">help</span>  Instruction to Use</li>
         <li class="menu-divider"></li>
-        <li class="menu-instruction"><span class="material-symbols-outlined">
-info
-</span>Last Updated Info</li>
+        <li class="menu-instruction" ><span class="material-symbols-outlined" >info</span>Last Updated Info</li>
         <li class="menu-last-uploaded">Last uploaded: {{ lastUploadedDate }} by {{ lastUploadedBy }}</li>
       </ul>
     </div>
@@ -55,85 +58,39 @@ info
             <button class="clear-filter-link" (click)="clearAdvanceFilters()">Clear Filter</button>
           </div>
           <div class="advance-search-row">
-             <kendo-expansionpanel class="advance-expansion-panel"
-        [title]="'Delivery Year'"
-        [subtitle]="getSelectedValuesText(selectedDeliveryYears)"
-        [expanded]="true"
-      >
+             <kendo-expansionpanel class="advance-expansion-panel" *ngFor="let opt of searchOptions">
       <ng-template kendoExpansionPanelTitleDirective>
-         <div class="custom-header">
-     
+         <div class="custom-header">  
  
         <div class="title-group">
-          <div class="main-title">Delivery Year</div>
-          <div class="sub-title">  <span class="selected-values-text" *ngIf="selectedDeliveryYears.length">{{ getSelectedValuesText(selectedDeliveryYears) }}</span></div>
+          <div class="main-title">{{opt.title}}</div>
+          <div class="sub-title">  
+            <span class="selected-values-text" >{{opt.selected }}</span></div>
         </div>
       </div>
-         <span class="custom-icon k-icon k-i-folder"><span class="material-symbols-outlined"  (click)="deselect($event)">
-check_indeterminate_small
-</span></span>
+         <span class="custom-icon k-icon k-i-folder">
+          <span class="material-symbols-outlined"  (click)="deselect($event,opt.key)">
+          check_indeterminate_small
+        </span></span>
     </ng-template>
       
     
         <div class="content">
-           <input kendoTextBox placeholder="Delivery Year" [(ngModel)]="selectYr" (ngModelChange)="onUserSearch($event)" class="extended-users-input" />
-          <ul *ngIf="deliveryYearsFiltered.length > 0" class="autocomplete-list">
-            <li *ngFor="let year of deliveryYearsFiltered">
+           <input kendoTextBox placeholder="{{opt.title}}" [(ngModel)]="formData[opt.key]"  [name]="opt.key"  class="extended-users-input" />
+          <ul *ngIf="opt.values.length > 0" class="autocomplete-list">
+            <li *ngFor="let item of opt.values | filterByText:formData[opt.key] ">
+              <!-- | filterByText:formData[opt.key] -->
               <label class="user-checkbox">
-                <kendo-checkbox type="checkbox" [checkedState]="isUserSelected(year)" (change)="toggleUserSelection(year)" />
-                <span>{{ year }}</span>
+                <kendo-checkbox [checkedState]="isUserSelected(item,opt)" (change)="toggleUserSelection(item,opt.key)" />
+                <span>{{ item }}</span>
               </label>
             </li>
           </ul>
+       
         </div>
       </kendo-expansionpanel>
-           
-            <kendo-multiselect
-              [data]="racYears"
-              [(ngModel)]="selectedRacYears"
-              [placeholder]="'RAC Year'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedRacYears.length">{{ getSelectedValuesText(selectedRacYears) }}</span>
-            <kendo-multiselect
-              [data]="projectStatuses"
-              [(ngModel)]="selectedProjectStatuses"
-              [placeholder]="'Project Status'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedProjectStatuses.length">{{ getSelectedValuesText(selectedProjectStatuses) }}</span>
-            <kendo-multiselect
-              [data]="drivers"
-              [(ngModel)]="selectedDrivers"
-              [placeholder]="'Driver'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedDrivers.length">{{ getSelectedValuesText(selectedDrivers) }}</span>
-            <kendo-multiselect
-              [data]="connectors"
-              [(ngModel)]="selectedConnectors"
-              [placeholder]="'Connector'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedConnectors.length">{{ getSelectedValuesText(selectedConnectors) }}</span>
-            <kendo-multiselect
-              [data]="installationCountries"
-              [(ngModel)]="selectedInstallationCountries"
-              [placeholder]="'Installation Country'"
-              [checkboxes]="true"
-              [autoClose]="false"
-              class="advance-multiselect"
-            ></kendo-multiselect>
-            <span class="selected-values-text" *ngIf="selectedInstallationCountries.length">{{ getSelectedValuesText(selectedInstallationCountries) }}</span>
-          </div>
+  
+         </div>
         </div>
       </div>
     </ng-template>
@@ -153,12 +110,12 @@ check_indeterminate_small
               <span class="tree-parent-label">Current Projects</span>
             </div>
            <div class="iep-tree-view">
-            <kendo-treeview kendoTreeViewExpandable [nodes]="myContracts" [children]="children" [hasChildren]="hasChildren"
+            <kendo-treeview kendoTreeViewExpandable [nodes]="myContractsFiltered" [children]="children" [hasChildren]="hasChildren"
               [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
               [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys"
               [expandedKeys]="expandedKeys">
-              <ng-template kendoTreeViewNodeTemplate let-dataItem>
-                {{dataItem.contractName ? dataItem.contractName : dataItem.trainName}} <span *ngIf="!dataItem.trainName && !dataItem.contractName">{{dataItem}}</span>
+              <ng-template kendoTreeViewNodeTemplate let-dataItem >
+              {{dataItem.contractName ? dataItem.contractName : dataItem.trainName}} <span *ngIf="  dataItem.trainName && !dataItem.contractName">{{dataItem}}</span>
                 <span class="material-symbols-outlined filled-star filled-star-true" *ngIf="dataItem.isFavourite=='True'" (click)="addToFavourites(dataItem.contractName ? dataItem.contractName : dataItem.trainName)">star</span>
               </ng-template>
             </kendo-treeview>
@@ -193,7 +150,7 @@ check_indeterminate_small
         <ng-template kendoTabContent>
           <div class="content">
             <ng-container *ngTemplateOutlet="searchAndPanel"></ng-container>
-            <kendo-treeview kendoTreeViewExpandable [nodes]="favouriteProject" [children]="children" [hasChildren]="hasChildren"
+            <kendo-treeview kendoTreeViewExpandable [nodes]="favouritesFiltered" [children]="children" [hasChildren]="hasChildren"
               textField="text" [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys"
               [expandedKeys]="expandedKeys">
               <ng-template kendoTreeViewNodeTemplate let-dataItem>
@@ -206,3 +163,26 @@ check_indeterminate_small
     </kendo-tabstrip>
   </div>
 </div>
+<kendo-dialog *ngIf="namePopupOpen" (close)="closeFilterNamePopup()"  class="nameDialog">
+  <kendo-dialog-titlebar class="nameDialogTitle">
+    <h4>Add Name For Custom Filter</h4>
+  </kendo-dialog-titlebar>
+  <kendo-label text="Filter Name">
+  <kendo-textbox [(ngModel)]="filterName" placeholder="filter name" class="nameDialogueText"></kendo-textbox>
+  </kendo-label>
+<kendo-dialog-actions>
+  <button kendoButton (click)="closeFilterNamePopup();"> Cancel</button> <button kendoButton (click)="saveFilter()"> Save</button>
+</kendo-dialog-actions>
+</kendo-dialog>
+<kendo-dialog *ngIf="infoPopup" (close)="closeInfoPopup()"  class="nameDialog">
+  <kendo-dialog-titlebar class="infoPopupTitle">
+    <h4>Information</h4>
+  </kendo-dialog-titlebar>
+This window referes to advance search. 
+  <p>To use advance search, please select the options from the dropdown and click on the search button.</p>
+  <p>To clear the filters, click on the "Clear Filter" button.</p>
+  <p>To save the filter, click on the "Save Filter" button and provide a name for the filter.</p>
+  <p>To load a saved filter, select it from the "Load Filter" dropdown.</p>
+  <p>For more information, please refer to the user manual.</p>
+
+</kendo-dialog>

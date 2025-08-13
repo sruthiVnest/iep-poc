@@ -6,7 +6,7 @@
   background: #fff;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.04);
   position: relative;
-text-align: center;
+  text-align: center;
   h3 {
   
     margin-bottom: 0.5rem;
@@ -80,8 +80,7 @@ text-align: center;
 }
 
 .advance-search-row {
- // display: flex;
-  //flex-wrap: wrap;
+ 
   gap: 12px;
   align-items: center;
   justify-content: center;
@@ -209,33 +208,7 @@ text-align: center;
   cursor: default;
 }
 
-:host ::ng-deep .searchTabs .k-tabstrip-items {
-  display: flex;
-  background: rgb(239, 236, 236)!important;
- 
-  margin-bottom: 0.5rem;
-}
-:host ::ng-deep .searchTabs .k-tabstrip-items .k-tabstrip-item {
-  //margin: 2px 4px;
-  padding: 2px;
-  background: transparent;
- 
-}
-:host ::ng-deep .searchTabs .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item:active, .k-tabstrip-top>.k-tabstrip-items-wrapper .k-item.k-active  {
- border: 1px solid white;
-  padding: 2px;
-  background: white!important;
-  color: black!important;
-  border: none;
-}
-:host ::ng-deep .searchTabs .k-tabstrip-items-wrapper .k-item.k-active {
- border: 1px solid white;
-  padding: 2px;
-  background: white!important;
-  color: black!important;
-  border: 1px solid white!important;
-  margin: 6px;
-}
+
 .advanced-search-toggle {
   display: flex;
   align-items: center;
@@ -377,4 +350,16 @@ text-align: center;
 }
 .autocomplete-list li:hover {
   background: #f5f7fa;
+}
+.nameDialog > .k-dialog{
+min-width: 300px!important;
+min-height: 100px!important;
+}
+.nameDialogTitle{
+  background-color: #176b56;
+  color: white;
+}
+.nameDialogueText{
+  padding: 8px !important;
+  width: 100%!important;
 }

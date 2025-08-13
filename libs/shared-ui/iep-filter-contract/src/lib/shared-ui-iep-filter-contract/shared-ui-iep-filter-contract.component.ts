@@ -18,63 +18,77 @@ import {
 } from '@progress/kendo-angular-treeview';
 import { filter, Observable, of } from 'rxjs';
 import { starIcon } from '@progress/kendo-svg-icons';
-import { KENDO_SVGICON } from '@progress/kendo-angular-icons';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
 import { ApiService } from '@shared-service/data-service';
 import { CommonModule } from '@angular/common';
 import { KENDO_DROPDOWNS } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
+import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import {KENDO_LABEL} from '@progress/kendo-angular-label';
+import {FilterByTextPipe} from '../../../pipes/filter-by-text.pipe';
+import {KENDO_EXCELEXPORT} from '@progress/kendo-angular-excel-export';
 
 @Component({
   selector: 'iep-filter-contract',
   standalone: true,
   imports: [
-    KENDO_TABSTRIP,
-    KENDO_TREEVIEW,
-    KENDO_SVGICON,
+      KENDO_TABSTRIP,
+    KENDO_TREEVIEW,   
     KENDO_INPUTS,
     KENDO_LAYOUT,
     KENDO_DROPDOWNS,
+    KENDO_DIALOG,
+    KENDO_BUTTON,
+    KENDO_LABEL,
     CommonModule,
     FormsModule,
+    FilterByTextPipe,
+    KENDO_EXCELEXPORT
   ],
 
   templateUrl: './shared-ui-iep-filter-contract.component.html',
   styleUrl: './shared-ui-iep-filter-contract.component.scss',
 })
 export class SharedUiIepFilterContractComponent {
-  public data: any = [];
+   public data: any = [];
   public expandedKeys: string[] = [];
   public myContracts: any = [];
   public favouriteProject: any = [];
   private dataService = inject(ApiService);
   public savedFIlteroptions: any;
   public filterlist: any[] = [];
-
+  public searchOptions:any[]=[];
+  public namePopupOpen=false;
+  public filterName:string='';
+  public formData: { [key: string]: any }={};
   constructor() {
+    this.dataService.getSearchOptions().subscribe((data:any)=>{
+      this.searchOptions=data.data;
+      this.searchOptions.forEach(opt=>{
+        this.formData[opt.key]=[];
+      })
+    
+    });
     this.dataService.getFilterList().subscribe(
-      (data) => {
+      (data:any) => {
         this.filterlist = data.data;
-        console.log('Filter list loaded:', this.filterlist);
       },
-      (error) => {
+      (error:any) => {
         console.error('Error loading filter list:', error);
       }
     );
-    this.dataService.getCurrentProjects().subscribe((data) => {
+    this.dataService.getCurrentProjects().subscribe((data:any) => {
       this.data = data;
       this.filteredData = this.data;
       this.myContracts = this.data.filter(
         (item: any) => item.isMyContracts === 'True'
       );
+      this.myContractsFiltered = this.myContracts;
       this.favouriteProject = this.data.filter(
         (item: any) => item.isFavourite === 'True'
       );
-      // Expand all root nodes by default
-      // this.expandedKeys = this.data.map((_: any, idx: number) =>
-      //   idx.toString()
-      // );
-      // Set the first node as selected by default if available
+      this.favouritesFiltered = this.favouriteProject;
       if (this.data && this.data.length > 0) {
         this.checkedKeys = ['0'];
         const selectedNode = this.data[0];
@@ -91,6 +105,8 @@ export class SharedUiIepFilterContractComponent {
   public checkedKeys: string[] = ['0'];
   public filterTerm = '';
   public filteredData: any[] = [];
+  public myContractsFiltered: any[] = [];
+  public favouritesFiltered: any[] = [];
   public starIcon = starIcon;
   public enableCheck = true;
   public checkChildren = true;
@@ -103,18 +119,11 @@ export class SharedUiIepFilterContractComponent {
   public collapsed = false;
   public selectedProjects: WritableSignal<string[]> = signal([]);
   public favourites: any[] = [];
-  public activeTabIndex = 0;
-  public deliveryYears: string[] = ['2022', '2023', '2024', '2025','2000','2006','2010','1999'];
-  public deliveryYearsFiltered:string[]=[];
-  public racYears: string[] = ['2022', '2023', '2024', '2025'];
-  public projectStatuses: string[] = ['Active', 'Completed', 'Pending'];
-  public drivers: string[] = ['Driver A', 'Driver B', 'Driver C'];
-  public connectors: string[] = ['Connector X', 'Connector Y', 'Connector Z'];
-  public installationCountries: string[] = ['USA', 'Germany', 'India', 'UAE'];
+  public activeTabIndex = 1; // 0: All Projects, 1: My Contracts, 2: Favourites
+  public infoPopup=false;
   public emptyTagMapper = (item: any[]) => {
     return item.map(()=>null);
   };
-  public selectYr:any;
   selectedDeliveryYears: string[] = [];
   selectedRacYears: string[] = [];
   selectedProjectStatuses: string[] = [];
@@ -147,9 +156,7 @@ export class SharedUiIepFilterContractComponent {
       )
     );
   }
-  ngOnInit(){
-    this.deliveryYearsFiltered=[...this.deliveryYears];
-  }
+
   onNodeSelect(keys: any) {
     console.log(keys);
     this.checkedKeys = keys;
@@ -393,9 +400,15 @@ export class SharedUiIepFilterContractComponent {
   onFilterTermChange(term: string) {
     this.filterTerm = term;
     this.filteredData = this.filterTree(this.data, term);
+    this.myContractsFiltered = this.filterTree(this.myContracts, term);
+    this.favouritesFiltered = this.filterTree(this.favourites, term);
   }
 
   public clearAdvanceFilters() {
+     this.searchOptions.forEach(item=>{
+      item.selected = [];
+      this.formData[item.key] = [];
+     });
     this.selectedDeliveryYears = [];
     this.selectedRacYears = [];
     this.selectedProjectStatuses = [];
@@ -431,8 +444,31 @@ export class SharedUiIepFilterContractComponent {
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
   }
+  openSaveFilter(){
+    this.namePopupOpen=true;
+  }
   saveFilter() {
     // Implement save filter logic here
+        this.searchOptions.forEach(item=>{
+        if(item.key=='selected_year'){
+            this.selectedDeliveryYears=item.selected;
+        }
+        else if(item.key=='selected_rac'){
+          this.selectedRacYears=item.selected
+        }
+        else if(item.key=='selected_status'){
+            this.selectedProjectStatuses=item.selected;
+        }
+        else if(item.key == 'selected_driver'){
+          this.selectedDrivers=item.selected;
+        }
+        else if(item.key=='selected_connecter'){
+          this.selectedConnectors=item.selected;
+        }
+        else{
+          this.selectedInstallationCountries=item.selected;
+        }
+      })
     this.savedFIlteroptions = {
       deliveryYears: this.selectedDeliveryYears,
       racYears: this.selectedRacYears,
@@ -442,17 +478,18 @@ export class SharedUiIepFilterContractComponent {
       installationCountries: this.selectedInstallationCountries,
     };
     // this.dataService.setFilterOptions(this.savedFIlteroptions);;
-    this.dataService.saveFilterOptions(this.savedFIlteroptions).subscribe(
-      (response) => {
+    this.dataService.saveFilterOptions(this.savedFIlteroptions,this.filterName).subscribe(
+      (response:any) => {
         console.log('Filter saved successfully:', response);
-        this.dataService.getFilterList().subscribe((data) => {
+        this.dataService.getFilterList().subscribe((data:any) => {
           this.filterlist = data.data;
         });
       },
-      (error) => {
+      (error:any) => {
         console.error('Error saving filter:', error);
       }
     );
+    this.namePopupOpen=false;
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
   }
@@ -461,49 +498,91 @@ export class SharedUiIepFilterContractComponent {
     this.filterMenuOpen = false;
     this.activeSubMenu = null;
     this.savedFIlteroptions = filter;
-    // this.savedFIlteroptions = this.dataService.getFilterOptions();
+    
     if (this.savedFIlteroptions) {
-      this.selectedDeliveryYears = this.savedFIlteroptions?.deliveryYears || [];
-      this.selectedRacYears = this.savedFIlteroptions?.racYears || [];
-      this.selectedProjectStatuses =
-        this.savedFIlteroptions?.projectStatuses || [];
-      this.selectedDrivers = this.savedFIlteroptions?.drivers || [];
-      this.selectedConnectors = this.savedFIlteroptions?.connectors || [];
-      this.selectedInstallationCountries =
+      this.searchOptions.forEach(item=>{
+        if(item.key=='selected_year'){
+          
+            item.selected=this.savedFIlteroptions?.deliveryYears||[];
+           this.formData[item.key]=item.selected;
+        }
+        else if(item.key=='selected_rac'){
+          item.selected=this.savedFIlteroptions?.racYears||[];
+           this.formData[item.key]=item.selected;
+        }
+        else if(item.key=='selected_status'){
+          item.selected=this.savedFIlteroptions?.projectStatuses || [];
+           this.formData[item.key]=item.selected;
+        }
+        else if(item.key == 'selected_driver'){
+          item.selected=this.savedFIlteroptions?.drivers||[];
+           this.formData[item.key]=item.selected;
+        }
+        else if(item.key=='selected_connector'){
+          item.selected = this.savedFIlteroptions?.connectors || [];
+           this.formData[item.key]=item.selected;
+        }
+        else{
+          item.selected = 
         this.savedFIlteroptions?.installationCountries || [];
+         this.formData[item.key]=item.selected;
+        }
+        
+      })
+     
     }
   }
 
   // Utility to get selected values as a string for display
-  getSelectedValuesText(values: string[]): string {
-    return values && values.length > 0 ? values.join(', ') : '';
-  }
-  deselect(e:any) {
+
+  deselect(e:any,key:any) {
     e.preventDefault();
     e.stopPropagation();
-    this.selectedDeliveryYears = [];
-    this.selectedRacYears = [];
-    this.selectedProjectStatuses = [];
-    this.selectedDrivers = [];
-    this.selectedConnectors = [];
-    this.selectedInstallationCountries = [];
+     const currentSelection = this.formData[key] || [];
+  this.searchOptions.forEach(opt => {
+    const selected = currentSelection;
+    if(opt.key==key)
+      opt.selected = '';
+  });
   }
-    onUserSearch(term: string) {
-    const lower = term.toLowerCase();
-    if(lower!=null)
-      this.deliveryYearsFiltered = this.deliveryYears.filter(u => u.toLowerCase().includes(lower));
+ 
+toggleUserSelection(item: string, key: string): void {
+  const currentSelection = this.formData[key] || [];
+ 
+  const index = currentSelection.indexOf(item);
+  if (index === -1) {
+    currentSelection.push(item);
+  } else {
+    currentSelection.splice(index, 1);
   }
-    toggleUserSelection(user: string) {
-    const idx = this.selectedDeliveryYears.indexOf(user);
-    if (idx > -1) {
-      this.selectedDeliveryYears.splice(idx, 1);
-    } else {
-      this.selectedDeliveryYears.push(user);
+ 
+ // this.formData[key] = [...currentSelection];
+ 
+  this.updateSelectedText(currentSelection,key);
+}
+ 
+updateSelectedText(currentSelection:any,key:string): void {
+  this.searchOptions.forEach(opt => {
+    const selected = currentSelection;
+    if(opt.key==key){
+      opt.selected = Array.isArray(selected) ? selected.join(', ') : '';
     }
-  }
+  });
+}
 
-  isUserSelected(user: string): boolean {
-    return this.selectedDeliveryYears.includes(user);
-  }
 
+  isUserSelected(user: string,opt:any): boolean {
+
+    return opt.selected.includes(user);
+  }
+closeFilterNamePopup(){
+  this.namePopupOpen=false;
+}
+openInfoPopup() {
+  this.infoPopup = true;
+  console.log('Info popup opened');
+}
+closeInfoPopup() {  
+  this.infoPopup = false;
+}
 }
