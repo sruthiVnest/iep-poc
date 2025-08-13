@@ -60,7 +60,7 @@ export class OtrdrComponent {
         });
         this.setTopLevelData();
       }
-      console.log('otrdr data', data);
+      
     });
   }
   setTopLevelData() {

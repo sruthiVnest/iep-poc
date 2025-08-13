@@ -50,6 +50,8 @@ export class OperationDashboardComponent {
   public doVsBuyDialogOpen = false;
 public searchValue: string = '';
   private overlayClickListener: any;
+  public loading = false; // Added loading property for spinner control
+
   ngOnInit() {
       window.addEventListener('filterProjectsCollapse', (event: any) => {
       this.dashboard_expand = event.detail.collapsed;
@@ -71,7 +73,7 @@ public searchValue: string = '';
   closeDoVsBuyDialog() {
     this.doVsBuyDialogOpen = false;
   }
-   ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     // Attach listener after dialog is rendered
     this.overlayClickListener = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -86,4 +88,11 @@ public searchValue: string = '';
     // Remove listener to prevent memory leaks
     document.removeEventListener('click', this.overlayClickListener);
   }
+
+  // Example usage for API call:
+  // this.loading = true;
+  // this.dataService.getData().subscribe({
+  //   next: (data) => { this.loading = false; },
+  //   error: () => { this.loading = false; }
+  // });
 }

@@ -129,7 +129,6 @@ export class SharedUiIepGridComponent {
       // Logic to acknowledge selected items
       console.log('Acknowledging:', this.selectedKeys);
       // Reset selection after acknowledging
-//ssthis.selectedKeys = [];
       this.selectionChange.emit(this.selectedKeys);
     } else {
       console.warn('No items selected for acknowledgment');

@@ -29,24 +29,22 @@ export class LoginComponent {
   login() {
     const { username, password, rememberMe } = this.loginForm.value;
     // Mock authentication logic with role
-    if (username === 'admin' && password === 'admin') {
+    if (
+      (username === 'admin' && password === 'admin') ||
+      (username === 'user' && password === 'user')
+    ) {
       localStorage.setItem('auth_token', 'mock-token');
-      localStorage.setItem('user_role', 'admin');
+      localStorage.setItem('user_role', username === 'admin' ? 'admin' : 'user');
       if (rememberMe) {
         localStorage.setItem('remembered_username', username);
       } else {
         localStorage.removeItem('remembered_username');
       }
-      this.router.navigate(['/dashboard']);
-    } else if (username === 'user' && password === 'user') {
-      localStorage.setItem('auth_token', 'mock-token');
-      localStorage.setItem('user_role', 'user');
-      if (rememberMe) {
-        localStorage.setItem('remembered_username', username);
-      } else {
-        localStorage.removeItem('remembered_username');
-      }
-      this.router.navigate(['/dashboard']);
+      // Show loading page, then redirect to dashboard after short delay
+      this.router.navigate(['/loading']);
+      setTimeout(() => {
+        this.router.navigate(['/dashboard']);
+      }, 1500); // 1.5 seconds for loading effect
     } else {
       this.error = 'Invalid credentials';
     }

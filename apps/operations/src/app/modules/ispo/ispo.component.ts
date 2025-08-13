@@ -23,13 +23,13 @@ import {
 } from '@progress/kendo-angular-tooltip';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { KENDO_MULTISELECT } from '@progress/kendo-angular-dropdowns';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
 import { SharedUiIepGridComponent } from '@shared-ui/iep-grid';
 import { effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FilterActivitiesComponent } from '../../pages/filter-activities/filter-activities.component';
 import { ManageSubdivisionComponent } from '../../pages/manage-subdivision/manage-subdivision.component';
-import { KENDO_POPUP } from "@progress/kendo-angular-popup";
+import { KENDO_POPUP } from '@progress/kendo-angular-popup';
 @Component({
   selector: 'copilot-iep-nx-ispo',
   standalone: true,
@@ -76,15 +76,15 @@ export class IspoComponent {
   public sort: SortDescriptor[] = [];
   public showWarning = true;
   public searchValue: string = '';
-//For popup
-popupWidth=300;
-windowWidth = window.innerWidth;
+  //For popup
+  popupWidth = 300;
+  windowWidth = window.innerWidth;
   public manageSubdivisionDialogOpen = false;
 
   private dataService = inject(DataService);
   public selectedProjects = this.dataService.getTreeData;
-public savedFIlteroptions:any;
-public filterlist: any[] = [];
+  public savedFIlteroptions: any;
+  public filterlist: any[] = [];
   public close(component: string): void {
     this.dialogOpened = false;
   }
@@ -178,17 +178,13 @@ public filterlist: any[] = [];
     this.onFilter('');
     // Add more filter reset logic here if needed
   }
-    saveFilter() {
+  saveFilter() {
     // Implement save filter logic here
- 
-  
   }
   loadFilter(filter: any) {
     // Implement load filter logic here
-
-    
   }
-    toggleFilterMenu(event: MouseEvent) {
+  toggleFilterMenu(event: MouseEvent) {
     event.stopPropagation();
     this.filterMenuOpen = !this.filterMenuOpen;
     if (this.filterMenuOpen) {
@@ -211,7 +207,10 @@ public filterlist: any[] = [];
     if (this.settingsMenuOpen) {
       document.addEventListener('click', this.closeSettingsMenuOnOutsideClick);
     } else {
-      document.removeEventListener('click', this.closeSettingsMenuOnOutsideClick);
+      document.removeEventListener(
+        'click',
+        this.closeSettingsMenuOnOutsideClick
+      );
     }
   }
 
@@ -220,13 +219,27 @@ public filterlist: any[] = [];
     document.removeEventListener('click', this.closeSettingsMenuOnOutsideClick);
   };
 
-  exportActivities() { /* TODO: Implement export logic */ }
-  saveCustomGrid() { /* TODO: Implement save logic */ }
-  loadCustomGrid() { /* TODO: Implement load logic */ }
-  reassignMultipleActivities() { /* TODO: Implement reassign logic */ }
-  manageSubdivision() { /* TODO: Implement manage logic */ }
-  showDeletedIspoItems() { /* TODO: Implement show deleted logic */ }
-  showInstructions() { /* TODO: Implement instructions logic */ }
+  exportActivities() {
+    /* TODO: Implement export logic */
+  }
+  saveCustomGrid() {
+    /* TODO: Implement save logic */
+  }
+  loadCustomGrid() {
+    /* TODO: Implement load logic */
+  }
+  reassignMultipleActivities() {
+    /* TODO: Implement reassign logic */
+  }
+  manageSubdivision() {
+    /* TODO: Implement manage logic */
+  }
+  showDeletedIspoItems() {
+    /* TODO: Implement show deleted logic */
+  }
+  showInstructions() {
+    /* TODO: Implement instructions logic */
+  }
   hasSelectedRows = false;
 
   reassignAllActivities() {
@@ -253,12 +266,13 @@ public filterlist: any[] = [];
   public closeManageSubdivisionDialog(): void {
     this.manageSubdivisionDialogOpen = false;
   }
-  
+
   toggleCollapse() {
     this.collapsed = !this.collapsed;
     // Emit an event or use a shared service to notify the parent (ISPO) to expand/collapse
-    const event = new CustomEvent('filterProjectsCollapse', { detail: { collapsed: this.collapsed } });
+    const event = new CustomEvent('filterProjectsCollapse', {
+      detail: { collapsed: this.collapsed },
+    });
     window.dispatchEvent(event);
   }
-
 }

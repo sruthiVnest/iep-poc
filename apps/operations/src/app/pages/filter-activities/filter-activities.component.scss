@@ -4,7 +4,9 @@
   align-items: center;
   margin-bottom: 10px;
 }
-
+.filter-dropdown{
+  min-width:100px!important;
+}
 .result-row {
   display: flex;
   gap: 16px;
@@ -22,6 +24,7 @@
   font-size: 12px;
   transition: background 0.2s;
 }
+
 .result-btn:last-child {
   margin-right: 0;
 }
@@ -74,7 +77,6 @@
 }
 .scroll-arrow {
   border: none;
-//  background: #e3f2fd;
   color: #209474;
   border-radius: 10%;
   width: 26px;

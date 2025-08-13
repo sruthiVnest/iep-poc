@@ -3,6 +3,7 @@ import { LoginComponent } from './features/myID/login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LayoutComponent } from './core/layout/layout.component';
 import { authGuard } from './auth.guard';
+import { LoadingComponent } from './pages/loading/loading.component';
 
 export const appRoutes: Route[] = [
   {
@@ -15,6 +16,7 @@ export const appRoutes: Route[] = [
   },
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {path:'loading', component: LoadingComponent},
   { path: 'login', component: LoginComponent },
   {
     path: '',

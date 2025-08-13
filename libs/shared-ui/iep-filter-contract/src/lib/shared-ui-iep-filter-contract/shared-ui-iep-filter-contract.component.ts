@@ -166,7 +166,6 @@ export class SharedUiIepFilterContractComponent {
     this.dataService.selectedProjects.set(selectedTexts);
     this.dataService.setTreeData(selectedTexts.map((text) => ({ text })));
     this.dataService.setSelectedProjects(selectedTexts);
-    console.log('Selected projects:', selectedTexts);
     // Update allChecked for current tab
     const allKeys = this.getAllNodeKeys(tree);
     this.allChecked =
@@ -480,7 +479,6 @@ export class SharedUiIepFilterContractComponent {
     // this.dataService.setFilterOptions(this.savedFIlteroptions);;
     this.dataService.saveFilterOptions(this.savedFIlteroptions,this.filterName).subscribe(
       (response:any) => {
-        console.log('Filter saved successfully:', response);
         this.dataService.getFilterList().subscribe((data:any) => {
           this.filterlist = data.data;
         });

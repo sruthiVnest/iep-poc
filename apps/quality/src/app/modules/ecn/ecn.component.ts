@@ -353,7 +353,6 @@ export class EcnComponent {
   }
 
   public action(status: string): void {
-    console.log(`Dialog result: ${status}`);
     this.dialogOpened = false;
   }
 

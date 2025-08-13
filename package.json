@@ -24,6 +24,7 @@
     "@progress/kendo-angular-l10n": "^19.1.0",
     "@progress/kendo-angular-label": "^19.1.0",
     "@progress/kendo-angular-layout": "^19.1.0",
+    "@progress/kendo-angular-progressbar": "^19.1.0",
     "@progress/kendo-angular-tooltip": "^19.1.0",
     "@progress/kendo-theme-default": "^11.0.2",
     "rxjs": "~7.8.0",
@@ -72,5 +73,7 @@
   "resolutions": {
     "webpack": "5.88.2"
   },
-  "overrides":{"stylus":"0.0.1-security"}
+  "overrides": {
+    "stylus": "0.0.1-security"
+  }
 }

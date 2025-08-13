@@ -47,7 +47,7 @@ body, *:not(.material-symbols-outlined) {
   font-family: "Inter Tight", "Segoe UI", 'Roboto',
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
       "Segoe UI Symbol"!important;
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 .drawer-container .k-drawer-item.k-selected {
   background: none !important;
@@ -212,3 +212,54 @@ body, *:not(.material-symbols-outlined) {
    background-color: #ccc;
    border-radius: 3px;
  }
+ .drawer-container .k-drawer-item.k-selected {
+  background: none !important;
+}
+.nameDialog .k-window-content, .k-prompt-container {
+  min-width: 300px!important;
+min-height: 100px!important;
+}
+.searchTabs .k-tabstrip-items-wrapper{
+  background-color: #EBEFEE!important;
+
+}
+.searchTabs .k-tabstrip-items-wrapper .k-item.k-active {
+  border:5px solid  #EBEFEE!important;
+  padding:6px!important;
+}
+.right-dialog .k-dialog {
+  position: fixed !important;
+  right: 0!important;
+  transform: translate(0, -50%)!important;
+   top: 50%;
+   height: 50%!important;
+  width: 30%;
+}
+.right-dialog .k-dialog-titlebar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.right-dialog .k-dialog-close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+.k-treeview-item > div {
+  width: 85%!important ;
+}
+.result-row > .k-button-group > .k-button.k-selected {
+  box-shadow: none !important;
+  border-color: #209474 !important;
+  background-color: #209474 !important;
+  color: #fff !important;
+}
+
+.result-row > .k-button-group  > .k-button{
+     border-start-end-radius: 50px!important; 
+    border-end-end-radius: 50px!important; 
+     border-start-start-radius: 50px!important; 
+     border-end-start-radius: 50px!important; 
+}

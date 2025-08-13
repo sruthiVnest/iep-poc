@@ -1,23 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
+import {  KENDO_MULTISELECT } from '@progress/kendo-angular-dropdowns';
 import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
-
+import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
+import { ButtonRounded, KENDO_BUTTONS } from '@progress/kendo-angular-buttons';
+import { KENDO_LABEL } from '@progress/kendo-angular-label';
 @Component({
-  selector: 'copilot-iep-nx-filter-activities',
+  selector: 'filter-activities',
   standalone: true,
-  imports: [CommonModule, FormsModule, KENDO_DROPDOWNLIST,KENDO_TOOLTIP],
+  imports: [CommonModule, FormsModule, KENDO_MULTISELECT,KENDO_TOOLTIP,KENDO_DIALOG,KENDO_BUTTONS,KENDO_LABEL],
   templateUrl: './filter-activities.component.html',
   styleUrl: './filter-activities.component.scss',
 })
 export class FilterActivitiesComponent {
-
-  viewAsOptions = ['User', 'Group', 'All'];
-  functionsOptions = ['Function 1', 'Function 2', 'Function 3'];
-  documentTypeOptions = ['Type A', 'Type B', 'Type C'];
+favouriteDialogOpen:boolean=false;
+ public rounded: ButtonRounded = "full";
+  viewAsOptions = ['Individual', 'Office', 'Summary'];
+  functionsOptions = ['ENG', 'Non-ENG', 'Tech'];
+  documentTypeOptions = ['Internal', 'External', 'Protected'];
   activityStatusOptions = ['Open', 'Closed', 'In Progress'];
-  activityTypeOptions = ['Type X', 'Type Y', 'Type Z'];
+  activityTypeOptions = ['560', '510', '789'];
   finishByOptions = ['Today', 'This Week', 'This Month'];
   dateTypeOptions = ['Created', 'Due', 'Completed'];
 
@@ -67,5 +70,9 @@ export class FilterActivitiesComponent {
     this.selectedFinishBy = null;
     this.selectedDateType = null;
   }
-  
+  openFavourite(){
+    if(this.selectedViewAs=='Office'){
+      this.favouriteDialogOpen=true;
+    }
+  }
 }

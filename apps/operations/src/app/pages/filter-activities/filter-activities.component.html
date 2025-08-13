@@ -1,20 +1,29 @@
 <div class="filter-activities-panel">
   <div class="dropdown-row">
-    <kendo-dropdownlist class="filter-dropdown" [data]="viewAsOptions" [(ngModel)]="selectedViewAs" [defaultItem]="'View As'" ></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="functionsOptions" [(ngModel)]="selectedFunction" [defaultItem]="'Functions'" ></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="documentTypeOptions" [(ngModel)]="selectedDocumentType" [defaultItem]="'Document Type'" ></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="activityStatusOptions" [(ngModel)]="selectedActivityStatus" [defaultItem]="'Activity Status'" ></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="activityTypeOptions" [(ngModel)]="selectedActivityType" [defaultItem]="'Activity Type'" ></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="finishByOptions" [(ngModel)]="selectedFinishBy" [defaultItem]="'Finish By'" ></kendo-dropdownlist>
-    <kendo-dropdownlist class="filter-dropdown" [data]="dateTypeOptions" [(ngModel)]="selectedDateType" [defaultItem]="'Date Type'" ></kendo-dropdownlist>
+    <kendo-label>View As
+    <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="viewAsOptions" [(ngModel)]="selectedViewAs" (ngModelChange)="openFavourite()" ></kendo-multiselect></kendo-label>
+    <kendo-label>Function
+    <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="functionsOptions" [(ngModel)]="selectedFunction" ></kendo-multiselect></kendo-label>
+    <kendo-label>Document Type
+    <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="documentTypeOptions" [(ngModel)]="selectedDocumentType"></kendo-multiselect></kendo-label>
+    <kendo-label>Activity Status
+    <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="activityStatusOptions" [(ngModel)]="selectedActivityStatus" ></kendo-multiselect></kendo-label>
+    <kendo-label>Activity Type
+    <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="activityTypeOptions" [(ngModel)]="selectedActivityType" ></kendo-multiselect></kendo-label>
+    <kendo-label>Finish By
+    <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="finishByOptions" [(ngModel)]="selectedFinishBy"></kendo-multiselect></kendo-label>
+    <kendo-label>Date Type
+    <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="dateTypeOptions" [(ngModel)]="selectedDateType" ></kendo-multiselect></kendo-label>
   </div>
   <div class="result-row">
-    <button class="result-btn primary">Total Documents ({{ totalDocuments }})</button>
-    <button class="result-btn">Backlogs ({{ backlogs }})</button>
-    <button class="result-btn">Forecast ({{ forecast }})</button>
-    <button class="result-btn">Not Acknowledged ({{ notAcknowledged }})</button>
-    <button class="result-btn">Step ({{ step }})</button>
-    <button class="result-btn">Rulestream ({{ rulestream }})</button>
+         <kendo-buttongroup selection="single" >
+    <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn" [selected]="true">Total Documents ({{ totalDocuments }})</button>
+    <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn">Backlogs ({{ backlogs }})</button>
+    <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn">Forecast ({{ forecast }})</button>
+    <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn">Not Acknowledged ({{ notAcknowledged }})</button>
+    <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn">Step ({{ step }})</button>
+    <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn">Rulestream ({{ rulestream }})</button>
+    </kendo-buttongroup>
   </div>
   <div class="card-scroll-wrapper">
     <button class="scroll-arrow left" (click)="scrollLeft()">
@@ -38,3 +47,8 @@
     </button>
   </div>
 </div>
+<kendo-dialog *ngIf="favouriteDialogOpen" class="right-dialog" (close)="favouriteDialogOpen = false">
+  <kendo-dialog-titlebar>Select Office</kendo-dialog-titlebar>
+  
+
+</kendo-dialog>

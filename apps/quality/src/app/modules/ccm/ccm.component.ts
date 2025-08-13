@@ -141,7 +141,6 @@ export class CcmComponent {
     // Mock data for grid
     this.dataService.getNCRDataBymonth(inputParam).subscribe((data) => {
       this.gridView=[];
-      console.log("data is ==>",data);
       this.data=data;
       if(this.data.length > 0){
        this.gridView = this.data.map((el: any) =>
@@ -177,7 +176,6 @@ export class CcmComponent {
   }
 
   public action(status: string): void {
-    console.log(`Dialog result: ${status}`);
     this.dialogOpened = false;
   }
   public data: any[] = [];
