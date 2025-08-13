@@ -57,6 +57,9 @@ SEE LICENSE IN LICENSE.md
 @progress/kendo-angular-common
 SEE LICENSE IN LICENSE.md
 
+@progress/kendo-angular-conversational-ui
+SEE LICENSE IN LICENSE.md
+
 @progress/kendo-angular-dateinputs
 SEE LICENSE IN LICENSE.md
 
@@ -91,6 +94,9 @@ SEE LICENSE IN LICENSE.md
 SEE LICENSE IN LICENSE.md
 
 @progress/kendo-angular-layout
+SEE LICENSE IN LICENSE.md
+
+@progress/kendo-angular-menu
 SEE LICENSE IN LICENSE.md
 
 @progress/kendo-angular-navigation
@@ -278,6 +284,9 @@ If you do not own a commercial license, the usage of this software shall be gove
 
 *Copyright © 2020 Progress Software Corporation and/or one of its subsidiaries or affiliates. All rights reserved.*
 
+
+@progress/kendo-webspeech-common
+SEE LICENSE IN LICENSE.md
 
 @progress/pako-esm
 SEE LICENSE IN LICENSE.md
