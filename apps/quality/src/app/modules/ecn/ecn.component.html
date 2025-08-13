@@ -43,13 +43,14 @@
     </div>
     <div class="filter-expansion-content">
       <div class="dropdown-row">
-        <kendo-dropdownlist
+              <kendo-dropdownlist
           class="filter-dropdowns"
           [data]="viewAsOptions"
           name="selectedview"
           [(ngModel)]="selectedViewAs"
           (selectionChange)="showGridOrTable()"
         ></kendo-dropdownlist>
+    
         <kendo-dropdownlist
           class="filter-dropdowns"
           [data]="functionsOptions"
@@ -57,11 +58,20 @@
           [(ngModel)]="selectedFunction"
            (selectionChange)="onSummaryChange($event)"
         ></kendo-dropdownlist>
-        <button kendoButton class="ecnbutton" (click)="showopen()">
+        
+           <kendo-dropdownlist *ngIf="selectedViewAs === 'ECR'" 
+          class="filter-dropdowns"
+          [data]="['Defective','Yes','No']"
+          name="defective"
+          [(ngModel)]="defective"
+           (selectionChange)="onSummaryChange($event)"
+        ></kendo-dropdownlist>
+        
+        <button kendoButton class="ecnbutton" (click)="showopen()" *ngIf="selectedViewAs === 'ECN'">
           <span class="starttext">Open</span> &nbsp;&nbsp; &nbsp;&nbsp;
           &nbsp;&nbsp; <span class="endtext">{{ openECN }}</span>
         </button>
-        <kendo-multiselect
+        <kendo-multiselect *ngIf="selectedViewAs === 'ECN'"
           class="filter-dropdown"
           [checkboxes]="true"
           [(ngModel)]="selectedOpen"
@@ -71,11 +81,11 @@
           [disabled]="selectedClosed.length !== 0"
         >
         </kendo-multiselect>
-        <button kendoButton class="ecnbutton" (click)="showclosed()">
+        <button kendoButton class="ecnbutton" *ngIf="selectedViewAs === 'ECN'" (click)="showclosed()">
           <span class="starttext">Closed</span> &nbsp;&nbsp; &nbsp;&nbsp;
           &nbsp;&nbsp; <span class="endtext">{{ closedECN }}</span>
         </button>
-        <kendo-multiselect
+        <kendo-multiselect  *ngIf="selectedViewAs === 'ECN'"
           class="filter-dropdown"
           [checkboxes]="true"
           [(ngModel)]="selectedClosed"
@@ -87,7 +97,7 @@
         </kendo-multiselect>
       </div>
     </div>
-
+<div class="ecn"  *ngIf="selectedViewAs === 'ECN'">
     <div class="chart-view" *ngIf="isBarChartData">
       <div class="without-as-built">
         <div class="iep-chart-header">
@@ -212,7 +222,7 @@
         </kendo-pager>
       </div>
     </div>
-  </div>
+ 
 
   <div *ngIf="showGrid" class="ecn-grid-wrapper">
     <div class="iep-grid-header" *ngIf="!isBarChartData">
@@ -257,4 +267,8 @@
     ></iep-grid>
     
   </div>
+</div></div>
+</div>
+<div class="ecr">
+  <iep-nx-ecr></iep-nx-ecr>
 </div>

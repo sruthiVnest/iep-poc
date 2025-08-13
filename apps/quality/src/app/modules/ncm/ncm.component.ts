@@ -8,19 +8,20 @@ import { KENDO_DROPDOWNLIST } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
+
 @Component({
-  selector: 'iep-nx-ccm',
+  selector: 'iep-nx-ncm',
   standalone: true,
-  imports: [  CommonModule,
+  imports: [    CommonModule,
     ChartsModule,
     PagerModule,
     SharedUiIepGridComponent,
     KENDO_DROPDOWNLIST,
     FormsModule,],
-  templateUrl: './ccm.component.html',
-  styleUrl: './ccm.component.scss',
+  templateUrl: './ncm.component.html',
+  styleUrl: './ncm.component.scss',
 })
-export class CcmComponent {
+export class NcmComponent {
    @ViewChild('tooltipDir')
   public tooltipDir!: TooltipDirective;
   public dataService = inject(ApiService);
@@ -235,8 +236,5 @@ export class CcmComponent {
   
   toggleCollapse() {
     this.collapsed = !this.collapsed;
-  }
-  openKaizenPage() {
-    window.open('https://kaizen.example.com', '_blank');
   }
 }

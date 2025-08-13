@@ -262,7 +262,9 @@ iep-grid {
  // color: #209474;
   vertical-align: middle;
 }
-
+.filter-dropdowns-defective{
+  width: 25%;
+}
 .filter-dropdown::after{
   content: '\25BC';
   font-size: 10px;

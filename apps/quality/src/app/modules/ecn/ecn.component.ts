@@ -28,6 +28,8 @@ import {
   CheckBoxComponent,
 } from '@progress/kendo-angular-inputs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { KENDO_LABEL } from '@progress/kendo-angular-label';
+import { EcrComponent } from '../ecr/ecr.component';
 @Component({
   selector: 'copilot-iep-nx-ecn',
   standalone: true,
@@ -40,8 +42,11 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
     KENDO_MULTISELECT,
     KENDO_TEXTBOX,
     KENDO_BUTTON,
+    KENDO_LABEL,
     FormsModule,
-  ],
+    
+    EcrComponent
+],
   templateUrl: './ecn.component.html',
   styleUrl: './ecn.component.scss',
 })
@@ -55,6 +60,7 @@ export class EcnComponent {
   public mapView: any[] = [];
   viewAsOptions = ['ECN', 'ECR'];
   functionsOptions = ['Individual', 'Project', 'Office'];
+  public defective: string ='Defective';
   selectedViewAs: string = 'ECN';
   selectedFunction: string = 'Individual';
   public showWarning = true;

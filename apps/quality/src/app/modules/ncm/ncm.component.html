@@ -28,14 +28,14 @@
         </div>
       </div>
       <div class="chart-view" *ngIf="!showGrid">
-  <h2 class="ncr-bar-chart-title">CCM Count by Month - {{ currentYear }}</h2>
+  <h2 class="ncr-bar-chart-title">NCM Count by Month - {{ currentYear }}</h2>
   <kendo-chart [transitions]="false" [zoomable]="true" (seriesClick)="onBarClick($event)">
      <kendo-chart-legend position="top"></kendo-chart-legend>
     <kendo-chart-category-axis>
       <kendo-chart-category-axis-item [categories]="months" [title]="{ text: 'Month' }"></kendo-chart-category-axis-item>
     </kendo-chart-category-axis>
     <kendo-chart-value-axis>
-      <kendo-chart-value-axis-item [title]="{ text: 'CCM count' }"></kendo-chart-value-axis-item>
+      <kendo-chart-value-axis-item [title]="{ text: 'NCM count' }"></kendo-chart-value-axis-item>
     </kendo-chart-value-axis>
     <kendo-chart-series>
       <kendo-chart-series-item
@@ -43,7 +43,7 @@
         [data]="currentYearDataCounts"
         [color]="'#1976d2'"
         [gap]="5.5" [spacing]="0.08"
-        name="CCM Count">
+        name="NCM Count">
       </kendo-chart-series-item>
     </kendo-chart-series>
   </kendo-chart>

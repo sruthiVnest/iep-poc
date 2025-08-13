@@ -12,6 +12,8 @@ import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
 import { SharedUiParetoChartComponent } from '@shared-ui/pareto-chart';
 import { EcrRiskComponent } from '../../pages/ecr-risk/ecr-risk.component';
 import { ApiService } from '@shared-service/data-service';
+import { CcmComponent } from '../ccm/ccm.component';
+import { NcmComponent } from '../ncm/ncm.component';
 @Component({
   selector: 'quality-dashboard',
   standalone: true,
@@ -29,7 +31,9 @@ import { ApiService } from '@shared-service/data-service';
     NcrComponent,
     OtrdrComponent,
     FormsModule,
-    KENDO_TEXTBOX
+    KENDO_TEXTBOX,
+    CcmComponent,
+    NcmComponent
   ],
 })
 export class QualityDashboardComponent {
@@ -68,12 +72,12 @@ export class QualityDashboardComponent {
   onSelect(e: any) {
     if (e.title === 'ECN/ECR') {
       this.showIcon = true;
-    } else {
+    }else {
       this.showIcon = false;
     }
   }
   openDoVsBuyDialog() {
-    this.doVsBuyDialogOpen = true;
+    this.doVsBuyDialogOpen = true;0
   }
 
   closeDoVsBuyDialog() {
@@ -108,6 +112,9 @@ export class QualityDashboardComponent {
       if (this.riskOpen && !this.helpOpen && target.classList.contains('k-overlay')) {
         this.riskOpen = false;
       }
+      else if (this.doVsBuyDialogOpen && !this.helpOpen && target.classList.contains('k-overlay')) {
+        this.doVsBuyDialogOpen = false;
+      }
     };
     document.addEventListener('click', this.overlayClickListener);
   }
@@ -117,3 +124,4 @@ export class QualityDashboardComponent {
     document.removeEventListener('click', this.overlayClickListener);
   }
 }
+   

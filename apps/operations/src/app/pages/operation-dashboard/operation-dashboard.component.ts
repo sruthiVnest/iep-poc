@@ -49,6 +49,7 @@ export class OperationDashboardComponent {
   dashboard_expand = false;
   public doVsBuyDialogOpen = false;
 public searchValue: string = '';
+  private overlayClickListener: any;
   ngOnInit() {
       window.addEventListener('filterProjectsCollapse', (event: any) => {
       this.dashboard_expand = event.detail.collapsed;
@@ -69,5 +70,20 @@ public searchValue: string = '';
 
   closeDoVsBuyDialog() {
     this.doVsBuyDialogOpen = false;
+  }
+   ngAfterViewInit(): void {
+    // Attach listener after dialog is rendered
+    this.overlayClickListener = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (this.doVsBuyDialogOpen && target.classList.contains('k-overlay')) {
+        this.doVsBuyDialogOpen = false;
+      }
+    };
+    document.addEventListener('click', this.overlayClickListener);
+  }
+
+  ngOnDestroy(): void {
+    // Remove listener to prevent memory leaks
+    document.removeEventListener('click', this.overlayClickListener);
   }
 }
