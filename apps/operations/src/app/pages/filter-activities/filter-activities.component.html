@@ -16,7 +16,7 @@
     <kendo-multiselect class="filter-dropdown" [checkboxes]="true" [data]="dateTypeOptions" [(ngModel)]="selectedDateType" ></kendo-multiselect></kendo-label>
   </div>
   <div class="result-row">
-         <kendo-buttongroup selection="single" >
+    <kendo-buttongroup selection="single" >
     <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn" [selected]="true">Total Documents ({{ totalDocuments }})</button>
     <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn">Backlogs ({{ backlogs }})</button>
     <button kendoButton [togglable]="true" [rounded]="rounded" class="result-btn">Forecast ({{ forecast }})</button>
