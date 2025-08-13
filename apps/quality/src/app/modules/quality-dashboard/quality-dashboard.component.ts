@@ -14,6 +14,7 @@ import { EcrRiskComponent } from '../../pages/ecr-risk/ecr-risk.component';
 import { ApiService } from '@shared-service/data-service';
 import { CcmComponent } from '../ccm/ccm.component';
 import { NcmComponent } from '../ncm/ncm.component';
+import { FmeaComponent } from '../fmea/fmea.component';
 @Component({
   selector: 'quality-dashboard',
   standalone: true,
@@ -33,7 +34,8 @@ import { NcmComponent } from '../ncm/ncm.component';
     FormsModule,
     KENDO_TEXTBOX,
     CcmComponent,
-    NcmComponent
+    NcmComponent,
+    FmeaComponent
   ],
 })
 export class QualityDashboardComponent {

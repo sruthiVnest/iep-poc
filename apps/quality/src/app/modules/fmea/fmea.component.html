@@ -1,1 +1,26 @@
-<p>fmea works!</p>
+ <kendo-chart>
+      <kendo-chart-title text="Item Level Chart"></kendo-chart-title>
+      <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item [categories]="['Test Cost', 'SRCost', 'redesignCost', 'FMCost']">
+        </kendo-chart-category-axis-item>
+      </kendo-chart-category-axis>
+      <kendo-chart-series>
+        <kendo-chart-series-item
+          type="bar"
+          [gap]="2"
+          [spacing]="0.25"
+          [data]="[10000, 12003, 20034, 34300]"
+          [color]="'#1976d2'"
+        >
+       
+        <kendo-chart-tooltip>
+          <ng-template kendoChartSeriesTooltipTemplate let-dataItem let-series="series">
+            <div class="tooltip-content">
+              <div class="tooltip-title">Tooltip Title </div>
+              <div class="tooltip-value">Tooltip Content</div>
+            </div>
+          </ng-template>
+        </kendo-chart-tooltip>
+         </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
