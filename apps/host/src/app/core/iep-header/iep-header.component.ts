@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'iep-header',
+  selector: 'copilot-iep-nx-header',
   standalone: true,
   imports: [AppBarModule, ButtonModule, CommonModule, FormsModule],
   templateUrl: './iep-header.component.html',
@@ -21,7 +21,7 @@ export class IepHeaderComponent {
   users = ['Alice Johnson', 'Bob Smith', 'Charlie Brown', 'Diana Prince', 'Eve Adams'];
   filteredUsers: string[] = [];
   selectedUsers: string[] = [];
-  myDashboardSelected: boolean = false;
+  myDashboardSelected = false;
 
   constructor(private router: Router) {}
   @Output() logout = new EventEmitter<void>();

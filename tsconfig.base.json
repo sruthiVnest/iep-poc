@@ -33,7 +33,8 @@
       "projectinfo/Routes": [
         "apps/projectinfo/src/app/remote-entry/entry.routes.ts"
       ],
-      "quality/Routes": ["apps/quality/src/app/remote-entry/entry.routes.ts"]
+  "quality/Routes": ["apps/quality/src/app/remote-entry/entry.routes.ts"],
+  "@shared-utils/environments/environment": ["libs/shared-utils/environments/environment.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

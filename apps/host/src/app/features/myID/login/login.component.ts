@@ -8,7 +8,7 @@ import { ButtonModule } from '@progress/kendo-angular-buttons';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
+  selector: 'copilot-iep-nx-app-login',
   standalone: true,
   imports: [ReactiveFormsModule, NgIf, InputsModule, LabelModule, ButtonModule],
   templateUrl: './login.component.html',

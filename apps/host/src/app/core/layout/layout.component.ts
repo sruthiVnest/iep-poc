@@ -4,13 +4,13 @@ import {
   DrawerSelectEvent,
 } from '@progress/kendo-angular-layout';
 import { Router, RouterModule } from '@angular/router';
-import { IepHeaderComponent } from '../iep-header/iep-header.component';
 import { CommonModule } from '@angular/common';
+import { IepHeaderComponent } from '../iep-header/iep-header.component';
 
 @Component({
-  selector: 'app-layout',
+  selector: 'copilot-iep-nx-app-layout',
   standalone: true,
-  imports: [RouterModule, DrawerModule, IepHeaderComponent, CommonModule],
+  imports: [RouterModule, DrawerModule, CommonModule,IepHeaderComponent],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
 })

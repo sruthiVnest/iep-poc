@@ -15,6 +15,7 @@ import { ApiService } from '@shared-service/data-service';
 import { CcmComponent } from '../ccm/ccm.component';
 import { NcmComponent } from '../ncm/ncm.component';
 import { FmeaComponent } from '../fmea/fmea.component';
+import { CoqComponent } from '../coq/coq.component';
 @Component({
   selector: 'quality-dashboard',
   standalone: true,
@@ -35,7 +36,8 @@ import { FmeaComponent } from '../fmea/fmea.component';
     KENDO_TEXTBOX,
     CcmComponent,
     NcmComponent,
-    FmeaComponent
+    FmeaComponent,
+    CoqComponent
   ],
 })
 export class QualityDashboardComponent {
