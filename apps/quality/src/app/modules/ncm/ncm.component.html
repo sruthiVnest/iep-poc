@@ -1,7 +1,7 @@
 <div  class="ncr-bar-chart-wrapper">
-    <div *ngIf="selectedProjects().length > 0" class="selected-projects-section">
+    <div *ngIf="selectedProjects" class="selected-projects-section">
     <span class="selected-label">Project(s) Selected:</span>
-    <span class="selected-list">{{ selectedProjects().join(', ') }}</span>
+    <span class="selected-list">{{ selectedProjects }}</span>
   </div>
   <div *ngIf="showWarning" class="warning-message">
     <span class="material-symbols-outlined notification-icon">notification_important</span>

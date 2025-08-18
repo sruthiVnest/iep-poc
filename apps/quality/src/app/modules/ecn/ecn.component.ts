@@ -55,7 +55,7 @@ export class EcnComponent {
   @ViewChild('tooltipDir')
   public tooltipDir!: TooltipDirective;
   public dataService = inject(ApiService);
-  public selectedProjects = this.dataService.selectedProjects;
+  public selectedProjects:any;
   public gridView: any[] = [];
   public mapView: any[] = [];
   viewAsOptions = ['ECN', 'ECR'];
@@ -105,7 +105,16 @@ export class EcnComponent {
     // Reverse the data to match the order of months
     data: number[];
   }[];
-  constructor() {}
+  constructor() {
+     effect(() => {
+      const selectedProjects = this.dataService.getTreeData();
+      if (selectedProjects && selectedProjects.length > 0) {
+        const selected = selectedProjects.split(',');
+        console.log('Selected Projects:', selected);
+        this.selectedProjects = selected;
+      }
+    });
+  }
 
   public isBarChartData = false;
   public pageSize = 1;

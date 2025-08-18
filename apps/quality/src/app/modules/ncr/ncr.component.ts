@@ -27,7 +27,7 @@ export class NcrComponent {
   @ViewChild('tooltipDir')
   public tooltipDir!: TooltipDirective;
   public dataService = inject(ApiService);
-  public selectedProjects = this.dataService.selectedProjects;
+  public selectedProjects :any;
   public gridView: any[] = [];
   public mapView: any[] = [];
   viewAsOptions = ['Tabular View', 'Chart View'];
@@ -50,6 +50,7 @@ export class NcrComponent {
       const selectedProjects = this.dataService.getTreeData();
       if (selectedProjects && selectedProjects.length > 0) {
         const selected = selectedProjects.split(',');
+        this.selectedProjects = selected;
         // Only filter if there are selected projects
         this.gridView = this.data.filter((row: any) => {
           const projectId = row['id'] || row['ProjectID'] || row['projectId'] || row['ProjectId'];
