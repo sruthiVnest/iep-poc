@@ -11,10 +11,10 @@ import { ApiService } from '@shared-service/data-service';
 })
 export class DovsbuyComponent {
   public data: any = [];
- private dataService = inject(ApiService);
-   public gridView: any[] = [];
+  private dataService = inject(ApiService);
+  public gridView: any[] = [];
   public mapView: any[] = [];
-    public ngOnInit(): void {
+  public ngOnInit(): void {
     this.dataService.getGridData().subscribe((data) => {
       this.data = data.data?.activities || [];
       this.gridView = this.data.map((el: any) =>

@@ -160,7 +160,8 @@ export class SharedUiIepFilterContractComponent {
   onNodeSelect(keys: any) {
     console.log(keys);
     this.checkedKeys = keys;
-    const tree = this.activeTabIndex === 1 ? this.favourites : this.data;
+   // const tree = this.activeTabIndex === 1 ? this.favourites : this.data;
+   const tree=this.data;
     const fullNodes = this.getCheckedNodesByPaths(tree, this.checkedKeys);
     const selectedTexts = fullNodes.map((n: any) => n.contractName);
     this.dataService.selectedProjects.set(selectedTexts);

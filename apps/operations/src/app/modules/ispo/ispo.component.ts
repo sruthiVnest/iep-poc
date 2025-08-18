@@ -30,6 +30,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterActivitiesComponent } from '../../pages/filter-activities/filter-activities.component';
 import { ManageSubdivisionComponent } from '../../pages/manage-subdivision/manage-subdivision.component';
 import { KENDO_POPUP } from '@progress/kendo-angular-popup';
+import { ApiService } from '@shared-service/data-service';
 @Component({
   selector: 'copilot-iep-nx-ispo',
   standalone: true,
@@ -81,8 +82,9 @@ export class IspoComponent {
   windowWidth = window.innerWidth;
   public manageSubdivisionDialogOpen = false;
 
-  private dataService = inject(DataService);
-  public selectedProjects = this.dataService.getTreeData;
+  private dataService = inject(ApiService);
+  public selectedProjects:any;
+  
   public savedFIlteroptions: any;
   public filterlist: any[] = [];
   public close(component: string): void {
@@ -103,6 +105,8 @@ export class IspoComponent {
       const selectedProjects = this.dataService.getTreeData();
       if (selectedProjects && selectedProjects.length > 0) {
         const selected = selectedProjects.split(',');
+        console.log('Selected Projects:', selected);
+        this.selectedProjects = selected;
         // Only filter if there are selected projects
         this.gridView = this.data.filter((row: any) => {
           const projectId =
