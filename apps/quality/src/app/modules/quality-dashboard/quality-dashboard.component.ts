@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { TabStripModule } from '@progress/kendo-angular-layout';
 import { CommonModule } from '@angular/common';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
@@ -54,7 +54,17 @@ export class QualityDashboardComponent {
   public dataService = inject(ApiService);
   public content:string='';
   private overlayClickListener: any;
-
+  public selectedProjects:any;
+  public showWarning = true;
+  constructor(){
+  effect(() => {
+      const selectedProjects = this.dataService.getTreeData();
+      if (selectedProjects && selectedProjects.length > 0) {
+        const selected = selectedProjects.split(',');
+        this.selectedProjects = selected;
+      }
+      })
+    }
   ngOnInit() {
     window.addEventListener('filterProjectsCollapse', (event: any) => {
       this.dashboard_expand = event.detail.collapsed;

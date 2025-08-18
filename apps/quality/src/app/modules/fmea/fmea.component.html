@@ -1,26 +1,58 @@
- <kendo-chart>
-      <kendo-chart-title text="Open AI By Office"></kendo-chart-title>
-      <kendo-chart-category-axis>
-        <kendo-chart-category-axis-item [categories]="['AC-PME', 'ADV-PME', 'ADV-PME', 'CMS-SE']">
-        </kendo-chart-category-axis-item>
-      </kendo-chart-category-axis>
-      <kendo-chart-series>
-        <kendo-chart-series-item
-          type="column"
-          [gap]="4"
-          [spacing]="0.25"
-          [data]="[10000, 12003, 20034, 34300]"
-          [color]="'#ce531a'"
-        >
-       
-        <kendo-chart-tooltip>
-          <ng-template kendoChartSeriesTooltipTemplate let-dataItem let-series="series">
-            <div class="tooltip-content">
-              <div class="tooltip-title">Tooltip Title </div>
-              <div class="tooltip-value">Tooltip Content</div>
-            </div>
-          </ng-template>
-        </kendo-chart-tooltip>
-         </kendo-chart-series-item>
-      </kendo-chart-series>
-    </kendo-chart>
+<kendo-chart [transitions]="false">
+  <!-- Category Axis -->
+     <kendo-chart-legend position="top"></kendo-chart-legend>
+  <kendo-chart-category-axis>
+    <kendo-chart-category-axis-item [categories]="paretoCategories" [axisCrossingValue]="crossingValues">
+    </kendo-chart-category-axis-item>
+  </kendo-chart-category-axis>
+
+  <!-- Value Axes -->
+  <kendo-chart-value-axis>
+    <kendo-chart-value-axis-item name="default" [title]="{ text: 'Frequency' }">
+    </kendo-chart-value-axis-item>
+
+    <kendo-chart-value-axis-item name="secondAxis" [title]="{ text: 'Cumulative %' }" [majorUnit]="20">
+      <kendo-chart-value-axis-item-labels format="{0}%" />
+    </kendo-chart-value-axis-item>
+
+    <kendo-chart-value-axis-item name="dotAxis" [title]="{ text: 'Severity' }" [min]="0" [max]="20">
+      <kendo-chart-value-axis-item-labels format="{0}" />
+    </kendo-chart-value-axis-item>
+  </kendo-chart-value-axis>
+
+  <!-- Series -->
+  <kendo-chart-series>
+
+
+    <!-- Bar Series -->
+    <kendo-chart-series-item
+      [data]="paretoValues"
+      type="column"
+      name="Frequency">
+    </kendo-chart-series-item>
+
+    <!-- Cumulative % Markers Only Series -->
+    <kendo-chart-series-item
+      [data]="paretoCumulative"
+      type="line"
+      name="Cumulative %"
+      [axis]="'secondAxis'"
+      [color]="'tranparent'"
+      [markers]="{ visible: true, type: 'circle', size: 8, background: '#1976d2', border: { color: '#1976d2', width: 2 } }"
+      [line]="{ style: 'normal', width: 0, color: 'transparent' }"> <!-- Hide line, show only markers -->
+    </kendo-chart-series-item>
+
+    <!-- Dot Series -->
+    <kendo-chart-series-item
+      [data]="paretoDots"
+      type="line"
+      name="Severity"
+      [axis]="'dotAxis'"
+      [markers]="{ visible: true, type: 'circle', size: 8 }"
+      [line]="{ style: 'smooth', width: 0 }"> <!-- Hide line, show only dots -->
+    </kendo-chart-series-item>
+
+  </kendo-chart-series>
+
+  <kendo-chart-tooltip format="{0}" [shared]="true"></kendo-chart-tooltip>
+</kendo-chart>

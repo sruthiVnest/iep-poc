@@ -168,7 +168,56 @@ h2 {
   vertical-align: middle;
   // Add any additional dashboard-specific styles here
 }
-
+.close-icon{
+  font-size: 12px !important;
+}
+.material-symbols-outlined.notification-icon {
+  vertical-align: middle;
+  color: #e65100;
+  font-size: 22px;
+}
+.selected-projects-section {
+  margin-bottom: 6px;
+  font-size: 13px;
+  .selected-label {
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .selected-list {
+    color: #05322B;
+    font-weight: 500;
+  }
+}
+.warning-message {
+  display: flex;
+  align-items: center;
+  background: #fff3e0;
+  border: 1px solid #ff9800;
+  color: #e65100;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  position: relative;
+  .notification-icon {
+    margin-right: 8px;
+  }
+  .warning-text {
+    color: black;
+    flex: 1;
+  }
+  .close-btn {
+    background: none;
+    border: none;
+    color: #e65100;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 8px;
+    line-height: 1;
+  }
+}
+.warning-text a {
+  color: #e65100;
+}
 #risk{
   color:#d4550b;
 }

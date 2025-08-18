@@ -39,33 +39,7 @@
   }
 }
 
-.warning-message {
-  display: flex;
-  align-items: center;
-  background: #fff3e0;
-  border: 1px solid #ff9800;
-  color: #e65100;
-  padding: 4px 8px;
-  border-radius: 4px;
-  margin-bottom: 8px;
-  position: relative;
-  .notification-icon {
-    margin-right: 8px;
-  }
-  .warning-text {
-    color: black;
-    flex: 1;
-  }
-  .close-btn {
-    background: none;
-    border: none;
-    color: #e65100;
-    font-size: 20px;
-    cursor: pointer;
-    margin-left: 8px;
-    line-height: 1;
-  }
-}
+
 
 .iep-grid-wrapper {
   margin-top: 8px; /* reduce top margin */

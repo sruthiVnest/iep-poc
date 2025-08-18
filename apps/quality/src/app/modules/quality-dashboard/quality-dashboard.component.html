@@ -1,168 +1,238 @@
 <div class="dashboard-flex" [class.dashboard-expand]="dashboard_expand">
-   <iep-filter-contract class="dashboard-filter" *ngIf="!dashboard_expand"></iep-filter-contract>
+  <iep-filter-contract
+    class="dashboard-filter"
+    *ngIf="!dashboard_expand"
+  ></iep-filter-contract>
   <div class="dashboard-content">
     <div class="dashboard-header">
       <span class="dashboard-title">Quality</span>
       <div class="dashboard-header-right">
         <span class="icons" *ngIf="showIcon && isOffice">
-           <span class="material-symbols-outlined" id="chartIcon" (click)="openPareto()">insert_chart</span>
-           </span>
-           <span class="icons" *ngIf="showIcon">
-          <span class="material-symbols-outlined" id="risk" (click)="openRisk()">warning</span>
-         
-         
+          <span
+            class="material-symbols-outlined"
+            id="chartIcon"
+            (click)="openPareto()"
+            >insert_chart</span
+          >
         </span>
-        <img src="assets/images/kaizen.png" alt="Kaizen" class="kaizen-icon dashboard-kaizen-icon" (click)="openKaizenPage()" />
+        <span class="icons" *ngIf="showIcon">
+          <span class="material-symbols-outlined" id="risk" (click)="openRisk()"
+            >warning</span
+          >
+        </span>
+        <img
+          src="assets/images/kaizen.png"
+          alt="Kaizen"
+          class="kaizen-icon dashboard-kaizen-icon"
+          (click)="openKaizenPage()"
+        />
         <span class="dashboard-updated">Last Updated: {{ lastUpdated }}</span>
         <div class="dashboard-progress">
           <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg"
-                  d="M18 2.0845
+            <path
+              class="circle-bg"
+              d="M18 2.0845
                      a 15.9155 15.9155 0 0 1 0 31.831
-                     a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <path class="circle"
-                  [attr.stroke-dasharray]="completion + ', 100'"
-                  d="M18 2.0845
+                     a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path
+              class="circle"
+              [attr.stroke-dasharray]="completion + ', 100'"
+              d="M18 2.0845
                      a 15.9155 15.9155 0 0 1 0 31.831
-                     a 15.9155 15.9155 0 0 1 0 -31.831"/>
-            <text x="18" y="20.35" class="percentage" text-anchor="middle">{{ completion }}%</text>
+                     a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <text x="18" y="20.35" class="percentage" text-anchor="middle">
+              {{ completion }}%
+            </text>
           </svg>
         </div>
-        <button class="dashboard-action" (click)="openDoVsBuyDialog()" >Do vs Buy</button>
+        <button class="dashboard-action" (click)="openDoVsBuyDialog()">
+          Do vs Buy
+        </button>
       </div>
     </div>
     <div class="dashboard-tabs">
-      <kendo-tabstrip class="iep-operation-panel"  (tabSelect)="onSelect($event)">
+      <ng-template #projectAndWarning>
+      <div *ngIf="selectedProjects" class="selected-projects-section">
+        <span class="selected-label">Project(s) Selected:</span>
+        <span class="selected-list">{{ selectedProjects }}</span>
+      </div>
+      <div *ngIf="showWarning" class="warning-message">
+        <span class="material-symbols-outlined notification-icon">notification_important</span>
+        <span class="warning-text">You have received 3 primary resources re assigned requests <a href="" class="warning-link">View Requests</a></span>
+        <span class="material-symbols-outlined close-icon" (click)="showWarning = false">close</span>
+    
+      </div>
+       </ng-template>
+      <kendo-tabstrip
+        class="iep-operation-panel"
+        (tabSelect)="onSelect($event)"
+      >
         <kendo-tabstrip-tab title="NCR" [selected]="true">
           <ng-template kendoTabContent>
-          <copilot-iep-nx-ncr></copilot-iep-nx-ncr>
+            <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            <copilot-iep-nx-ncr></copilot-iep-nx-ncr>
           </ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="NCM">
-          <ng-template kendoTabContent><iep-nx-ncm></iep-nx-ncm></ng-template>
+          <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            <iep-nx-ncm></iep-nx-ncm></ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="ECN/ECR">
           <ng-template kendoTabContent>
-
-  
-            <copilot-iep-nx-ecn (ecnSummaryChange)="summaryChange($event)"></copilot-iep-nx-ecn>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            <copilot-iep-nx-ecn
+              (ecnSummaryChange)="summaryChange($event)"
+            ></copilot-iep-nx-ecn>
           </ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="COQ">
-          <ng-template kendoTabContent><iep-nx-coq></iep-nx-coq></ng-template>
+          <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            <iep-nx-coq></iep-nx-coq></ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="CCM">
           <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
             <iep-nx-ccm></iep-nx-ccm>
           </ng-template>
         </kendo-tabstrip-tab>
         <kendo-tabstrip-tab title="OTRDR">
-       
           <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
             <copilot-iep-nx-otrdr></copilot-iep-nx-otrdr>
           </ng-template>
         </kendo-tabstrip-tab>
-         <kendo-tabstrip-tab title="FMEA">
-          <ng-template kendoTabContent><iep-nx-fmea></iep-nx-fmea></ng-template>
+        <kendo-tabstrip-tab title="FMEA">
+          <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            <iep-nx-fmea></iep-nx-fmea></ng-template>
         </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab title="RCA-NCA-CAPA">
-          <ng-template kendoTabContent>RCA NCA CAPA Content</ng-template>
+        <kendo-tabstrip-tab title="RCA-NCA-CAPA">
+          <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            RCA NCA CAPA Content</ng-template>
         </kendo-tabstrip-tab>
-             <kendo-tabstrip-tab title="Product Quality">
-          <ng-template kendoTabContent>Product Quality</ng-template>
+        <kendo-tabstrip-tab title="Product Quality">
+          <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            Product Quality</ng-template>
         </kendo-tabstrip-tab>
-           <kendo-tabstrip-tab title="Product Safety">
-          <ng-template kendoTabContent>Product Safety</ng-template>
+        <kendo-tabstrip-tab title="Product Safety">
+          <ng-template kendoTabContent>
+             <ng-container *ngTemplateOutlet="projectAndWarning"></ng-container>
+            Product Safety</ng-template>
         </kendo-tabstrip-tab>
       </kendo-tabstrip>
-      
- <kendo-dialog
-        *ngIf="doVsBuyDialogOpen"
-        [width]="1000"
-      >
-      <kendo-dialog-titlebar class="iep-dialog-titlebar">
-       
+
+      <kendo-dialog *ngIf="doVsBuyDialogOpen" [width]="1000">
+        <kendo-dialog-titlebar class="iep-dialog-titlebar">
           <div class="iep-grid-header">
-          <div class="header-left">
-            <h3>Do Vs Buy Deliverable Data Sheet</h3>
-            <kendo-textbox
-              [style.width.px]="180"
-              placeholder="Search in all columns..."
-              [ngClass]="'search-textbox'"
-              [(ngModel)]="searchValue"
-              (ngModelChange)="onFilter($event)"
-            >
-              <ng-template kendoTextBoxSuffixTemplate>
-                <button
-                  class="search-btn"
-                  type="button"
-                  (click)="onFilter(searchValue)"
-                >
-                  <span class="material-symbols-outlined">search</span>
-                </button>
-              </ng-template>
-            </kendo-textbox>
+            <div class="header-left">
+              <h3>Do Vs Buy Deliverable Data Sheet</h3>
+              <kendo-textbox
+                [style.width.px]="180"
+                placeholder="Search in all columns..."
+                [ngClass]="'search-textbox'"
+                [(ngModel)]="searchValue"
+                (ngModelChange)="onFilter($event)"
+              >
+                <ng-template kendoTextBoxSuffixTemplate>
+                  <button
+                    class="search-btn"
+                    type="button"
+                    (click)="onFilter(searchValue)"
+                  >
+                    <span class="material-symbols-outlined">search</span>
+                  </button>
+                </ng-template>
+              </kendo-textbox>
+            </div>
+            <div class="header-right">
+              <span
+                class="material-symbols-outlined"
+                (click)="openInfo('dovsbuyinfo')"
+                >info</span
+              >
+              <span class="material-symbols-outlined"> assignment_ind </span>
+              <span class="material-symbols-outlined">settings</span>
+              <span class="material-symbols-outlined"> export_notes </span>
+              <span
+                class="material-symbols-outlined"
+                (click)="closeDoVsBuyDialog()"
+                >close</span
+              >
+            </div>
           </div>
-          <div class="header-right">
-            <span class="material-symbols-outlined" (click)="openInfo('dovsbuyinfo')">info</span>
-            <span class="material-symbols-outlined"> assignment_ind </span>
-            <span class="material-symbols-outlined">settings</span>
-            <span class="material-symbols-outlined"> export_notes </span>
-            <span
-              class="material-symbols-outlined"
-              (click)="closeDoVsBuyDialog()"
-              >close</span
-            >
-          </div>
-          </div>
-      </kendo-dialog-titlebar>
-     
+        </kendo-dialog-titlebar>
+
         <iep-nx-dovsbuy></iep-nx-dovsbuy>
-        
       </kendo-dialog>
     </div>
   </div>
 </div>
 
-<kendo-dialog *ngIf="chartOpen" (close)="chartOpen=false" [width]="800" class="pareto-dialog">
+<kendo-dialog
+  *ngIf="chartOpen"
+  (close)="chartOpen = false"
+  [width]="800"
+  class="pareto-dialog"
+>
   <kendo-dialog-titlebar>
     <span>Pareto Chart</span>
   </kendo-dialog-titlebar>
   <shared-ui-pareto-chart></shared-ui-pareto-chart>
-  
 </kendo-dialog>
-<kendo-dialog *ngIf="riskOpen"  (close)="riskOpen=false" [width]="800" class="pareto-dialog">
+<kendo-dialog
+  *ngIf="riskOpen"
+  (close)="riskOpen = false"
+  [width]="800"
+  class="pareto-dialog"
+>
   <kendo-dialog-titlebar>
     <span class="risk-title">
-      <span class="material-symbols-outlined" (click)="openInfo('riskInfo')">info</span>
+      <span class="material-symbols-outlined" (click)="openInfo('riskInfo')"
+        >info</span>
       <span class="risktitle">ECR RISK</span>
-  </span>
+    </span>
   </kendo-dialog-titlebar>
-<ecr-risk></ecr-risk> 
+  <ecr-risk></ecr-risk>
 </kendo-dialog>
-<kendo-dialog *ngIf="helpOpen" (close)="helpOpen=false" [width]="800" class="pareto-dialog">
+<kendo-dialog
+  *ngIf="helpOpen"
+  (close)="helpOpen = false"
+  [width]="800"
+  class="pareto-dialog"
+>
   <kendo-dialog-titlebar>
     <span class="risk-title">
-      
       <span class="risktitle">Information</span>
-  </span>
+    </span>
   </kendo-dialog-titlebar>
   <div *ngIf="content === 'dovsbuy'">
     This window corresponds to the information regarding Do vs Buy.
     <p>
-      The Do vs Buy tab provides insights into the decision-making process of whether to develop a solution in-house or purchase it from an external vendor.
+      The Do vs Buy tab provides insights into the decision-making process of
+      whether to develop a solution in-house or purchase it from an external
+      vendor.
     </p>
-    </div>
+  </div>
   <div *ngIf="content === 'risk'">
-This window curresponds to the information regarding ECR RISK. 
-  <p>
-    The ECR RISK tab provides insights into the risk associated with Engineering Change Requests (ECRs). It helps in identifying potential risks and their impact on the project.
-  </p>
-  <p>
-    The Pareto Chart displays the distribution of ECRs based on their risk levels, allowing users to focus on the most significant risks first.
-  </p>
-  <p>
-    Use the search functionality to filter ECRs based on specific criteria, and utilize the grid view for detailed analysis.
-  </p>   
+    This window curresponds to the information regarding ECR RISK.
+    <p>
+      The ECR RISK tab provides insights into the risk associated with
+      Engineering Change Requests (ECRs). It helps in identifying potential
+      risks and their impact on the project.
+    </p>
+    <p>
+      The Pareto Chart displays the distribution of ECRs based on their risk
+      levels, allowing users to focus on the most significant risks first.
+    </p>
+    <p>
+      Use the search functionality to filter ECRs based on specific criteria,
+      and utilize the grid view for detailed analysis.
+    </p>
   </div>
 </kendo-dialog>

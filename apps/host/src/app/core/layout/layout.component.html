@@ -19,6 +19,7 @@
         routerLinkActive="k-selected"
         [routerLinkActiveOptions]="{ exact: true }"
         class="drawer-link"
+         [ngClass]="{'drawerToggle': item.id === 'filter-contract'}"
       >
         <span
           class="material-symbols-outlined drawer-icon"
@@ -31,6 +32,7 @@
           href="#"
           (click)="$event.preventDefault(); onSelect({ item: item })"
           class="drawer-link"
+           [ngClass]="{'drawerToggle': item.id === 'filter-contract'}"
         >
           <span class="material-symbols-outlined drawer-icon">{{item?.icon}}</span>
           <span *ngIf="expanded" class="drawer-text">{{ item?.text }}</span>

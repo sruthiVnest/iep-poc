@@ -1,13 +1,5 @@
 <div  class="ncr-bar-chart-wrapper">
-    <div *ngIf="selectedProjects().length > 0" class="selected-projects-section">
-    <span class="selected-label">Project(s) Selected:</span>
-    <span class="selected-list">{{ selectedProjects().join(', ') }}</span>
-  </div>
-  <div *ngIf="showWarning" class="warning-message">
-    <span class="material-symbols-outlined notification-icon">notification_important</span>
-    <span class="warning-text">You have received 3 primary resources re assigned requests <a href="" class="warning-link">View Requests</a></span>
-    <span class="material-symbols-outlined close-icon" (click)="showWarning = false">close</span>
-  </div>
+
    <div class="filter-expansion-panel" [class.expanded]="isExpanded">
         <div class="filter-expansion-header">
           <h3 class="filter-title">Filter Activities</h3>
