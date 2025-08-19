@@ -137,7 +137,7 @@
                 placeholder="Search in all columns..."
                 [ngClass]="'search-textbox'"
                 [(ngModel)]="searchValue"
-                (ngModelChange)="onFilter($event)"
+                (ngModelChange)="onSearchValueChange($event)"
               >
                 <ng-template kendoTextBoxSuffixTemplate>
                   <button
@@ -168,7 +168,7 @@
           </div>
         </kendo-dialog-titlebar>
 
-        <iep-nx-dovsbuy></iep-nx-dovsbuy>
+  <iep-nx-dovsbuy [source]="activeTab" [searchValue]="searchValue"></iep-nx-dovsbuy>
       </kendo-dialog>
     </div>
   </div>

@@ -3,7 +3,7 @@ import { TabStripModule } from '@progress/kendo-angular-layout';
 import { IspoComponent } from '../../modules/ispo/ispo.component';
 import { CommonModule } from '@angular/common';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
-import { DovsbuyComponent } from '@copilot-iep-nx/shared-ui/iep-dovsbuy';
+import { SharedUiIepDovsbuyComponent } from '@copilot-iep-nx/shared-ui/iep-dovsbuy';
 import { SharedUiIepFilterContractComponent } from '@shared-ui/iep-filter-contract';
 import { FormsModule } from '@angular/forms';
 import { KENDO_INPUTS } from '@progress/kendo-angular-inputs';
@@ -17,7 +17,7 @@ import {
   templateUrl: './operation-dashboard.component.html',
   styleUrls: ['./operation-dashboard.component.scss'],
   imports: [SharedUiIepFilterContractComponent, TabStripModule, IspoComponent, CommonModule,
-     KENDO_DIALOG,KENDO_INPUTS, DovsbuyComponent,FormsModule, KENDO_PROGRESSBARS],
+     KENDO_DIALOG,KENDO_INPUTS, SharedUiIepDovsbuyComponent,FormsModule, KENDO_PROGRESSBARS],
 })
 export class OperationDashboardComponent {
   lastUpdated = '2025-06-03 10:00 AM';

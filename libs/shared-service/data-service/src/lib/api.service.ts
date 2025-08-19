@@ -67,7 +67,16 @@ export class ApiService {
   getECNData(): Observable<any> {
     return this.http.get(this.apiUrl + 'getECNData');
   }
+  getECRData(): Observable<any> {
+    return this.http.get(this.apiUrl + 'getECRData');
+  }
   getECRRiskData(): Observable<any> {
     return this.http.get(this.apiUrl + 'getECRRiskData');
+  }
+  getECNdovsbuyData(): Observable<any> {
+    return this.http.get(this.apiUrl + 'getECNdovsbuy');
+  }
+  getCurrentOffices(): Observable<any> { 
+    return this.http.get(this.apiUrl + 'officeData');
   }
 }

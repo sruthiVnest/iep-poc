@@ -1,0 +1,9 @@
+{
+  "name": "shared-office",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared-ui/shared-office/src",
+  "prefix": "copilot-iep-nx",
+  "tags": [],
+  "projectType": "library",
+  "targets": {}
+}

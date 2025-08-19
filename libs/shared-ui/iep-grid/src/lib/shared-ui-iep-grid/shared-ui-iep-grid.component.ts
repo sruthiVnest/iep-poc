@@ -14,6 +14,7 @@ import { KENDO_EXPANSIONPANEL } from '@progress/kendo-angular-layout';
   styleUrl: './shared-ui-iep-grid.component.scss',
 })
 export class SharedUiIepGridComponent {
+  @Input() searchValue: string = '';
   @Input() data: any[] = [];
   @Input() columns: { field: string; title: string; filterValue?: string; selectedValues?: any[] }[] =
     [];

@@ -6,7 +6,7 @@ import { NcrComponent } from '../ncr/ncr.component';
 import { SharedUiIepFilterContractComponent } from '@shared-ui/iep-filter-contract';
 import { OtrdrComponent } from '../otrdr/otrdr.component';
 import { EcnComponent } from '../ecn/ecn.component';
-import { DovsbuyComponent } from '@copilot-iep-nx/shared-ui/iep-dovsbuy';
+import { SharedUiIepDovsbuyComponent } from '@copilot-iep-nx/shared-ui/iep-dovsbuy';
 import { FormsModule } from '@angular/forms';
 import { KENDO_TEXTBOX } from '@progress/kendo-angular-inputs';
 import { SharedUiParetoChartComponent } from '@shared-ui/pareto-chart';
@@ -26,7 +26,7 @@ import { CoqComponent } from '../coq/coq.component';
     SharedUiIepFilterContractComponent,
     EcrRiskComponent,
     TabStripModule,
-    DovsbuyComponent,
+    SharedUiIepDovsbuyComponent,
     CommonModule,
     EcnComponent,
     KENDO_DIALOG,
@@ -56,6 +56,7 @@ export class QualityDashboardComponent {
   private overlayClickListener: any;
   public selectedProjects:any;
   public showWarning = true;
+  public activeTab:any;
   constructor(){
   effect(() => {
       const selectedProjects = this.dataService.getTreeData();
@@ -71,19 +72,15 @@ export class QualityDashboardComponent {
     });
     
   }
-  public onFilter(value: string): void {
-    const inputValue = value.toLowerCase();
-   
-    if (!inputValue) {
-      return;
-    }
-  
+  public onSearchValueChange(value: string): void {
+    this.searchValue = value;
   }
 
   openKaizenPage() {
     window.open('https://kaizen.example.com', '_blank');
   }
   onSelect(e: any) {
+    this.activeTab = e.title;
     if (e.title === 'ECN/ECR') {
       this.showIcon = true;
     }else {
@@ -137,5 +134,6 @@ export class QualityDashboardComponent {
     // Remove listener to prevent memory leaks
     document.removeEventListener('click', this.overlayClickListener);
   }
+  onFilter(value: string): void { }
 }
    

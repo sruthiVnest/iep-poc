@@ -1,82 +1,67 @@
-<div class="chart-view" *ngIf="isBarChartData">
+<div class="chart-view">
   <div class="without-as-built">
     <div class="iep-chart-header">
-      <h3>N&deg; ECR INDEX -- By Month</h3>
+      <h3>N&deg; ECR INDEX -- By Month ({{ years[currentPage - 1] }})</h3>
     </div>
     <kendo-chart (seriesClick)="onBarClick($event)">
       <kendo-chart-legend position="top"></kendo-chart-legend>
-      <kendo-chart-value-axis>
-        @for (item of valueAxes; track $index) {
-        <kendo-chart-value-axis-item
-          [name]="item.name || ''"
-          [title]="item.title || { text: item.name || '' }"
-          [min]="item.min"
-          [max]="item.max"
-          [majorUnit]="item.majorUnit ? item.majorUnit : 100"
-          [color]="item.color ? item.color : '#000000'"
-        >
-        </kendo-chart-value-axis-item>
-        }
-      </kendo-chart-value-axis>
-
-      <kendo-chart-category-axis>
-        <kendo-chart-category-axis-item
-          [categories]="categories"
-          [axisCrossingValue]="crossingValues"
-        >
-        </kendo-chart-category-axis-item>
-      </kendo-chart-category-axis>
+       <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item [categories]="categories"></kendo-chart-category-axis-item>
+       </kendo-chart-category-axis>
+      
       <kendo-chart-series>
-        <kendo-chart-series-item
-          *ngFor="let series of stackedSerieswithoutAsBuilt"
-          [type]="'column'"
-          [name]="series.name"
-          [data]="series.data"
-          [stack]="true"
-          [color]="series.color"
-          [tooltip]="{ visible: true, format: '{0}' }"
-        >
-        </kendo-chart-series-item>
-
-        <kendo-chart-series-item
-          type="line"
-          name="Aging P95"
-          [data]="agingP95ForCurrentYearWithout"
-          [markers]="{ visible: true }"
-          [axis]="valueAxes[1].name || ''"
-        >
+        <kendo-chart-series-item  
+          type="column"
+          [gap]="8"
+          [spacing]="0.25" [data]="ecrdata"
+          color="#1976d2"> 
         </kendo-chart-series-item>
       </kendo-chart-series>
     </kendo-chart>
+    <kendo-pager
+      [skip]="currentPage - 1"
+      [pageSize]="pageSize"
+      [total]="years.length"
+      (pageChange)="onPageChange($event)">
+    </kendo-pager>
+  </div>
+  <div class="without-as-built">
+    <div class="iep-chart-header">
+      <h3>N&deg; ECR INDEX -- By Source Of Change</h3>
+    </div>
+    <kendo-chart (seriesClick)="onBarClick($event)">
+      <kendo-chart-legend position="top"></kendo-chart-legend>
+       <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item [categories]="categories"></kendo-chart-category-axis-item>
+       </kendo-chart-category-axis>
+      
+      <kendo-chart-series>
+        <kendo-chart-series-item  
+          type="column"
+          [gap]="8"
+          [spacing]="0.25" [data]="ecrdata"
+          color="#1976d2"> 
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+    <kendo-pager
+      [skip]="currentPage - 1"
+      [pageSize]="pageSize"
+      [total]="years.length"
+      (pageChange)="onPageChange($event)">
+    </kendo-pager>
 
     <!-- Pager -->
-    <kendo-pager
-      class="ncr-pager"
-      [total]="years.length"
-      [pageSize]="1"
-      [skip]="currentYearWithOutIndex"
-      [info]="false"
-      (pageChange)="onPageWithoutChange($event)"
-    >
-    </kendo-pager>
+ 
   </div>
 </div>
 
 <div *ngIf="showGrid" class="ecn-grid-wrapper">
-  <div class="iep-grid-header" *ngIf="!isBarChartData">
+  <div class="iep-grid-header" >
     <div class="header-left">
       <h3>Tabular View</h3>
-      <span class="result-count">Result: {{ gridView.length }}</span> |
-      <span class="checkboxed">
-        <label class="critical-checkbox">
-          <input type="checkbox" />
-          <span>Critical</span>
-        </label>
-        <label class="noncritical-checkbox">
-          <input type="checkbox" />
-          <span>Non-Critical</span>
-        </label>
-      </span>
+      <span class="result-count">Result: {{ gridView.length }}</span> 
+
     </div>
     <div class="header-right">
       <button
@@ -90,7 +75,7 @@
       </button>
       <button
         class="icon-btn"
-        (click)="isBarChartData = !isBarChartData"
+        
         title="Close"
       >
         <span class="material-symbols-outlined">close</span>

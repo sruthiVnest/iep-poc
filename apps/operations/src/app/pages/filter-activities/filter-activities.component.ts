@@ -6,10 +6,12 @@ import { KENDO_TOOLTIP } from '@progress/kendo-angular-tooltip';
 import { KENDO_DIALOG } from '@progress/kendo-angular-dialog';
 import { ButtonRounded, KENDO_BUTTONS } from '@progress/kendo-angular-buttons';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
+import { SharedOfficeComponent } from '@copilot-iep-nx/shared-ui/shared-office';
 @Component({
   selector: 'filter-activities',
   standalone: true,
-  imports: [CommonModule, FormsModule, KENDO_MULTISELECT,KENDO_TOOLTIP,KENDO_DIALOG,KENDO_BUTTONS,KENDO_LABEL],
+  imports: [CommonModule, FormsModule, KENDO_MULTISELECT,KENDO_TOOLTIP,
+    KENDO_DIALOG,KENDO_BUTTONS,KENDO_LABEL,SharedOfficeComponent],
   templateUrl: './filter-activities.component.html',
   styleUrl: './filter-activities.component.scss',
 })

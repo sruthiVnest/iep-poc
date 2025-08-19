@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   ChartsModule,
+  CollectionService,
   Series,
   ValueAxis,
 } from '@progress/kendo-angular-charts';
@@ -43,15 +44,15 @@ import { KENDO_LABEL } from '@progress/kendo-angular-label';
     KENDO_BUTTON,
     KENDO_LABEL,
     FormsModule,],
+    providers: [CollectionService],
   templateUrl: './ecr.component.html',
   styleUrl: './ecr.component.scss',
 })
 export class EcrComponent {
-   @Output() ecnSummaryChange = new EventEmitter<string>();
+  @Output() ecnSummaryChange = new EventEmitter<string>();
   @ViewChild('tooltipDir')
   public tooltipDir!: TooltipDirective;
   public dataService = inject(ApiService);
-  public selectedProjects = this.dataService.selectedProjects;
   public gridView: any[] = [];
   public mapView: any[] = [];
   viewAsOptions = ['ECN', 'ECR'];
@@ -74,228 +75,53 @@ export class EcrComponent {
   public closedECN = '200';
   public openDropdown = false;
   public closedDropdown = false;
-  public selectedOpen: string[] = ['Without As Build', 'With As Built'];
-  public selectedClosed: string[] = [];
-  public data!: {
-    yearMonth: any[];
-    Less20: any[];
-    Less40: any[];
-    Grt40: any[];
-    AgingP95: any[];
-  };
-   public withoutAsBuilt!: {
-    yearMonth: any[];
-    Less20: any[];
-    Less40: any[];
-    Grt40: any[];
-    AgingP95: any[];
-  };
-  pagedECNData: any[] = [];
-  groupedData: { categories: string[]; series: any[] } = {
-    categories: [],
-    series: [],
-  };
-  agingP95ForCurrentYearWithout:any=[];
-  stackedSerieswithoutAsBuilt!: {
-    name: "Less20" | "Less40" | "Grt40"; color: string;
-    // Reverse the data to match the order of months
-    data: number[];
-  }[];
+  public data: any;
+
+  // Paging and chart data
+  public activitiesByYear: { [year: string]: any[] } = {};
+  public years: string[] = [];
+  public currentPage = 1;
+  public pageSize = 1;
+  public categories: string[] = [];
+  public ecrdata: number[] = [];
+
   constructor() {}
 
-  public isBarChartData = false;
-  public pageSize = 1;
-  public skip = 0;
-
-  public crossingValues: number[] = [0, 12];
-  currentYearWithIndex = 0;
- currentYearWithOutIndex = 0;
-  years: any[] = [];
-  monthsPerYear = 12;
-
-  currentYearMonths: string[] = [];
-  stackedSeries: any[] = [];
-  agingP95ForCurrentYear: any[] = [];
-  public valueAxes: ValueAxis[] = [
-    {
-      title: { text: 'Without As Built Count' },
-      min: 0,
-      max: 500,
-      majorUnit: 100,
-    },
-    {
-      name: 'Aging p95',
-      min: 0,
-      max: 3500,
-      majorUnit: 1000,
-      title: { text: 'Aging p95 counts' },
-      axisCrossingValue: 10,
-    },
-  ];
-
-  public categories: string[] = [];
   ngOnInit() {
-    this.dataService.getECNChartData().subscribe((data: any) => {
-      this.data = data.withAsBuilt;
-      this.withoutAsBuilt = data.withoutAsBuilt;
-      this.years = Array.from(
-        new Set(this.data.yearMonth.map((m) => m.split('-')[0]))
-      ).reverse();
-
-      this.prepareChartWithData();
-      this.prepareChartWithOutData();
+    this.dataService.getECRData().subscribe((data: any) => {
+      const activities = (data.ecrchart.data.activities || []).map((a: any) => ({
+        ...a,
+        Count: Number(a.Count)
+      }));
+      this.activitiesByYear = activities.reduce((acc: any, curr: any) => {
+        const year = curr.yearMonth.split('-')[0];
+        acc[year] = acc[year] || [];
+        acc[year].push(curr);
+        return acc;
+      }, {});
+      console.log(this.activitiesByYear);
+      this.years = Object.keys(this.activitiesByYear).sort();
+      this.setChartData();
     });
-    this.dataService.getCurrentProjects().subscribe((data: any) => {
-      this.selectedProjects.set(data);
-    });
   }
 
-  onWithPageChange(e: { skip: number }) {
-    this.currentYearWithIndex = e.skip;
-    this.prepareChartWithData();
-  }
-  onPageWithoutChange(e: { skip: number }) {
-    this.currentYearWithOutIndex = e.skip;
-    this.prepareChartWithOutData();
+  setChartData() {
+    const year = this.years[this.currentPage - 1];
+    const yearData = this.activitiesByYear[year] || [];
+    this.categories = yearData.map(a => a.yearMonth).reverse();
+    this.ecrdata = yearData.map(a => a.Count).reverse();
   }
 
-  prepareChartWithData() {
-    const year = this.years[this.currentYearWithIndex];
-    const yearMonth = this.data.yearMonth;
-
-    const monthNames = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    this.categories = monthNames.map((m) => `${year}-${m}`);
-    const indicesForYear = yearMonth
-      .map((ym, i) => (ym.startsWith(year) ? i : -1))
-      .filter((i) => i !== -1);
-
-    this.currentYearMonths = indicesForYear
-      .map((i) => yearMonth[i].split('-')[1])
-      .reverse(); // For left to right from Jan to Dec
-
-    const seriesNames = ['Less20', 'Less40', 'Grt40'] as const;
-    type SeriesKey = (typeof seriesNames)[number];
-
-    this.stackedSeries = seriesNames.map((seriesName) => ({
-      name: seriesName,
-      color:
-        seriesName === 'Less20'
-          ? '#4A9E24'
-          : seriesName === 'Less40'
-          ? '#F2E349'
-          : '#F42E17',
-      // Reverse the data to match the order of months
-      data: indicesForYear
-        .map(
-          (i) =>
-            Number((this.data as Record<SeriesKey, any[]>)[seriesName][i]) || 0
-        )
-        .reverse(),
-    }));
-
-    this.agingP95ForCurrentYear = indicesForYear
-      .map((i) =>
-        this.data.AgingP95[i] !== null ? Number(this.data.AgingP95[i]) : null
-      )
-      .reverse();
-   this.stackedSerieswithoutAsBuilt = seriesNames.map((seriesName) => ({
-      name: seriesName,
-      color:
-        seriesName === 'Less20'
-          ? '#4A9E24'
-          : seriesName === 'Less40'
-          ? '#F2E349'
-          : '#F42E17',
-      // Reverse the data to match the order of months
-      data: indicesForYear
-        .map(
-          (i) =>
-            Number((this.withoutAsBuilt as Record<SeriesKey, any[]>)[seriesName][i]) || 0
-        )
-        .reverse(),
-    }));
-
-    this.agingP95ForCurrentYearWithout = indicesForYear
-      .map((i) =>
-        this.withoutAsBuilt.AgingP95[i] !== null ? Number(this.withoutAsBuilt.AgingP95[i]) : null
-      )
-      .reverse();
-
-    this.isBarChartData = true;
+  onPageChange(e: PageChangeEvent) {
+    this.currentPage = e.skip + 1;
+    this.setChartData();
   }
-   prepareChartWithOutData() {
-    const year = this.years[this.currentYearWithOutIndex];
-    const yearMonth = this.withoutAsBuilt.yearMonth;
 
-    const monthNames = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    this.categories = monthNames.map((m) => `${year}-${m}`);
-    const indicesForYear = yearMonth
-      .map((ym, i) => (ym.startsWith(year) ? i : -1))
-      .filter((i) => i !== -1);
 
-    this.currentYearMonths = indicesForYear
-      .map((i) => yearMonth[i].split('-')[1])
-      .reverse(); // For left to right from Jan to Dec
-
-    const seriesNames = ['Less20', 'Less40', 'Grt40'] as const;
-    type SeriesKey = (typeof seriesNames)[number];
-
-   
-   this.stackedSerieswithoutAsBuilt = seriesNames.map((seriesName) => ({
-      name: seriesName,
-      color:
-        seriesName === 'Less20'
-          ? '#4A9E24'
-          : seriesName === 'Less40'
-          ? '#F2E349'
-          : '#F42E17',
-      // Reverse the data to match the order of months
-      data: indicesForYear
-        .map(
-          (i) =>
-            Number((this.withoutAsBuilt as Record<SeriesKey, any[]>)[seriesName][i]) || 0
-        )
-        .reverse(),
-    }));
-
-    this.agingP95ForCurrentYearWithout = indicesForYear
-      .map((i) =>
-        this.withoutAsBuilt.AgingP95[i] !== null ? Number(this.withoutAsBuilt.AgingP95[i]) : null
-      )
-      .reverse();
-
-    this.isBarChartData = true;
-  }
 //Grid
 
  onBarClick(e: any) {
-    this.isBarChartData = false;
+  
     const categoryIndex = e.category;
     // Convert month name to month number (1-12)
     const monthNames = [
@@ -313,9 +139,9 @@ export class EcrComponent {
    // this.selectedCount = this.currentYearDataCounts[categoryIndex];
     const inputParam = { month: monthNumber, year: 2014 };
     // Mock data for grid
-    this.dataService.getECNData().subscribe((data) => {
+    this.dataService.getECRData().subscribe((data) => {
       this.gridView=[];
-      const gridData=data.data.activities || [];
+      const gridData=data.ecrtable.data.activities || [];
       if(gridData.length > 0){
        this.gridView = gridData.map((el: any) =>
         Object.fromEntries(
@@ -326,12 +152,10 @@ export class EcrComponent {
         )
       );
     
-      if (this.data) {
-        this.mapView = Object.keys(gridData[0]).map((key) => ({
+    this.mapView = Object.keys(gridData[0]).map((key) => ({
           field: key.replace(/\s+/g, ''),
           title: key.replace('_', ' ').toUpperCase(),
         }));
-      }
     }
     });
     this.showGrid = true;

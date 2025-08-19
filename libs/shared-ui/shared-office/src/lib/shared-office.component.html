@@ -1,0 +1,67 @@
+ <kendo-tabstrip (tabSelect)="onTabSelect($event)" class="searchTabs">
+      <ng-template #searchAndPanel>
+      <kendo-textbox #customInput class="searchkendo" (valueChange)="onFilterTermChange($event)" [clearButton]="true"
+        placeholder="Search office">
+        <ng-template kendoTextBoxPrefixTemplate>
+          <span class="material-symbols-outlined search-icon">search</span>
+        </ng-template>
+      </kendo-textbox>
+      {{selectedOffices}}
+     
+    </ng-template>
+     <kendo-tabstrip-tab title="Favourites Offices" [selected]="activeTabIndex === 0">
+        <ng-template kendoTabTitleTemplate>
+          <button kendoButton look="flat" [ngClass]="{'k-selected': activeTabIndex === 2}">Favourites</button>
+        </ng-template>
+        <ng-template kendoTabContent>
+          <div class="content">
+            <ng-container *ngTemplateOutlet="searchAndPanel"></ng-container>
+            <kendo-checkbox>Active Office</kendo-checkbox>
+            <kendo-treeview kendoTreeViewExpandable [nodes]="favouriteOffice" [children]="children" [hasChildren]="hasChildren"
+              textField="text" [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys"
+              >
+              <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                {{dataItem.officeName ? dataItem.officeName : dataItem.subofficeName}}<span *ngIf="!dataItem.subofficeName && !dataItem.officeName">{{dataItem}}</span>
+              </ng-template>
+            </kendo-treeview>
+               <kendo-checkbox>Closed Office</kendo-checkbox>
+            <kendo-treeview kendoTreeViewExpandable [nodes]="offices_closed" [children]="children" [hasChildren]="hasChildren"
+              textField="text" [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys"
+              >
+              <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                {{dataItem.officeName ? dataItem.officeName : dataItem.subofficeName}}<span *ngIf="!dataItem.subofficeName && !dataItem.officeName">{{dataItem}}</span>
+              </ng-template>
+            </kendo-treeview>
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab> 
+      <kendo-tabstrip-tab title="All Office" [selected]="activeTabIndex === 1">
+        <ng-template kendoTabTitleTemplate>
+          <button kendoButton look="flat" [ngClass]="{'k-selected': activeTabIndex === 1}">All Offices</button>
+        </ng-template>
+        <ng-template kendoTabContent>
+          <div class="content">
+            <ng-container *ngTemplateOutlet="searchAndPanel"></ng-container>
+            <!-- Treeview for All Offices goes here -->
+             <kendo-checkbox >Active Office</kendo-checkbox>
+              <kendo-treeview kendoTreeViewExpandable [nodes]="offices" [children]="children" [hasChildren]="hasChildren"
+              [filter]="filterTerm" (checkedKeysChange)="onNodeSelect($event)" textField="text"
+              [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys">
+              <ng-template kendoTreeViewNodeTemplate let-dataItem >
+              {{dataItem.officeName ? dataItem.officeName : dataItem.subofficeName}} <span *ngIf="!dataItem.subofficeName && !dataItem.officeName">{{dataItem}}</span>
+                <span class="material-symbols-outlined filled-star filled-star-true" *ngIf="(dataItem.isFavourite=='False')" (click)="addToFavourites(dataItem.officeName ? dataItem.officeName : dataItem.subofficeName)">star</span>
+              </ng-template>
+            </kendo-treeview>
+                <!-- <kendo-checkbox>Closed Office</kendo-checkbox>
+            <kendo-treeview kendoTreeViewExpandable [nodes]="offices_closed" [children]="children" [hasChildren]="hasChildren"
+              textField="text" [kendoTreeViewCheckable]="checkableSettings" [(checkedKeys)]="checkedKeys"
+              >
+              <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                {{dataItem.officeName ? dataItem.officeName : dataItem.subofficeName}}<span *ngIf="!dataItem.subofficeName && !dataItem.officeName">{{dataItem}}</span>
+              </ng-template>
+            </kendo-treeview> -->
+          </div>
+        </ng-template>
+      </kendo-tabstrip-tab>
+    
+    </kendo-tabstrip>

@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  
   Component,
   effect,
   EventEmitter,
@@ -10,7 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import {
   ChartsModule,
-  Series,
+  
   ValueAxis,
 } from '@progress/kendo-angular-charts';
 import { PagerModule, PageChangeEvent } from '@progress/kendo-angular-pager';
@@ -22,10 +22,9 @@ import {
 } from '@progress/kendo-angular-dropdowns';
 import { FormsModule } from '@angular/forms';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
-import { process, SortDescriptor, orderBy } from '@progress/kendo-data-query';
+import {  SortDescriptor, orderBy } from '@progress/kendo-data-query';
 import {
   KENDO_TEXTBOX,
-  CheckBoxComponent,
 } from '@progress/kendo-angular-inputs';
 import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { KENDO_LABEL } from '@progress/kendo-angular-label';
@@ -122,7 +121,7 @@ export class EcnComponent {
 
   public crossingValues: number[] = [0, 12];
   currentYearWithIndex = 0;
- currentYearWithOutIndex = 0;
+  currentYearWithOutIndex = 0;
   years: any[] = [];
   monthsPerYear = 12;
 
@@ -158,9 +157,7 @@ export class EcnComponent {
       this.prepareChartWithData();
       this.prepareChartWithOutData();
     });
-    this.dataService.getCurrentProjects().subscribe((data: any) => {
-      this.selectedProjects.set(data);
-    });
+    
   }
 
   onWithPageChange(e: { skip: number }) {
